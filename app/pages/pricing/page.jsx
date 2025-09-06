@@ -18,7 +18,7 @@ const Pricing = () => {
           </p>
 
           <div className="mt-8 flex justify-center gap-3">
-            <Link href="/post-job" className="px-6 py-3 bg-white text-blue-600 rounded-lg font-medium shadow">
+            <Link href="/pages/postAJob" className="px-6 py-3 bg-white text-blue-600 rounded-lg font-medium shadow">
               Post a Job
             </Link>
             <Link href="/contact" className="px-6 py-3 border border-white/30 rounded-lg text-white">
@@ -135,8 +135,8 @@ const Pricing = () => {
           </p>
 
           <div className="mt-6 flex justify-center gap-4">
-            <Link href="/post-job" className="px-5 py-3 bg-blue-600 text-white rounded-lg">Post a Job</Link>
-            <Link href="/signup" className="px-5 py-3 border border-blue-200 rounded-lg">Create Account</Link>
+            <Link href="/pages/postAJob" className="px-5 py-3 bg-blue-600 text-white rounded-lg">Post a Job</Link>
+            <Link href="/pages/auth/signup" className="px-5 py-3 border border-blue-200 rounded-lg">Create Account</Link>
           </div>
         </div>
 
@@ -171,7 +171,7 @@ const Pricing = () => {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/post-job" className="px-5 py-3 bg-blue-600 text-white rounded-lg font-medium">Post a Job</Link>
+            <Link href="/pages/postAJob" className="px-5 py-3 bg-blue-600 text-white rounded-lg font-medium">Post a Job</Link>
             <Link href="/contact" className="px-5 py-3 border border-slate-200 rounded-lg">Contact Sales</Link>
           </div>
         </div>
