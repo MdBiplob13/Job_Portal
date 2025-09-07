@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "@/app/components/Footer/Footer";
 
 const MOCK_JOBS = [
   {
@@ -40,7 +41,9 @@ const MOCK_JOBS = [
     language: ["English"],
     jobType: "remote",
     postDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    applyDeadline: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+    applyDeadline: new Date(
+      Date.now() + 15 * 24 * 60 * 60 * 1000
+    ).toISOString(),
     totalApplications: 56,
     totalHiring: 1,
     posterName: "S. Karim",
@@ -80,16 +83,25 @@ const MOCK_JOBS = [
     language: ["English", "Bangla"],
     jobType: "full-time",
     postDate: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-    applyDeadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    applyDeadline: new Date(
+      Date.now() + 30 * 24 * 60 * 60 * 1000
+    ).toISOString(),
     totalApplications: 12,
     totalHiring: 1,
     posterName: "R. Hossain",
     posterAvatar: "https://xsgames.co/randomusers/assets/avatars/male/5.jpg",
-    description: "Design beautiful and usable products with a small product team.",
+    description:
+      "Design beautiful and usable products with a small product team.",
   },
 ];
 
-const REGIONS = ["All", "Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
+const REGIONS = [
+  "All",
+  "Dhaka, Bangladesh",
+  "Chittagong, Bangladesh",
+  "Sylhet, Bangladesh",
+  "Remote",
+];
 const LANGUAGES = ["Any", "English", "Bangla"];
 const JOB_TYPES = ["full-time", "part-time", "remote", "contract"];
 const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
@@ -131,16 +143,23 @@ const SearchAJob = () => {
       }
 
       // region
-      if (filters.region !== "All" && job.location !== filters.region) return false;
+      if (filters.region !== "All" && job.location !== filters.region)
+        return false;
 
       // language
-      if (filters.language !== "Any" && !job.language.includes(filters.language)) return false;
+      if (
+        filters.language !== "Any" &&
+        !job.language.includes(filters.language)
+      )
+        return false;
 
       // jobTypes
-      if (filters.jobTypes.size > 0 && !filters.jobTypes.has(job.jobType)) return false;
+      if (filters.jobTypes.size > 0 && !filters.jobTypes.has(job.jobType))
+        return false;
 
       // salary type
-      if (filters.salaryType !== "any" && job.salaryType !== filters.salaryType) return false;
+      if (filters.salaryType !== "any" && job.salaryType !== filters.salaryType)
+        return false;
 
       // salary range
       if (filters.minSalary) {
@@ -153,14 +172,24 @@ const SearchAJob = () => {
       }
 
       // workDay
-      if (filters.workDay !== "Any" && job.workDays !== filters.workDay) return false;
+      if (filters.workDay !== "Any" && job.workDays !== filters.workDay)
+        return false;
 
       // postTime
       if (filters.postTime !== "Any") {
         const ageMs = Date.now() - new Date(job.postDate).getTime();
-        if (filters.postTime === "Last 24h" && ageMs > 24 * 60 * 60 * 1000) return false;
-        if (filters.postTime === "Last 7 days" && ageMs > 7 * 24 * 60 * 60 * 1000) return false;
-        if (filters.postTime === "Last 30 days" && ageMs > 30 * 24 * 60 * 60 * 1000) return false;
+        if (filters.postTime === "Last 24h" && ageMs > 24 * 60 * 60 * 1000)
+          return false;
+        if (
+          filters.postTime === "Last 7 days" &&
+          ageMs > 7 * 24 * 60 * 60 * 1000
+        )
+          return false;
+        if (
+          filters.postTime === "Last 30 days" &&
+          ageMs > 30 * 24 * 60 * 60 * 1000
+        )
+          return false;
       }
 
       return true;
@@ -196,14 +225,16 @@ const SearchAJob = () => {
             <h2 className="text-lg font-semibold text-slate-800 mb-4">
               Filter Jobs
             </h2>
-            
+
             <div className="space-y-4">
               {/* Skill Search */}
               <div>
                 <label className="block text-sm font-medium mb-2">Skill</label>
                 <input
                   value={filters.skill}
-                  onChange={(e) => setFilters((p) => ({ ...p, skill: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, skill: e.target.value }))
+                  }
                   type="text"
                   placeholder="e.g. React, Node"
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
@@ -215,32 +246,44 @@ const SearchAJob = () => {
                 <label className="block text-sm font-medium mb-2">Region</label>
                 <select
                   value={filters.region}
-                  onChange={(e) => setFilters((p) => ({ ...p, region: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, region: e.target.value }))
+                  }
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                 >
                   {REGIONS.map((r) => (
-                    <option key={r} value={r}>{r}</option>
+                    <option key={r} value={r}>
+                      {r}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* Language */}
               <div>
-                <label className="block text-sm font-medium mb-2">Language</label>
+                <label className="block text-sm font-medium mb-2">
+                  Language
+                </label>
                 <select
                   value={filters.language}
-                  onChange={(e) => setFilters((p) => ({ ...p, language: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, language: e.target.value }))
+                  }
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                 >
                   {LANGUAGES.map((l) => (
-                    <option key={l} value={l}>{l}</option>
+                    <option key={l} value={l}>
+                      {l}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* Job Type */}
               <div>
-                <label className="block text-sm font-medium mb-2">Job Type</label>
+                <label className="block text-sm font-medium mb-2">
+                  Job Type
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {JOB_TYPES.map((t) => (
                     <button
@@ -248,8 +291,8 @@ const SearchAJob = () => {
                       type="button"
                       onClick={() => toggleJobType(t)}
                       className={`px-3 py-1 rounded-full border text-sm cursor-pointer ${
-                        filters.jobTypes.has(t) 
-                          ? "bg-blue-600 text-white border-blue-600" 
+                        filters.jobTypes.has(t)
+                          ? "bg-blue-600 text-white border-blue-600"
                           : "bg-white text-slate-700 border-slate-300"
                       }`}
                     >
@@ -265,14 +308,18 @@ const SearchAJob = () => {
                 <div className="flex gap-2 mb-2">
                   <input
                     value={filters.minSalary}
-                    onChange={(e) => setFilters((p) => ({ ...p, minSalary: e.target.value }))}
+                    onChange={(e) =>
+                      setFilters((p) => ({ ...p, minSalary: e.target.value }))
+                    }
                     type="number"
                     placeholder="Min"
                     className="w-1/2 px-3 py-2 border border-slate-300 rounded-lg "
                   />
                   <input
                     value={filters.maxSalary}
-                    onChange={(e) => setFilters((p) => ({ ...p, maxSalary: e.target.value }))}
+                    onChange={(e) =>
+                      setFilters((p) => ({ ...p, maxSalary: e.target.value }))
+                    }
                     type="number"
                     placeholder="Max"
                     className="w-1/2 px-3 py-2 border border-slate-300 rounded-lg cursor-pointer"
@@ -280,7 +327,9 @@ const SearchAJob = () => {
                 </div>
                 <select
                   value={filters.salaryType}
-                  onChange={(e) => setFilters((p) => ({ ...p, salaryType: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, salaryType: e.target.value }))
+                  }
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                 >
                   <option value="any">Any</option>
@@ -292,45 +341,59 @@ const SearchAJob = () => {
 
               {/* Work Days */}
               <div>
-                <label className="block text-sm font-medium mb-2">Work days</label>
+                <label className="block text-sm font-medium mb-2">
+                  Work days
+                </label>
                 <select
                   value={filters.workDay}
-                  onChange={(e) => setFilters((p) => ({ ...p, workDay: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, workDay: e.target.value }))
+                  }
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                 >
                   {WORK_DAYS.map((w) => (
-                    <option key={w} value={w}>{w}</option>
+                    <option key={w} value={w}>
+                      {w}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* Post Time */}
               <div>
-                <label className="block text-sm font-medium mb-2">Post time</label>
+                <label className="block text-sm font-medium mb-2">
+                  Post time
+                </label>
                 <select
                   value={filters.postTime}
-                  onChange={(e) => setFilters((p) => ({ ...p, postTime: e.target.value }))}
+                  onChange={(e) =>
+                    setFilters((p) => ({ ...p, postTime: e.target.value }))
+                  }
                   className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none cursor-pointer"
                 >
                   {POST_TIME.map((pt) => (
-                    <option key={pt} value={pt}>{pt}</option>
+                    <option key={pt} value={pt}>
+                      {pt}
+                    </option>
                   ))}
                 </select>
               </div>
 
               {/* Reset Button */}
               <button
-                onClick={() => setFilters({ 
-                  skill: "", 
-                  region: "All", 
-                  language: "Any", 
-                  jobTypes: new Set(), 
-                  minSalary: "", 
-                  maxSalary: "", 
-                  salaryType: "any", 
-                  workDay: "Any", 
-                  postTime: "Any" 
-                })}
+                onClick={() =>
+                  setFilters({
+                    skill: "",
+                    region: "All",
+                    language: "Any",
+                    jobTypes: new Set(),
+                    minSalary: "",
+                    maxSalary: "",
+                    salaryType: "any",
+                    workDay: "Any",
+                    postTime: "Any",
+                  })
+                }
                 className="w-full bg-gray-200 text-gray-800 font-medium py-2 rounded-lg hover:bg-gray-300 transition"
               >
                 Reset Filters
@@ -342,7 +405,9 @@ const SearchAJob = () => {
           <section className="md:col-span-3 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Search results</h2>
-              <div className="text-sm text-slate-500">{filteredJobs.length} jobs</div>
+              <div className="text-sm text-slate-500">
+                {filteredJobs.length} jobs
+              </div>
             </div>
 
             {filteredJobs.map((job) => (
@@ -356,7 +421,9 @@ const SearchAJob = () => {
                     <h3 className="text-xl font-bold text-slate-800">
                       {job.title}
                     </h3>
-                    <p className="text-slate-600">{job.company} • {job.location}</p>
+                    <p className="text-slate-600">
+                      {job.company} • {job.location}
+                    </p>
                   </div>
                   <img
                     src={job.posterAvatar}
@@ -370,20 +437,34 @@ const SearchAJob = () => {
                 {/* Salary and Job Type */}
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-2xl font-bold">
-                    {job.salaryType === "hourly" ? `$${job.salary}/hr` : 
-                     job.salaryType === "monthly" ? `৳${job.salary}/mo` : 
-                     `৳${job.salary}`}
+                    {job.salaryType === "hourly"
+                      ? `$${job.salary}/hr`
+                      : job.salaryType === "monthly"
+                      ? `৳${job.salary}/mo`
+                      : `৳${job.salary}`}
                   </div>
-                  <div className="text-sm text-slate-500 capitalize">{job.jobType}</div>
+                  <div className="text-sm text-slate-500 capitalize">
+                    {job.jobType}
+                  </div>
                 </div>
 
                 {/* Skills */}
                 <div className="mt-4 flex flex-wrap gap-2">
                   {job.skills.map((s) => (
-                    <span key={s} className="text-xs px-3 py-1 bg-slate-100 rounded-full">{s}</span>
+                    <span
+                      key={s}
+                      className="text-xs px-3 py-1 bg-slate-100 rounded-full"
+                    >
+                      {s}
+                    </span>
                   ))}
                   {job.language.map((l) => (
-                    <span key={l} className="text-xs px-3 py-1 bg-slate-100 rounded-full">{l}</span>
+                    <span
+                      key={l}
+                      className="text-xs px-3 py-1 bg-slate-100 rounded-full"
+                    >
+                      {l}
+                    </span>
                   ))}
                 </div>
 
@@ -391,14 +472,44 @@ const SearchAJob = () => {
                 {expandedJob === job.id ? (
                   <div className="mt-4 text-slate-700 space-y-3">
                     <p>{job.description}</p>
-                    
+
                     <div className="grid grid-cols-2 gap-2 text-sm text-slate-500">
-                      <div>Applications: <span className="font-medium text-slate-700">{job.totalApplications}</span></div>
-                      <div>Hiring: <span className="font-medium text-slate-700">{job.totalHiring}</span></div>
-                      <div>Worktime: <span className="font-medium text-slate-700">{job.workTime}</span></div>
-                      <div>Work days: <span className="font-medium text-slate-700">{job.workDays}</span></div>
-                      <div>Posted: <span className="font-medium text-slate-700">{new Date(job.postDate).toLocaleDateString()}</span></div>
-                      <div>Deadline: <span className="font-medium text-slate-700">{timeLeft(job.applyDeadline)}</span></div>
+                      <div>
+                        Applications:{" "}
+                        <span className="font-medium text-slate-700">
+                          {job.totalApplications}
+                        </span>
+                      </div>
+                      <div>
+                        Hiring:{" "}
+                        <span className="font-medium text-slate-700">
+                          {job.totalHiring}
+                        </span>
+                      </div>
+                      <div>
+                        Worktime:{" "}
+                        <span className="font-medium text-slate-700">
+                          {job.workTime}
+                        </span>
+                      </div>
+                      <div>
+                        Work days:{" "}
+                        <span className="font-medium text-slate-700">
+                          {job.workDays}
+                        </span>
+                      </div>
+                      <div>
+                        Posted:{" "}
+                        <span className="font-medium text-slate-700">
+                          {new Date(job.postDate).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div>
+                        Deadline:{" "}
+                        <span className="font-medium text-slate-700">
+                          {timeLeft(job.applyDeadline)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -406,7 +517,9 @@ const SearchAJob = () => {
                 {/* Actions */}
                 <div className="mt-4 flex items-center justify-between">
                   <button
-                    onClick={() => setExpandedJob(expandedJob === job.id ? null : job.id)}
+                    onClick={() =>
+                      setExpandedJob(expandedJob === job.id ? null : job.id)
+                    }
                     className="flex items-center gap-1 text-blue-600 font-medium hover:underline cursor-pointer"
                   >
                     {expandedJob === job.id ? (
@@ -437,6 +550,9 @@ const SearchAJob = () => {
           </section>
         </div>
       </div>
+      
+        <Footer />
+      
     </div>
   );
 };

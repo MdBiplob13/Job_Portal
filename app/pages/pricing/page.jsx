@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
+import Footer from "@/app/components/Footer/Footer";
 
 const Pricing = () => {
   return (
@@ -176,6 +177,8 @@ const Pricing = () => {
           </div>
         </div>
       </footer>
+       
+      <Footer/>
     </div>
   );
 };

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import toast from "react-hot-toast";
+import Footer from "@/app/components/Footer/Footer";
 
 const REGIONS = ["Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
@@ -409,6 +410,7 @@ export default function PostAJob() {
           </div>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }

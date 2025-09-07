@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
+import Footer from "@/app/components/Footer/Footer";
 
 const samplePosts = [
   {
@@ -249,6 +250,7 @@ export default function Blogs() {
           </div>
         </div>
       </footer>
+      <Footer/>
     </div>
   );
 }

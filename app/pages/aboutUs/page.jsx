@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
+import Footer from "@/app/components/Footer/Footer";
 
 const AboutUs = () => {
   return (
@@ -198,6 +199,8 @@ const AboutUs = () => {
           </div>
         </div>
       </footer>
+
+      <Footer/>
     </div>
   );
 };
