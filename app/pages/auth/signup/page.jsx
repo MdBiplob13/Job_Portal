@@ -1,179 +1,241 @@
 "use client";
-import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
-import { toast } from "react-hot-toast";
 import Link from "next/link";
+import React, { useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
-export default function SignUpPage() {
-  const [role, setRole] = useState("job-seeker"); // job-seeker | publisher
-  const [showPassword, setShowPassword] = useState(false);
-
-  function handleRoleChange(selected) {
-    setRole(selected);
-  }
-
-  function handleSubmit(e) {
+const SignUpPage = () => {
+  const [button, setButton] = useState("look");
+  const [phone, setPhone] = useState("");
+  console.log("🚀 ~ SignUpPage ~ button:", button);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.target;
-
-    // read values using e.target.name.value (preferred)
-    const fullName = (form.fullName?.value || "").trim();
-    const email = (form.email?.value || "").trim().toLowerCase();
-    const password = (form.password?.value || "").trim();
-    const confirm = (form.confirmPassword?.value || "").trim();
-
-    if (!fullName) return toast.error("Full name is required");
-    if (!email) return toast.error("Email is required");
-    if (!password) return toast.error("Password is required");
-    if (password.length < 6) return toast.error("Password must be 6+ characters");
-    if (password !== confirm) return toast.error("Passwords do not match");
-
-    // Publisher extra fields
-    let company = null;
-    if (role === "publisher") {
-      company = {
-        name: (form.companyName?.value || "").trim(),
-        website: (form.companyWebsite?.value || "").trim(),
-        size: (form.companySize?.value || "").trim(),
-        location: (form.companyLocation?.value || "").trim(),
-      };
-      if (!company.name) return toast.error("Company name is required for publishers");
-    }
-
-    // build payload (mock)
-    const payload = {
-      role,
-      fullName,
-      email,
-      password, // NOTE: send hashed on server — this is demo
-      ...(company ? { company } : {}),
-    };
-
-    console.log("Signup payload (mock):", payload);
-    toast.success("Signed up (mock). Check console for payload.");
-
-    // optionally redirect or reset form
-    form.reset();
-    setRole("job-seeker");
-  }
+    // Handle form submission here
+    console.log("Form submitted");
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div>
       <Navbar />
 
-      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <section className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600">
-            Create your account
-          </h1>
-          <p className="mt-2 text-slate-600">
-            Join Job Portal — find roles as a job seeker or post jobs as a publisher.
-          </p>
-        </section>
+      <div className="relative min-h-[100vh]">
+        {/* Photo container */}
+        <div className="absolute inset-0">
+          <img
+            src={"/black_woman_with_laptop.jpg"}
+            className="w-full h-full object-cover"
+            alt="Woman with laptop"
+          />
+        </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow">
-          {/* Role selector */}
-          <div className="flex gap-2 mb-6 items-center justify-center">
-            <button
-              type="button"
-              onClick={() => handleRoleChange("job-seeker")}
-              className={`px-4 py-2 rounded-lg border ${role === "job-seeker" ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-700"}`}
-            >
-              Job Seeker
-            </button>
-            <button
-              type="button"
-              onClick={() => handleRoleChange("publisher")}
-              className={`px-4 py-2 rounded-lg border ${role === "publisher" ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-700"}`}
-            >
-              Job Publisher
-            </button>
-          </div>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-l from-blue-600 to-white/30 z-10"></div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Full name</label>
-              <input name="fullName" className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500" placeholder="Your name" />
-            </div>
+        {/* Form container - positioned to right */}
+        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-[100vh] p-4">
+          <form className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white">
+              Sign Up with BidPole
+            </h2>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Email</label>
-              <input name="email" type="email" className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500" placeholder="you@example.com" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700">Password</label>
-                <div className="relative">
-                  <input
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500"
-                    placeholder="Create a password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-500"
+            {/* Buttons Container */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6 justify-center">
+              <div
+                onClick={() => setButton("look")}
+                className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
+                  button === "look"
+                    ? "bg-blue-500 border border-blue-500"
+                    : "bg-transparent border border-white/50"
+                }`}
+              >
+                <div className="flex-shrink-0">
+                  <svg
+                    width="20"
+                    height="20"
+                    className="sm:w-6 sm:h-6"
+                    viewBox="0 0 512 512"
                   >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
+                    {/* Circle - dynamic color */}
+                    <path
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"
+                      fill={button === "look" ? "#ffffff" : "#3b82f6"}
+                    />
+                    {/* Check - dynamic color */}
+                    <path
+                      d="M424.1 183.9l-180 180c-10.5 10.5-27.6 10.5-38.1 0l-90-90c-10.5-10.5-10.5-27.6 0-38.1 10.5-10.5 27.6-10.5 38.1 0l70.9 70.9 160.9-160.9c10.5-10.5 27.6-10.5 38.1 0 10.6 10.6 10.6 27.6.1 38.1z"
+                      fill={button === "look" ? "#3b82f6" : "#ffffff"}
+                    />
+                  </svg>
+                </div>
+                <div className="text-center sm:text-left">
+                  <h1
+                    className={`text-xs sm:text-sm ${
+                      button === "look" ? "text-white" : "text-blue-500"
+                    }`}
+                  >
+                    Looking for
+                  </h1>
+                  <h1
+                    className={`font-bold text-base sm:text-lg ${
+                      button === "look" ? "text-white" : "text-blue-500"
+                    }`}
+                  >
+                    Professionals
+                  </h1>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700">Confirm password</label>
-                <input name="confirmPassword" type={showPassword ? "text" : "password"} className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500" placeholder="Confirm password" />
+              <div
+                onClick={() => setButton("earn")}
+                className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
+                  button === "earn"
+                    ? "bg-blue-500 border border-blue-500"
+                    : "bg-transparent border border-white/50"
+                }`}
+              >
+                <div className="flex-shrink-0">
+                  <svg
+                    width="20"
+                    height="20"
+                    className="sm:w-6 sm:h-6"
+                    viewBox="0 0 512 512"
+                  >
+                    {/* Circle - dynamic color */}
+                    <path
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"
+                      fill={button === "earn" ? "#ffffff" : "#3b82f6"}
+                    />
+                    {/* Check - dynamic color */}
+                    <path
+                      d="M424.1 183.9l-180 180c-10.5 10.5-27.6 10.5-38.1 0l-90-90c-10.5-10.5-10.5-27.6 0-38.1 10.5-10.5 27.6-10.5 38.1 0l70.9 70.9 160.9-160.9c10.5-10.5 27.6-10.5 38.1 0 10.6 10.6 10.6 27.6.1 38.1z"
+                      fill={button === "earn" ? "#3b82f6" : "#ffffff"}
+                    />
+                  </svg>
+                </div>
+                <div className="text-center sm:text-left">
+                  <h1
+                    className={`text-xs sm:text-sm ${
+                      button === "earn" ? "text-white" : "text-blue-500"
+                    }`}
+                  >
+                    Earn as a 
+                  </h1>
+                  <h1
+                    className={`font-bold text-base sm:text-lg ${
+                      button === "earn" ? "text-white" : "text-blue-500"
+                    }`}
+                  >
+                    Professional
+                  </h1>
+                </div>
               </div>
             </div>
 
-            {/* If publisher show extra fields */}
-            {role === "publisher" && (
-              <div className="bg-slate-50 p-4 rounded-lg border">
-                <h3 className="font-medium text-slate-800 mb-3">Company details</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm text-slate-700">Company name *</label>
-                    <input name="companyName" className="mt-1 w-full px-3 py-2 border rounded-md bg-white outline-none focus:border-blue-500" placeholder="e.g. Pixel Web Makers" />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-slate-700">Website</label>
-                    <input name="companyWebsite" className="mt-1 w-full px-3 py-2 border rounded-md bg-white outline-none focus:border-blue-500" placeholder="https://example.com" />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-slate-700">Company size</label>
-                    <select name="companySize" className="mt-1 w-full px-3 py-2 border rounded-md bg-white outline-none">
-                      <option value="">Select size</option>
-                      <option value="1-10">1-10</option>
-                      <option value="11-50">11-50</option>
-                      <option value="51-200">51-200</option>
-                      <option value="200+">200+</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-slate-700">Company location</label>
-                    <input name="companyLocation" className="mt-1 w-full px-3 py-2 border rounded-md bg-white outline-none focus:border-blue-500" placeholder="City, Country" />
-                  </div>
+            <div className="space-y-4">
+              {/* Name fields */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="w-full sm:w-1/2">
+                  <input
+                    type="text"
+                    name="firstName"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="First Name"
+                    required
+                  />
+                </div>
+                <div className="w-full sm:w-1/2">
+                  <input
+                    type="text"
+                    name="lastName"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="Last Name"
+                    required
+                  />
                 </div>
               </div>
-            )}
 
-            <div className="flex items-center justify-between gap-3">
-              <div className="text-sm text-slate-500">
-                By signing up you agree to our <Link href="/terms" className="text-blue-600 underline">Terms</Link>.
+              {/* Email */}
+              <div className="">
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  placeholder="Email"
+                  required
+                />
               </div>
-              <div className="flex gap-2">
-                <Link href="/pages/auth/login" className="px-4 py-2 border rounded-md text-slate-700">Already have an account?</Link>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">Create account</button>
+
+              {/* Phone number */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Country code dropdown */}
+                <div className="w-full sm:w-1/3">
+                  <div className="border border-blue-500 rounded-lg bg-transparent px-3 py-1 h-12 flex items-center focus-within:ring-2 focus-within:ring-blue-200 focus-within:border-blue-500 transition-all duration-200">
+                    <PhoneInput
+                      international
+                      defaultCountry="CM"
+                      value={phone}
+                      onChange={setPhone}
+                      className="w-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:text-white [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:py-2 [&_.PhoneInputInput]:placeholder-gray-300
+                                [&_.PhoneInputCountrySelect]:bg-transparent [&_.PhoneInputCountrySelect]:text-white [&_.PhoneInputCountrySelect]:border-none [&_.PhoneInputCountrySelect]:mr-2
+                                [&_.PhoneInputCountrySelectArrow]:text-white [&_.PhoneInputCountrySelectArrow]:ml-1
+                                [&_.PhoneInputCountryIcon]:rounded-sm [&_.PhoneInputInput]:text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Phone number input */}
+                <div className="w-full sm:w-2/3">
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="Phone Number"
+                    required
+                  />
+                </div>
               </div>
+
+              {/* Password */}
+              <div className="">
+                <input
+                  type="password"
+                  name="password"
+                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
+              >
+                Create Account
+              </button>
+            </div>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-white">
+                Already have an account?{" "}
+                <Link
+                  href="/pages/auth/login"
+                  className="text-white font-semibold hover:text-white/70 transition-colors"
+                >
+                  Sign in
+                </Link>
+              </p>
             </div>
           </form>
         </div>
-      </main>
+      </div>
     </div>
   );
-}
+};
+
+export default SignUpPage;

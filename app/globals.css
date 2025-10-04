@@ -149,3 +149,50 @@
   animation: marquee-reverse 20s linear infinite;
 }
 
+/* Custom styles for react-phone-number-input */
+.phone-input-custom .PhoneInputInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  padding: 12px 0;
+}
+
+.phone-input-custom .PhoneInputInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.phone-input-custom {
+  border: 1px solid #3b82f6;
+  border-radius: 0.5rem;
+  padding: 0 12px;
+  background: transparent;
+  color: white;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.phone-input-custom:focus-within {
+  border-color: #3b82f6;
+  ring: 2px;
+  ring-color: rgba(59, 130, 246, 0.2);
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+  background: #2f5bb9;
+  color: white;
+  border: none;
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+  border-radius: 2px;
+}
+
+.phone-input-custom .PhoneInputCountrySelectArrow {
+  color: white;
+  margin-left: 4px;
+}
