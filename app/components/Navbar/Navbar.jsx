@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import LoginPopUp from "../LoginPopUp/LoginPopUp";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [show, setShow] = useState(false);
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Search a Job", path: "/pages/searchAJob" },
-    { name: "Post a Job", path: "/pages/postAJob" },
     { name: "Blogs", path: "/pages/blogs" },
     { name: "About Us", path: "/pages/aboutUs" },
     { name: "Our Pricing", path: "/pages/pricing" },
@@ -50,6 +50,34 @@ const Navbar = () => {
             >
               Sign Up
             </Link>
+
+            {/* user profile */}
+            <div className="cursor-pointer relative">
+              <Image
+                onClick={() => setShow(!show)}
+                src={"/user1.jpeg"}
+                alt="user"
+                width={60}
+                height={60}
+                className="rounded-lg"
+              />
+
+              <div
+                className={`${
+                  show ? "absolute" : "hidden"
+                } absolute w-[200px] h-[180px] top-13 rounded-md right-0 bg-blue-500 text-white p-4 `}
+              >
+                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90">
+                  Customer Profile
+                </h1>
+                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                  Provider Profile
+                </h1>
+                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                  Admin Profile
+                </h1>
+              </div>
+            </div>
           </div>
 
           <button
