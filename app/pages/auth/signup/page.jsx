@@ -120,7 +120,7 @@ const SignUpPage = () => {
                       button === "earn" ? "text-white" : "text-blue-500"
                     }`}
                   >
-                    Earn as a 
+                    Earn as a
                   </h1>
                   <h1
                     className={`font-bold text-base sm:text-lg ${
@@ -178,7 +178,7 @@ const SignUpPage = () => {
                       value={phone}
                       onChange={setPhone}
                       className="w-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:text-white [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:py-2 [&_.PhoneInputInput]:placeholder-gray-300
-                                [&_.PhoneInputCountrySelect]:bg-transparent [&_.PhoneInputCountrySelect]:text-white [&_.PhoneInputCountrySelect]:border-none [&_.PhoneInputCountrySelect]:mr-2
+                                [&_.PhoneInputCountrySelect]:bg-white [&_.PhoneInputCountrySelect]:text-black [&_.PhoneInputCountrySelect]:border-none [&_.PhoneInputCountrySelect]:mr-2
                                 [&_.PhoneInputCountrySelectArrow]:text-white [&_.PhoneInputCountrySelectArrow]:ml-1
                                 [&_.PhoneInputCountryIcon]:rounded-sm [&_.PhoneInputInput]:text-sm"
                     />

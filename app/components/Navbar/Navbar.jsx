@@ -65,17 +65,17 @@ const Navbar = () => {
               <div
                 className={`${
                   show ? "absolute" : "hidden"
-                } absolute w-[200px] h-[180px] top-13 rounded-md right-0 bg-blue-500 text-white p-4 `}
+                } flex flex-col w-[200px] h-[180px] top-13 rounded-md right-0 bg-blue-500 text-white p-4 `}
               >
-                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90">
+                <Link href={'/pages/dashboard/customer'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90">
                   Customer Profile
-                </h1>
-                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                </Link>
+                <Link href={'/pages/dashboard/provider'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
                   Provider Profile
-                </h1>
-                <h1 className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                </Link>
+                <Link href={'/pages/dashboard/admin'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
                   Admin Profile
-                </h1>
+                </Link>
               </div>
             </div>
           </div>
