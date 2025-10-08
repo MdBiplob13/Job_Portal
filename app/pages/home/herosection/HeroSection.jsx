@@ -60,7 +60,7 @@ export default function Hero() {
         {/* Right Side Image */}
         <div className="w-full md:w-1/4 mt-10 md:mt-0 flex justify-center md:justify-end">
           <img
-            src="/hero-model.png"
+            src="/black_man.jpeg"
             alt="Model"
             className="max-w-[250px] sm:max-w-[300px] md:max-w-xs lg:max-w-sm object-contain"
           />
