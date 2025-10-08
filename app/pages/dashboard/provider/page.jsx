@@ -1,10 +1,13 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import DashboardNavbar from "@/app/components/Dashboard/DashboardNavbar/DashboardNavbar";
-import DashboardSidebar from "@/app/components/Dashboard/DashboardSidebar/DashboardSidebar";
-import ProviderDashboardHome from "./ProviderDashboardHome/ProviderDashboardHome";
-import ProviderDashboardSearch from "./ProviderDashboardSearch/ProviderDashboardSearch";
-import ProviderDashboardJobs from "./ProviderDashboardJobs/ProviderDashboardJobs";
+import ProviderDashboardHome from "./ProviderHome/ProviderHome";
+import ProviderDashboardJobs from "./ProviderJobs/ProviderJobs";
+import ProviderSideBar from "./ProviderSideBar/ProviderSideBar";
+import DashboardMessage from "@/app/components/Dashboard/DashboardMessage/DashboardMessage";
+import ProviderTransaction from "./ProviderTransaction/ProviderTransaction";
+import ProviderReview from "./ProviderReview/ProviderReview";
+import ProviderProfile from "./ProviderProfile/ProviderProfile";
 
 const page = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -17,16 +20,18 @@ const page = () => {
       {/* Main Layout */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <ProviderSideBar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {/* Content Area */}
         <main className="flex-1 p-6 overflow-y-auto">
           {activeTab === "dashboard" && <ProviderDashboardHome />}
-          {activeTab === "search" && <ProviderDashboardSearch />}
           {activeTab === "jobs" && <ProviderDashboardJobs />}
-          {activeTab === "messages" && <div>Messages</div>}
-          {activeTab === "transactions" && <div>Transactions</div>}
-          {activeTab === "profile" && <div>Profile</div>}
+          {activeTab === "messages" && <DashboardMessage/>}
+          {activeTab === "transactions" && <ProviderTransaction />}
+          {activeTab === "profile" && <ProviderProfile/>}
+          {activeTab === "Reviews" && <ProviderReview/>}
+          {activeTab === "Notifications" && <ProviderReview/>}
+
         </main>
       </div>
     </div>

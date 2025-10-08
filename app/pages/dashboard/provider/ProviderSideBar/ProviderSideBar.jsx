@@ -1,18 +1,29 @@
 import React from "react";
-import { FiHome, FiSearch, FiBriefcase, FiMessageCircle, FiDollarSign, FiUser, FiLogOut, FiStar } from "react-icons/fi";
+import {
+  FiHome,
+  FiSearch,
+  FiBriefcase,
+  FiMessageCircle,
+  FiDollarSign,
+  FiUser,
+  FiLogOut,
+  FiStar,
+} from "react-icons/fi";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
   { id: "jobs", label: "My Jobs", icon: <FiBriefcase /> },
   { id: "messages", label: "Messages", icon: <FiMessageCircle /> },
   { id: "transactions", label: "Transactions", icon: <FiDollarSign /> },
-  { id: "profile", label: "Profile", icon: <FiUser /> },
   { id: "Reviews", label: "Reviews", icon: <FiStar /> },
+  { id: "profile", label: "Profile", icon: <FiUser /> },
+  { id: "logout", label: "Logout", icon: <FiLogOut /> },
 ];
 
-const DashboardSidebar = ({ activeTab, setActiveTab }) => {
+const ProviderSideBar = ({ activeTab, setActiveTab }) => {
   return (
     <aside className="w-64 min-h-screen bg-white shadow-lg border-r">
+      
       <div className="flex flex-col justify-between h-full p-4">
         <div>
           <ul className="space-y-2">
@@ -31,12 +42,9 @@ const DashboardSidebar = ({ activeTab, setActiveTab }) => {
             ))}
           </ul>
         </div>
-        <button className="flex items-center p-3 rounded-lg text-red-500 hover:bg-red-50">
-          <FiLogOut className="mr-3" /> Logout
-        </button>
       </div>
     </aside>
   );
 };
 
-export default DashboardSidebar;
+export default ProviderSideBar;
