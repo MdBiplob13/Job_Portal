@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
-import toast from "react-hot-toast";
 import Footer from "@/app/components/Footer/Footer";
+import toast from "react-hot-toast";
 
 const REGIONS = ["Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
 const SALARY_TYPES = ["Monthly", "Hourly", "Fixed"];
+const SEARCH_TYPE = ["Individual", "Tender"];
 
 export default function PostAJob() {
   const [form, setForm] = useState({
@@ -15,402 +16,282 @@ export default function PostAJob() {
     company: "",
     location: REGIONS[0],
     jobType: JOB_TYPES[0],
-    workType: "On-site", // On-site | Remote | Hybrid
+    workType: "On-site",
     salary: "",
     salaryType: SALARY_TYPES[0],
+    totalHiring: "1",
     applicationLimitEnabled: false,
     applicationLimit: "",
-    totalHiring: "1",
     workTime: "",
     workDays: WORK_DAYS[0],
-    postDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0,10),
+    postDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
     skills: [],
+    benefits: [],
     languages: [],
     description: "",
-    benefits: [],
     contactEmail: "",
   });
 
   const [skillInput, setSkillInput] = useState("");
-  const [benefitInput, setBenefitInput] = useState("");
   const [languageInput, setLanguageInput] = useState("");
+  const [benefitInput, setBenefitInput] = useState("");
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
   }
 
-  function addSkill() {
-    const v = skillInput.trim();
-    if (!v) return;
-    if (form.skills.includes(v)) {
-      setSkillInput("");
-      return;
-    }
-    update("skills", [...form.skills, v]);
-    setSkillInput("");
-  }
+  const addItem = (field, value, setValue) => {
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    if (form[field].includes(trimmed)) return;
+    update(field, [...form[field], trimmed]);
+    setValue("");
+  };
 
-  function removeSkill(s) {
-    update("skills", form.skills.filter((x) => x !== s));
-  }
+  const removeItem = (field, value) => {
+    update(field, form[field].filter((v) => v !== value));
+  };
 
-  function addBenefit() {
-    const v = benefitInput.trim();
-    if (!v) return;
-    update("benefits", [...form.benefits, v]);
-    setBenefitInput("");
-  }
-
-  function removeBenefit(b) {
-    update("benefits", form.benefits.filter((x) => x !== b));
-  }
-
-  function addLanguage() {
-    const v = languageInput.trim();
-    if (!v) return;
-    if (form.languages.includes(v)) {
-      setLanguageInput("");
-      return;
-    }
-    update("languages", [...form.languages, v]);
-    setLanguageInput("");
-  }
-
-  function removeLanguage(l) {
-    update("languages", form.languages.filter((x) => x !== l));
-  }
-
-  function validate() {
-    if (!form.title.trim()) return "Job title is required";
-    if (!form.company.trim()) return "Company name is required";
-    if (!form.description.trim()) return "Job description is required";
-    if (!form.salary.toString().trim()) return "Salary is required";
-    if (form.applicationLimitEnabled && !form.applicationLimit) return "Set application limit or disable it";
-    if (form.contactEmail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.contactEmail)) return "Contact email is invalid";
-    return null;
-  }
-
-  function onSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const err = validate();
-    if (err) {
-      toast.error(err);
-      return;
-    }
+    if (!form.title.trim()) return toast.error("Job title is required");
+    if (!form.company.trim()) return toast.error("Company name is required");
+    if (!form.description.trim()) return toast.error("Job description is required");
 
-    // mock submit: in real app, send to API
-    const payload = { ...form };
-    console.log("Submitting job:", payload);
-    toast.success("Job posted (mock). Check console for payload.");
-
-    // reset form to defaults (but keep company & contact maybe)
-    setForm((f) => ({
-      ...f,
-      title: "",
-      salary: "",
-      applicationLimitEnabled: false,
-      applicationLimit: "",
-      totalHiring: "1",
-      workTime: "",
-      skills: [],
-      languages: [],
-      description: "",
-      benefits: [],
-      postDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0,10),
-    }));
-  }
+    console.log("Submitting:", form);
+    toast.success("Job posted successfully (mock submission)");
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-100">
       <Navbar />
 
-      <main className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-blue-600">Post a Job</h1>
-          <p className="mt-2 text-slate-600 max-w-2xl mx-auto">
-            Reach thousands of qualified candidates. Fill out the form below to publish your job posting.
-            Provide clear details to get better matches — you can always edit the post later.
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            Post a Job / Bid
+          </h1>
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Share your opportunity with thousands of professionals. Fill out the
+            form below — make it clear and detailed for the best matches.
           </p>
-        </header>
+        </div>
 
-        <form onSubmit={onSubmit} className="space-y-6 bg-white p-6 rounded-2xl shadow">
-          {/* Row 1: Title & Company */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Job title *</label>
-              <input
-                value={form.title}
-                onChange={(e) => update("title", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500"
-                placeholder="e.g. Senior Frontend Engineer"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Company name *</label>
-              <input
-                value={form.company}
-                onChange={(e) => update("company", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500"
-                placeholder="e.g. Pixel Web Makers"
-              />
-            </div>
+        {/* Form Container */}
+        <form
+          onSubmit={onSubmit}
+          className="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl border border-blue-100 px-6 sm:px-10 py-10 space-y-8"
+        >
+          {/* === Basic Info === */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="Job Title *" value={form.title} onChange={(v) => update("title", v)} placeholder="e.g. Senior Frontend Developer" />
+            <Input label="Company Name *" value={form.company} onChange={(v) => update("company", v)} placeholder="www.Shuvodesign.com" />
           </div>
 
-          {/* Row 2: Location, Job Type, Work Type */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Location / Region</label>
-              <select
-                value={form.location}
-                onChange={(e) => update("location", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              >
-                {REGIONS.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Job type</label>
-              <select
-                value={form.jobType}
-                onChange={(e) => update("jobType", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              >
-                {JOB_TYPES.map((j) => (
-                  <option key={j} value={j}>{j}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Work type</label>
-              <select
-                value={form.workType}
-                onChange={(e) => update("workType", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              >
-                <option>On-site</option>
-                <option>Remote</option>
-                <option>Hybrid</option>
-              </select>
-            </div>
+          {/* === Work Details === */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Select label="Location" options={REGIONS} value={form.location} onChange={(v) => update("location", v)} />
+            <Select label="Job Type" options={JOB_TYPES} value={form.jobType} onChange={(v) => update("jobType", v)} />
+            <Select label="Work Type" options={["On-site", "Remote", "Hybrid"]} value={form.workType} onChange={(v) => update("workType", v)} />
           </div>
 
-          {/* Row 3: Salary */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Salary</label>
-              <input
-                value={form.salary}
-                onChange={(e) => update("salary", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-                placeholder="e.g. 50000 or 20 (for hourly)"
-                type="number"
-                min={0}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Salary type</label>
-              <select
-                value={form.salaryType}
-                onChange={(e) => update("salaryType", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              >
-                {SALARY_TYPES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Total hiring</label>
-              <input
-                value={form.totalHiring}
-                onChange={(e) => update("totalHiring", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-                type="number"
-                min={1}
-              />
-            </div>
+          {/* === Salary Details === */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Input label="Salary" type="number" value={form.salary} onChange={(v) => update("salary", v)} placeholder="e.g. 50000" />
+            <Select label="Salary Type" options={SALARY_TYPES} value={form.salaryType} onChange={(v) => update("salaryType", v)} />
+            <Input label="Total Hiring" type="number" value={form.totalHiring} onChange={(v) => update("totalHiring", v)} />
           </div>
 
-          {/* Application limit, Work time, Work days conditional */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-            <div className="flex items-center gap-3">
-              <input
-                id="appLimit"
-                type="checkbox"
-                checked={form.applicationLimitEnabled}
-                onChange={(e) => update("applicationLimitEnabled", e.target.checked)}
-                className="h-4 w-4"
-              />
-              <label htmlFor="appLimit" className="text-sm text-slate-700">Enable application limit</label>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Application limit (if enabled)</label>
-              <input
-                value={form.applicationLimit}
-                onChange={(e) => update("applicationLimit", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-                type="number"
-                min={1}
-                disabled={!form.applicationLimitEnabled}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Work time (hours)</label>
-              <input
-                value={form.workTime}
-                onChange={(e) => update("workTime", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-                placeholder="e.g. 9:00 - 17:00 or Flexible"
-              />
-            </div>
+          {/* === Application & Work Conditions === */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Checkbox
+              label="Enable Application Limit"
+              checked={form.applicationLimitEnabled}
+              onChange={(checked) => update("applicationLimitEnabled", checked)}
+            />
+            <Input
+              label="Application Limit"
+              type="number"
+              value={form.applicationLimit}
+              onChange={(v) => update("applicationLimit", v)}
+              disabled={!form.applicationLimitEnabled}
+            />
+            <Input label="Work Time" value={form.workTime} onChange={(v) => update("workTime", v)} placeholder="e.g. 9:00 - 17:00" />
           </div>
 
-          {/* Work days only if salary type is Monthly (as requested) */}
           {form.salaryType === "Monthly" && (
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Working days</label>
-              <select
-                value={form.workDays}
-                onChange={(e) => update("workDays", e.target.value)}
-                className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              >
-                {WORK_DAYS.map((w) => (
-                  <option key={w} value={w}>{w}</option>
-                ))}
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Select label="Working Days" options={WORK_DAYS} value={form.workDays} onChange={(v) => update("workDays", v)} />
+              <Select label="Job Type" options={SEARCH_TYPE} value={form.searchType} onChange={(v) => update("searchType", v)} />
             </div>
           )}
 
-          {/* Post deadline */}
+          {/* === Deadline === */}
+          <Input label="Application Deadline" type="date" value={form.postDeadline} onChange={(v) => update("postDeadline", v)} />
+
+          {/* === Skills, Languages, Benefits === */}
+          <TagInput
+            label="Skills"
+            value={skillInput}
+            setValue={setSkillInput}
+            items={form.skills}
+            addItem={(v) => addItem("skills", v, setSkillInput)}
+            removeItem={(v) => removeItem("skills", v)}
+          />
+          <TagInput
+            label="Languages"
+            value={languageInput}
+            setValue={setLanguageInput}
+            items={form.languages}
+            addItem={(v) => addItem("languages", v, setLanguageInput)}
+            removeItem={(v) => removeItem("languages", v)}
+          />
+          <TagInput
+            label="Benefits (optional)"
+            value={benefitInput}
+            setValue={setBenefitInput}
+            items={form.benefits}
+            addItem={(v) => addItem("benefits", v, setBenefitInput)}
+            removeItem={(v) => removeItem("benefits", v)}
+          />
+
+          {/* === Description === */}
           <div>
-            <label className="block text-sm font-medium text-slate-700">Application deadline</label>
-            <input
-              type="date"
-              value={form.postDeadline}
-              onChange={(e) => update("postDeadline", e.target.value)}
-              className="mt-1 px-3 py-2 border rounded-md bg-slate-50 outline-none"
-            />
-          </div>
-
-          {/* Skills input */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Skills</label>
-            <div className="mt-2 flex gap-2">
-              <input
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(); } }}
-                placeholder="Add a skill and press Enter or Add"
-                className="flex-1 px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              />
-              <button type="button" onClick={addSkill} className="px-4 py-2 bg-blue-600 text-white rounded-md">Add</button>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              {form.skills.map((s) => (
-                <div key={s} className="px-3 py-1 bg-slate-100 rounded-full inline-flex items-center gap-2">
-                  <span className="text-sm">{s}</span>
-                  <button type="button" onClick={() => removeSkill(s)} className="text-xs px-2">✕</button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Languages */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Languages</label>
-            <div className="mt-2 flex gap-2">
-              <input
-                value={languageInput}
-                onChange={(e) => setLanguageInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addLanguage(); } }}
-                placeholder="Add a language and press Enter"
-                className="flex-1 px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              />
-              <button type="button" onClick={addLanguage} className="px-4 py-2 bg-blue-600 text-white rounded-md">Add</button>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              {form.languages.map((l) => (
-                <div key={l} className="px-3 py-1 bg-slate-100 rounded-full inline-flex items-center gap-2">
-                  <span className="text-sm">{l}</span>
-                  <button type="button" onClick={() => removeLanguage(l)} className="text-xs px-2">✕</button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Benefits */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Benefits (optional)</label>
-            <div className="mt-2 flex gap-2">
-              <input
-                value={benefitInput}
-                onChange={(e) => setBenefitInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addBenefit(); } }}
-                placeholder="e.g. Health insurance, Remote friendly"
-                className="flex-1 px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              />
-              <button type="button" onClick={addBenefit} className="px-4 py-2 bg-blue-600 text-white rounded-md">Add</button>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              {form.benefits.map((b) => (
-                <div key={b} className="px-3 py-1 bg-slate-100 rounded-full inline-flex items-center gap-2">
-                  <span className="text-sm">{b}</span>
-                  <button type="button" onClick={() => removeBenefit(b)} className="text-xs px-2">✕</button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Job description *</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Job Description *</label>
             <textarea
+              rows={6}
               value={form.description}
               onChange={(e) => update("description", e.target.value)}
-              rows={8}
-              placeholder="Describe responsibilities, requirements and what makes this role special."
-              className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
+              placeholder="Describe responsibilities, skills required, and perks..."
+              className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3 focus:border-blue-500 outline-none transition"
             />
           </div>
 
-          {/* Contact Email */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700">Contact email (optional)</label>
+          {/* === Contact & Actions === */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100">
             <input
+              type="email"
+              placeholder="Contact Email (optional)"
               value={form.contactEmail}
               onChange={(e) => update("contactEmail", e.target.value)}
-              placeholder="hr@example.com"
-              className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none"
-              type="email"
+              className="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-200 bg-slate-50 focus:border-blue-500 outline-none transition"
             />
-          </div>
-
-          {/* Submit */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="text-sm text-slate-500">You can edit or remove this post anytime from your dashboard.</div>
-            <div className="flex gap-3">
-              <button type="button" onClick={() => {
-                setForm((f) => ({ ...f, title: "", description: "", skills: [], benefits: [], languages: [], salary: "" }));
-                toast?.success?.("Form cleared");
-              }} className="px-4 py-2 border rounded-md">Clear</button>
-              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">Publish Job</button>
+            <div className="flex gap-3 w-full md:w-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  setForm({
+                    ...form,
+                    title: "",
+                    description: "",
+                    skills: [],
+                    benefits: [],
+                    languages: [],
+                    salary: "",
+                  });
+                  toast.success("Form cleared");
+                }}
+                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition"
+              >
+                Clear
+              </button>
+              <button
+                type="submit"
+                className="flex-1 md:flex-none px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
+              >
+                Publish Job
+              </button>
             </div>
           </div>
         </form>
       </main>
+
       <Footer />
+    </div>
+  );
+}
+
+/* ==== Sub Components ==== */
+
+function Input({ label, value, onChange, placeholder, type = "text", disabled }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        disabled={disabled}
+        className={`w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-2.5 focus:border-blue-500 outline-none transition ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      />
+    </div>
+  );
+}
+
+function Select({ label, options, value, onChange }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-2.5 focus:border-blue-500 outline-none transition"
+      >
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function Checkbox({ label, checked, onChange }) {
+  return (
+    <div className="flex items-center gap-3 mt-5">
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-blue-600" />
+      <label className="text-sm text-gray-700">{label}</label>
+    </div>
+  );
+}
+
+function TagInput({ label, value, setValue, addItem, removeItem, items }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>
+      <div className="flex gap-2">
+        <input
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addItem(value))}
+          placeholder={`Add ${label.toLowerCase().split(" ")[0]}`}
+          className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl bg-slate-50 focus:border-blue-500 outline-none transition"
+        />
+        <button
+          type="button"
+          onClick={() => addItem(value)}
+          className="px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+        >
+          Add
+        </button>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {items.map((i) => (
+          <span
+            key={i}
+            className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm"
+          >
+            {i}
+            <button type="button" onClick={() => removeItem(i)} className="hover:text-blue-900">✕</button>
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function SingleBlogPage({ params }) {
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-6 py-16">
-        <Link href="/blogs" className="inline-block text-sm text-blue-600 mb-6">← Back to articles</Link>
+        <Link href="/blogs" className="inline-block text-sm text-blue-500 mb-6">← Back to articles</Link>
 
         <article className="bg-white rounded-2xl shadow p-8">
           <header className="mb-6">

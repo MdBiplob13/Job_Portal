@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className=" mx-10 px-5 md:px-10 flex justify-between items-center h-full">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-blue-600">
-            Job Portal
+            Job Pole
           </Link>
 
           {/* Desktop Nav */}

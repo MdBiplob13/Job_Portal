@@ -1,6 +1,8 @@
 // app/components/Stats.jsx
 "use client";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { FaBriefcase, FaBuilding, FaLandmark, FaUniversity } from "react-icons/fa";
 
 function Counter({ target, duration }) {
   const [count, setCount] = useState(0);
@@ -8,7 +10,7 @@ function Counter({ target, duration }) {
   useEffect(() => {
     let start = 0;
     const end = target;
-    const increment = end / (duration / 16); // approx 60fps
+    const increment = end / (duration / 16);
     let frame;
 
     const step = () => {
@@ -35,47 +37,74 @@ export default function Stats() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisible(true);
-        }
+        if (entries[0].isIntersecting) setVisible(true);
       },
       { threshold: 0.3 }
     );
     const section = document.getElementById("stats");
     if (section) observer.observe(section);
-
     return () => {
       if (section) observer.unobserve(section);
     };
   }, []);
 
+  const stats = [
+    {
+      label: "Total Jobs",
+      target: 30000,
+      icon: <FaBriefcase />,
+      suffix: "+",
+    },
+    {
+      label: "Member Agency Jobs",
+      target: 1650,
+      icon: <FaBuilding />,
+      suffix: "",
+    },
+    {
+      label: "State & Local Jobs",
+      target: 22000,
+      icon: <FaLandmark />,
+      suffix: "+",
+    },
+    {
+      label: "Federal Jobs",
+      target: 6351,
+      icon: <FaUniversity />,
+      suffix: "",
+    },
+  ];
+
   return (
-    <section id="stats" className="bg-gray-50 py-16">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-3xl font-bold text-blue-600">
-            {visible ? <Counter target={30000} duration={2000} /> : 0}+
-          </h3>
-          <p className="mt-2 text-gray-600 text-sm">Total Jobs</p>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-3xl font-bold text-blue-600">
-            {visible ? <Counter target={1650} duration={2000} /> : 0}
-          </h3>
-          <p className="mt-2 text-gray-600 text-sm">Member Agency Jobs</p>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-3xl font-bold text-blue-600">
-            {visible ? <Counter target={22000} duration={2000} /> : 0}+
-          </h3>
-          <p className="mt-2 text-gray-600 text-sm">State & Local Jobs</p>
-        </div>
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-3xl font-bold text-blue-600">
-            {visible ? <Counter target={6351} duration={2000} /> : 0}
-          </h3>
-          <p className="mt-2 text-gray-600 text-sm">Federal Jobs</p>
-        </div>
+    <section id="stats" className="bg-blue-50 py-20">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        {stats.map((stat, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.2, duration: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            className="p-8 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg border border-blue-100 hover:border-blue-400 hover:shadow-xl transition relative overflow-hidden"
+          >
+            {/* Glow Background */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/40 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
+
+            {/* Icon */}
+            <div className="relative z-10 flex justify-center mb-4 text-blue-600 text-4xl">
+              {stat.icon}
+            </div>
+
+            {/* Counter */}
+            <h3 className="relative z-10 text-4xl font-extrabold text-blue-700">
+              {visible ? <Counter target={stat.target} duration={2000} /> : 0}
+              {stat.suffix}
+            </h3>
+
+            {/* Label */}
+            <p className="relative z-10 mt-3 text-gray-700 font-medium">{stat.label}</p>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

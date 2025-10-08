@@ -3,98 +3,120 @@ import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
 import Footer from "@/app/components/Footer/Footer";
+import SignUp from "../home/signupsection/Signupsection";
+import { Briefcase, Building2, UserCheck } from "lucide-react";
 
 const AboutUs = () => {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
+    <div className="min-h-screen bg-blue-50 text-slate-800">
       <Navbar />
 
       {/* HERO */}
-      <header className="relative overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
-          <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div>
-                <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
-                  Job Portal — Connecting talent with opportunity
-                </h1>
-                <p className="mt-4 text-lg opacity-90 max-w-2xl">
-                  Job Portal is a modern hiring platform built to help companies find
-                  great people and help candidates discover meaningful careers. We
-                  focus on transparency, relevant matches and a human-first
-                  application experience.
-                </p>
+     <header className="relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            {/* LEFT SIDE (unchanged) */}
+            <div>
+              <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
+                Job Portal — Connecting talent with opportunity
+              </h1>
+              <p className="mt-4 text-lg opacity-90 max-w-2xl">
+                Job Portal is a modern hiring platform built to help companies
+                find great people and help candidates discover meaningful
+                careers. We focus on transparency, relevant matches and a
+                human-first application experience.
+              </p>
 
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/pages/searchAJob"
-                    className="inline-block px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow hover:shadow-md transition"
-                  >
-                    Search Jobs
-                  </Link>
-                  <Link
-                    href="/pages/postAJob"
-                    className="inline-block px-6 py-3 border border-white/40 text-white rounded-lg hover:bg-white/10 transition"
-                  >
-                    Post a Job
-                  </Link>
-                </div>
-
-                <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">10k+</div>
-                    <div className="text-sm opacity-80">Jobs Posted</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">6k+</div>
-                    <div className="text-sm opacity-80">Companies</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">85%</div>
-                    <div className="text-sm opacity-80">Successful Hires</div>
-                  </div>
-                </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href="/pages/searchAJob"
+                  className="inline-block px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow hover:shadow-md transition"
+                >
+                  Search Jobs
+                </Link>
+                <Link
+                  href="/pages/postAJob"
+                  className="inline-block px-6 py-3 border border-white/40 text-white rounded-lg hover:bg-white/10 transition"
+                >
+                  Post a Job
+                </Link>
               </div>
 
-              <div className="flex justify-center lg:justify-end">
-                <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg -translate-y-6">
-                  <img
-                    src="https://xsgames.co/randomusers/assets/avatars/male/1.jpg"
-                    alt="Founder avatar"
-                    className="w-28 h-28 rounded-full object-cover mx-auto shadow-md"
-                  />
-
-                  <h3 className="text-center mt-4 font-semibold text-lg">A. Rahman</h3>
-                  <p className="text-center text-sm opacity-80">Founder & CEO, Job Portal</p>
-
-                  <p className="mt-4 text-sm text-slate-600">
-                    A. Rahman built Job Portal to make hiring fairer and faster for
-                    everyone. With a background in product and recruitment tech, he
-                    believes great outcomes come from clear communication and smart
-                    tooling.
-                  </p>
-
-                  <div className="mt-4 flex items-center justify-center gap-3">
-                    <a
-                      href="#team"
-                      className="text-sm px-4 py-2 bg-blue-50 text-blue-600 rounded-full font-medium"
-                    >
-                      Meet the team
-                    </a>
-                    <a
-                      href="/contact"
-                      className="text-sm px-4 py-2 border border-slate-200 rounded-full text-slate-700"
-                    >
-                      Contact
-                    </a>
-                  </div>
+              <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm">
+                <div className="text-center">
+                  <div className="text-2xl font-bold">10k+</div>
+                  <div className="text-sm opacity-80">Jobs Posted</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">6k+</div>
+                  <div className="text-sm opacity-80">Companies</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">85%</div>
+                  <div className="text-sm opacity-80">Successful Hires</div>
                 </div>
               </div>
             </div>
+
+            {/* RIGHT SIDE */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
+                {/* Header Strip */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
+                  <h3 className="text-xl font-semibold flex items-center gap-2">
+                    <Briefcase size={22} /> Featured Job
+                  </h3>
+                  <p className="text-sm opacity-80">
+                    Handpicked top opportunities for professionals
+                  </p>
+                </div>
+
+                {/* Job Details */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-semibold text-gray-800">
+                        Frontend Developer
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        Remote • Full Time
+                      </p>
+                    </div>
+                    <div className="bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1 rounded-full">
+                      $80k - $100k
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Building2 size={18} />
+                    <span className="text-sm">TechNova Solutions</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <UserCheck size={18} />
+                    <span className="text-sm">3 days ago</span>
+                  </div>
+
+                  <div className="pt-3">
+                    <Link
+                      href="/pages/searchAJob"
+                      className="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Floating Accent */}
+                <div className="absolute -top-8 -right-8 w-24 h-24 bg-blue-300 rounded-full blur-2xl opacity-30"></div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        {/* decorative svg */}
+        {/* keep original wave unchanged */}
         <svg
           className="absolute right-0 bottom-0 -mb-1 hidden lg:block"
           width="400"
@@ -106,10 +128,11 @@ const AboutUs = () => {
         >
           <path d="M0 100 C100 0 300 200 400 100 L400 200 L0 200 Z" fill="#eff6ff" />
         </svg>
-      </header>
+      </div>
+    </header>
 
       {/* MISSION & VALUES */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-blu">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
             <h2 className="text-2xl font-semibold">Our Mission</h2>
@@ -149,8 +172,8 @@ const AboutUs = () => {
               <li>• Supports employers of all sizes — startups to enterprises</li>
             </ul>
 
-            <div className="mt-6 bg-gradient-to-r from-blue-50 to-white p-4 rounded-lg shadow-inner">
-              <p className="text-sm text-slate-700">
+            <div className="mt-6 bg-blue-200 p-4 rounded-lg shadow-inner">
+              <p className="text-sm text-">
                 Job Portal was created to reduce friction between companies and
                 candidates. We iterate fast, listen closely to feedback and keep a
                 high bar for quality.
@@ -160,33 +183,10 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* TEAM */}
-      <section id="team" className="bg-slate-50 py-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-2xl font-semibold mb-6">Meet the Team</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              { name: "A. Rahman", title: "Founder & CEO" },
-              { name: "S. Karim", title: "Head of Product" },
-              { name: "M. Noor", title: "Lead Engineer" },
-              { name: "R. Hossain", title: "Customer Success" },
-            ].map((member, idx) => (
-              <div key={idx} className="bg-white rounded-xl p-4 shadow">
-                <img
-                  src={`https://xsgames.co/randomusers/assets/avatars/male/${idx}.jpg`}
-                  alt={`${member.name}`}
-                  className="w-24 h-24 rounded-full object-cover mx-auto"
-                />
-                <h4 className="text-center mt-3 font-medium">{member.name}</h4>
-                <p className="text-center text-sm text-slate-600">{member.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+  <SignUp/>
 
       {/* CTA FOOTER */}
-      <footer className="bg-white border-t mt-12">
+      <footer className="bg-blue-50 border-t mt-12">
         <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="text-lg font-semibold">Ready to find the right fit?</h4>
