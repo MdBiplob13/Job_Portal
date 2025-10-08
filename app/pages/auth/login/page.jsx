@@ -1,77 +1,119 @@
 "use client";
-import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
-import { toast } from "react-hot-toast";
 import Link from "next/link";
+import React, { useState } from "react";
 
-export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
+const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
 
-  function handleSubmit(e) {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const email = (form.email?.value || "").trim().toLowerCase();
-    const password = (form.password?.value || "").trim();
-
-    if (!email) return toast.error("Email is required");
-    if (!password) return toast.error("Password is required");
-
-    const payload = { email, password, remember };
-
-    console.log("Login payload (mock):", payload);
-    toast.success("Logged in (mock). Check console for payload.");
-
-    // reset or redirect as needed (mock)
-    // form.reset();
-  }
+    // Handle login submission here
+    console.log("Login submitted", formData);
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div>
       <Navbar />
 
-      <main className="w-full max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-extrabold text-blue-600">Welcome back</h1>
-          <p className="mt-2 text-slate-600">Sign in to manage your account, jobs and applications.</p>
+      <div className="relative min-h-[100vh]">
+        {/* Photo container */}
+        <div className="absolute inset-0">
+          <img
+            src={"/black_woman_with_laptop.jpg"}
+            className="w-full h-full object-cover"
+            alt="Woman with laptop"
+          />
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Email</label>
-              <input name="email" type="email" className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500" placeholder="you@example.com" />
-            </div>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-l from-blue-600 to-white/30 z-10"></div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700">Password</label>
-              <div className="relative">
-                <input name="password" type={showPassword ? "text" : "password"} className="mt-1 w-full px-3 py-2 border rounded-md bg-slate-50 outline-none focus:border-blue-500" placeholder="Your password" />
-                <button type="button" onClick={() => setShowPassword(s => !s)} className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-500">
-                  {showPassword ? "Hide" : "Show"}
-                </button>
+        {/* Form container - positioned to right */}
+        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-[100vh] p-4">
+          <form 
+            onSubmit={handleSubmit}
+            className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md border border-white/20 mr-4 sm:mr-8 lg:mr-16"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white">
+              Login to BidPole
+            </h2>
+
+            <div className="space-y-4">
+              {/* Email */}
+              <div className="">
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  placeholder="Email"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div className="">
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+
+              {/* Forgot Password */}
+              <div className="text-right">
+                <Link
+                  href="/pages/auth/forgot-password"
+                  className="text-white text-sm hover:text-white/70 transition-colors"
+                >
+                  Forgot your password?
+                </Link>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="h-4 w-4" />
-                Remember me
-              </label>
-
-              <Link href="/forgot-password" className="text-sm text-blue-600">Forgot password?</Link>
+            <div className="mt-6">
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
+              >
+                Sign In
+              </button>
             </div>
 
-            <div>
-              <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white rounded-md">Sign in</button>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-white">
+                Don't have an account?{" "}
+                <Link
+                  href="/pages/auth/signup"
+                  className="text-white font-semibold hover:text-white/70 transition-colors"
+                >
+                  Sign up
+                </Link>
+              </p>
             </div>
+
+            
           </form>
-
-          <div className="mt-4 text-center text-sm text-slate-600">
-            Don't have an account? <Link href="/pages/auth/signup" className="text-blue-600 underline">Create one</Link>
-          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

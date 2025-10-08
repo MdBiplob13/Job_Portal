@@ -149,3 +149,8 @@
   animation: marquee-reverse 20s linear infinite;
 }
 
+/* Custom styles for react-phone-number-input */
+
+.PhoneInputCountry {
+  margin-right: 12px;
+}
