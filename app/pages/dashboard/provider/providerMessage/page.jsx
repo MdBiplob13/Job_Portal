@@ -8,7 +8,8 @@ const messagesData = [
     name: "Christina Delord",
     avatar: "/user1.jpeg",
     job: "Potable Water and Sewage Disposal",
-    message: "Lorem Ipsum is simply dummy text of the printing type industry...",
+    message:
+      "Lorem Ipsum is simply dummy text of the printing type industry...",
     time: "10 min ago",
   },
   {
@@ -16,7 +17,8 @@ const messagesData = [
     name: "Oliver Jones",
     avatar: "/user2.jpeg",
     job: "Dock Reconstruction",
-    message: "Lorem Ipsum is simply dummy text of the printing type industry...",
+    message:
+      "Lorem Ipsum is simply dummy text of the printing type industry...",
     time: "10 min ago",
   },
   {
@@ -24,12 +26,13 @@ const messagesData = [
     name: "Samuel Morgan",
     avatar: "/user3.jpeg",
     job: "E-Waste Recycling Partnership",
-    message: "Lorem Ipsum is simply dummy text of the printing type industry...",
+    message:
+      "Lorem Ipsum is simply dummy text of the printing type industry...",
     time: "10 min ago",
   },
 ];
 
-export default function MessagesPage() {
+export default function ProviderMessage() {
   const [selectedChat, setSelectedChat] = useState(messagesData[0]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);

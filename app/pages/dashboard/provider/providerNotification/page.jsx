@@ -1,9 +1,19 @@
 // app/pages/dashboard/notifications/NotificationPageDesign/NotificationPageDesign.jsx
 "use client";
 import React, { useState, useEffect } from "react";
-import { FiSearch, FiTrash2, FiCheck, FiCheckCircle, FiMail, FiFilter, FiX, FiEye, FiEyeOff } from "react-icons/fi";
+import {
+  FiSearch,
+  FiTrash2,
+  FiCheck,
+  FiCheckCircle,
+  FiMail,
+  FiFilter,
+  FiX,
+  FiEye,
+  FiEyeOff,
+} from "react-icons/fi";
 
-const NotificationsPageDesign = () => {
+const ProviderNotification = () => {
   const [notifications, setNotifications] = useState([]);
   const [filteredNotifications, setFilteredNotifications] = useState([]);
   const [selectedNotifications, setSelectedNotifications] = useState([]);
@@ -18,75 +28,83 @@ const NotificationsPageDesign = () => {
       {
         id: 1,
         title: "New Bid Received",
-        message: "John Smith placed a bid of $15,000 on your 'Office Renovation' project",
+        message:
+          "John Smith placed a bid of $15,000 on your 'Office Renovation' project",
         time: "5 min ago",
         timestamp: new Date(),
         isRead: false,
-        type: "bid"
+        type: "bid",
       },
       {
         id: 2,
         title: "Project Awarded",
-        message: "You've been selected for the 'Warehouse Construction' project. Contract details are available.",
+        message:
+          "You've been selected for the 'Warehouse Construction' project. Contract details are available.",
         time: "1 hour ago",
         timestamp: new Date(Date.now() - 3600000),
         isRead: false,
-        type: "award"
+        type: "award",
       },
       {
         id: 3,
         title: "Message Received",
-        message: "New message from Sarah Johnson: 'Can we discuss the project timeline tomorrow?'",
+        message:
+          "New message from Sarah Johnson: 'Can we discuss the project timeline tomorrow?'",
         time: "2 hours ago",
         timestamp: new Date(Date.now() - 7200000),
         isRead: true,
-        type: "message"
+        type: "message",
       },
       {
         id: 4,
         title: "Payment Received",
-        message: "Payment of $2,500 has been processed for 'Retail Store Fitout'. Funds will be available in 2-3 business days.",
+        message:
+          "Payment of $2,500 has been processed for 'Retail Store Fitout'. Funds will be available in 2-3 business days.",
         time: "1 day ago",
         timestamp: new Date(Date.now() - 86400000),
         isRead: true,
-        type: "payment"
+        type: "payment",
       },
       {
         id: 5,
         title: "Project Completed",
-        message: "Client has marked 'Office Renovation' as completed and left a 5-star review.",
+        message:
+          "Client has marked 'Office Renovation' as completed and left a 5-star review.",
         time: "2 days ago",
         timestamp: new Date(Date.now() - 172800000),
         isRead: true,
-        type: "completion"
+        type: "completion",
       },
       {
         id: 6,
         title: "Bid Expired",
-        message: "Your bid on 'Hotel Renovation Project' has expired. Consider updating your bid.",
+        message:
+          "Your bid on 'Hotel Renovation Project' has expired. Consider updating your bid.",
         time: "3 days ago",
         timestamp: new Date(Date.now() - 259200000),
         isRead: false,
-        type: "bid"
+        type: "bid",
       },
       {
         id: 7,
         title: "New Project Match",
-        message: "New project 'Shopping Mall Construction' matches your skills and experience.",
+        message:
+          "New project 'Shopping Mall Construction' matches your skills and experience.",
         time: "1 week ago",
         timestamp: new Date(Date.now() - 604800000),
         isRead: true,
-        type: "match"
+        type: "match",
       },
       {
         id: 8,
         title: "Document Approved",
-        message: "Your submitted safety plan for 'Bridge Construction' has been approved.",
+        message:
+          "Your submitted safety plan for 'Bridge Construction' has been approved.",
         time: "2 weeks ago",
         timestamp: new Date(Date.now() - 1209600000),
         isRead: true,
-        type: "document"
-      }
+        type: "document",
+      },
     ];
     setNotifications(mockNotifications);
     setFilteredNotifications(mockNotifications);
@@ -98,22 +116,23 @@ const NotificationsPageDesign = () => {
 
     // Search filter
     if (searchQuery) {
-      filtered = filtered.filter(notif =>
-        notif.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        notif.message.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (notif) =>
+          notif.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          notif.message.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Status filter
     if (statusFilter !== "all") {
-      filtered = filtered.filter(notif =>
+      filtered = filtered.filter((notif) =>
         statusFilter === "read" ? notif.isRead : !notif.isRead
       );
     }
 
     // Type filter
     if (typeFilter !== "all") {
-      filtered = filtered.filter(notif => notif.type === typeFilter);
+      filtered = filtered.filter((notif) => notif.type === typeFilter);
     }
 
     // Date filter
@@ -134,7 +153,7 @@ const NotificationsPageDesign = () => {
           startDate = null;
       }
       if (startDate) {
-        filtered = filtered.filter(notif => notif.timestamp >= startDate);
+        filtered = filtered.filter((notif) => notif.timestamp >= startDate);
       }
     }
 
@@ -142,15 +161,15 @@ const NotificationsPageDesign = () => {
   }, [notifications, searchQuery, statusFilter, typeFilter, dateFilter]);
 
   const toggleSelectNotification = (id) => {
-    setSelectedNotifications(prev =>
+    setSelectedNotifications((prev) =>
       prev.includes(id)
-        ? prev.filter(selectedId => selectedId !== id)
+        ? prev.filter((selectedId) => selectedId !== id)
         : [...prev, id]
     );
   };
 
   const selectAll = () => {
-    setSelectedNotifications(filteredNotifications.map(notif => notif.id));
+    setSelectedNotifications(filteredNotifications.map((notif) => notif.id));
   };
 
   const clearSelection = () => {
@@ -158,31 +177,39 @@ const NotificationsPageDesign = () => {
   };
 
   const markAsRead = (ids) => {
-    setNotifications(notifications.map(notif =>
-      ids.includes(notif.id) ? { ...notif, isRead: true } : notif
-    ));
-    setSelectedNotifications(prev => prev.filter(id => !ids.includes(id)));
+    setNotifications(
+      notifications.map((notif) =>
+        ids.includes(notif.id) ? { ...notif, isRead: true } : notif
+      )
+    );
+    setSelectedNotifications((prev) => prev.filter((id) => !ids.includes(id)));
   };
 
   const markAsUnread = (ids) => {
-    setNotifications(notifications.map(notif =>
-      ids.includes(notif.id) ? { ...notif, isRead: false } : notif
-    ));
-    setSelectedNotifications(prev => prev.filter(id => !ids.includes(id)));
+    setNotifications(
+      notifications.map((notif) =>
+        ids.includes(notif.id) ? { ...notif, isRead: false } : notif
+      )
+    );
+    setSelectedNotifications((prev) => prev.filter((id) => !ids.includes(id)));
   };
 
   const removeNotifications = (ids) => {
-    setNotifications(notifications.filter(notif => !ids.includes(notif.id)));
-    setSelectedNotifications(prev => prev.filter(id => !ids.includes(id)));
+    setNotifications(notifications.filter((notif) => !ids.includes(notif.id)));
+    setSelectedNotifications((prev) => prev.filter((id) => !ids.includes(id)));
   };
 
   const markAllAsRead = () => {
-    setNotifications(notifications.map(notif => ({ ...notif, isRead: true })));
+    setNotifications(
+      notifications.map((notif) => ({ ...notif, isRead: true }))
+    );
     setSelectedNotifications([]);
   };
 
   const markAllAsUnread = () => {
-    setNotifications(notifications.map(notif => ({ ...notif, isRead: false })));
+    setNotifications(
+      notifications.map((notif) => ({ ...notif, isRead: false }))
+    );
     setSelectedNotifications([]);
   };
 
@@ -193,37 +220,55 @@ const NotificationsPageDesign = () => {
 
   const getNotificationIcon = (type) => {
     switch (type) {
-      case 'bid': return '💰';
-      case 'award': return '🏆';
-      case 'message': return '💬';
-      case 'payment': return '💳';
-      case 'completion': return '✅';
-      case 'match': return '🎯';
-      case 'document': return '📄';
-      default: return '🔔';
+      case "bid":
+        return "💰";
+      case "award":
+        return "🏆";
+      case "message":
+        return "💬";
+      case "payment":
+        return "💳";
+      case "completion":
+        return "✅";
+      case "match":
+        return "🎯";
+      case "document":
+        return "📄";
+      default:
+        return "🔔";
     }
   };
 
   const getTypeLabel = (type) => {
     switch (type) {
-      case 'bid': return 'Bid';
-      case 'award': return 'Award';
-      case 'message': return 'Message';
-      case 'payment': return 'Payment';
-      case 'completion': return 'Completion';
-      case 'match': return 'Project Match';
-      case 'document': return 'Document';
-      default: return 'Notification';
+      case "bid":
+        return "Bid";
+      case "award":
+        return "Award";
+      case "message":
+        return "Message";
+      case "payment":
+        return "Payment";
+      case "completion":
+        return "Completion";
+      case "match":
+        return "Project Match";
+      case "document":
+        return "Document";
+      default:
+        return "Notification";
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="w-full mx-auto">
+      <div className=" mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Notifications</h1>
-          <p className="text-gray-600 mt-2">Manage and review all your notifications</p>
+          <p className="text-gray-600 mt-2">
+            Manage and review all your notifications
+          </p>
         </div>
 
         {/* Action Bar */}
@@ -323,7 +368,9 @@ const NotificationsPageDesign = () => {
 
               {/* Status Filter */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
@@ -337,7 +384,9 @@ const NotificationsPageDesign = () => {
 
               {/* Type Filter */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Type
+                </label>
                 <select
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
@@ -356,7 +405,9 @@ const NotificationsPageDesign = () => {
 
               {/* Date Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Time Period
+                </label>
                 <select
                   value={dateFilter}
                   onChange={(e) => setDateFilter(e.target.value)}
@@ -381,7 +432,7 @@ const NotificationsPageDesign = () => {
                     {filteredNotifications.length} notifications found
                   </span>
                   <span className="text-sm text-gray-600">
-                    {notifications.filter(n => !n.isRead).length} unread
+                    {notifications.filter((n) => !n.isRead).length} unread
                   </span>
                 </div>
               </div>
@@ -390,8 +441,12 @@ const NotificationsPageDesign = () => {
               {filteredNotifications.length === 0 ? (
                 <div className="p-12 text-center">
                   <div className="text-6xl mb-4">🔔</div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">No notifications found</h3>
-                  <p className="text-gray-600">Try adjusting your filters or search criteria</p>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    No notifications found
+                  </h3>
+                  <p className="text-gray-600">
+                    Try adjusting your filters or search criteria
+                  </p>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-100">
@@ -399,15 +454,19 @@ const NotificationsPageDesign = () => {
                     <div
                       key={notification.id}
                       className={`p-6 hover:bg-gray-50 transition-colors ${
-                        !notification.isRead ? 'bg-blue-50' : ''
+                        !notification.isRead ? "bg-blue-50" : ""
                       }`}
                     >
                       <div className="flex gap-4">
                         {/* Checkbox */}
                         <input
                           type="checkbox"
-                          checked={selectedNotifications.includes(notification.id)}
-                          onChange={() => toggleSelectNotification(notification.id)}
+                          checked={selectedNotifications.includes(
+                            notification.id
+                          )}
+                          onChange={() =>
+                            toggleSelectNotification(notification.id)
+                          }
                           className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                         />
 
@@ -420,9 +479,13 @@ const NotificationsPageDesign = () => {
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start mb-2">
                             <div>
-                              <h4 className={`font-semibold ${
-                                !notification.isRead ? 'text-gray-800' : 'text-gray-600'
-                              }`}>
+                              <h4
+                                className={`font-semibold ${
+                                  !notification.isRead
+                                    ? "text-gray-800"
+                                    : "text-gray-600"
+                                }`}
+                              >
                                 {notification.title}
                               </h4>
                               <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
@@ -436,7 +499,9 @@ const NotificationsPageDesign = () => {
                               <div className="flex gap-1">
                                 {!notification.isRead ? (
                                   <button
-                                    onClick={() => markAsRead([notification.id])}
+                                    onClick={() =>
+                                      markAsRead([notification.id])
+                                    }
                                     className="p-1 text-gray-400 hover:text-green-600 transition-colors"
                                     title="Mark as read"
                                   >
@@ -444,7 +509,9 @@ const NotificationsPageDesign = () => {
                                   </button>
                                 ) : (
                                   <button
-                                    onClick={() => markAsUnread([notification.id])}
+                                    onClick={() =>
+                                      markAsUnread([notification.id])
+                                    }
                                     className="p-1 text-gray-400 hover:text-yellow-600 transition-colors"
                                     title="Mark as unread"
                                   >
@@ -452,7 +519,9 @@ const NotificationsPageDesign = () => {
                                   </button>
                                 )}
                                 <button
-                                  onClick={() => removeNotifications([notification.id])}
+                                  onClick={() =>
+                                    removeNotifications([notification.id])
+                                  }
                                   className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                                   title="Remove notification"
                                 >
@@ -481,4 +550,4 @@ const NotificationsPageDesign = () => {
   );
 };
 
-export default NotificationsPageDesign;
+export default ProviderNotification;

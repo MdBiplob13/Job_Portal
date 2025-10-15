@@ -237,7 +237,8 @@ const DashboardNavbar = () => {
                   {/* Footer */}
                   <div className="p-4 border-t border-gray-200">
                     <Link
-                      href="/pages/dashboard/notifications"
+                      href="/pages/dashboard/provider/providerNotification"
+                      onClick={() => setIsNotificationOpen(false)}
                       className="w-full bg-gray-100 text-gray-700 py-2 rounded-xl font-medium hover:bg-gray-200 transition-colors flex items-center justify-center"
                     >
                       View All Notifications

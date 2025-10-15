@@ -116,7 +116,7 @@ const MOCK_JOBS = [
   },
 ];
 
-export default function ProviderDashboardJobs() {
+export default function ProviderJobs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
