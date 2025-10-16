@@ -10,7 +10,7 @@ const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
 const SALARY_TYPES = ["Monthly", "Hourly", "Fixed"];
 const SEARCH_TYPE = ["Individual", "Tender"];
 
-export default function PostAJob() {
+export default function ProviderPost() {
   const [form, setForm] = useState({
     title: "",
     company: "",
@@ -64,8 +64,6 @@ export default function PostAJob() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-100">
-      <Navbar />
-
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-12">
@@ -207,7 +205,6 @@ export default function PostAJob() {
         </form>
       </main>
 
-      <Footer />
     </div>
   );
 }

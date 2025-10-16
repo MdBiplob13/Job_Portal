@@ -252,7 +252,7 @@ export default function ProviderProfile() {
       </div>
 
       {/* Tab Content */}
-      <div className="px-6 mb-8">
+      <div className="px-6 mb-8 mx-auto">
         {/* Personal Details */}
         {activeTab === "personal" && (
           <div className="grid lg:grid-cols-2 gap-8">

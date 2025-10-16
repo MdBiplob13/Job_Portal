@@ -135,7 +135,7 @@ const DashboardNavbar = () => {
             </div>
 
             <Link
-              href="/post-a-job"
+              href="/pages/dashboard/provider/providerPost"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-blue-600 bg-white text-blue-600 font-medium hover:bg-blue-50 transition"
             >
               <FiPlus size={16} />

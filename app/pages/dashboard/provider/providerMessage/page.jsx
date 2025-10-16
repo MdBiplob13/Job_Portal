@@ -33,7 +33,7 @@ const messagesData = [
   {
     id: 2,
     name: "Oliver Jones",
-    avatar: "/user2.jpeg",
+    avatar: "/user1.jpeg",
     job: "Dock Reconstruction",
     message: "The materials have been delivered. Ready to start work tomorrow.",
     time: "1 hour ago",
@@ -46,7 +46,7 @@ const messagesData = [
   {
     id: 3,
     name: "Samuel Morgan",
-    avatar: "/user3.jpeg",
+    avatar: "/user1.jpeg",
     job: "E-Waste Recycling Partnership",
     message: "Thanks for the quick response. Looking forward to working with you.",
     time: "2 hours ago",
@@ -72,7 +72,7 @@ const messagesData = [
   {
     id: 5,
     name: "Michael Chen",
-    avatar: "/user2.jpeg",
+    avatar: "/user1.jpeg",
     job: "Park Landscaping Project",
     message: "The weather looks good for the next few days. Should we proceed?",
     time: "1 day ago",
@@ -298,12 +298,7 @@ export default function ProviderMessage() {
             </div>
             
             <div className="flex items-center gap-3">
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <FiPhone className="text-gray-600" />
-              </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <FiVideo className="text-gray-600" />
-              </button>
+              
               <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
                 View Project
               </button>

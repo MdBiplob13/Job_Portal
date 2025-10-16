@@ -1,5 +1,6 @@
 // app/components/Dashboard/Jobs/JobsPage.jsx
 "use client";
+import Link from "next/link";
 import React, { useState, useMemo } from "react";
 import {
   FiSearch,
@@ -537,10 +538,10 @@ export default function ProviderJobs() {
               Manage and track all your job postings in one place
             </p>
           </div>
-          <button className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
+          <Link href={'/pages/dashboard/provider/providerPost'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
             <FiPlus className="text-lg" />
             Post New Job
-          </button>
+          </Link>
         </div>
 
         {/* Stats Overview */}
