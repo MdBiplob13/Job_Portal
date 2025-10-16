@@ -7,22 +7,28 @@ export default function Hero() {
     <section className="w-full bg-gradient-to-r from-blue-100 via-white to-gray-50 -mt-[62px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col md:flex-row items-center min-h-[600px] gap-8 md:gap-12">
         {/* Left Side Content */}
-        <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-2">
+        <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-20">
           <span className="inline-block px-4 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full">
             CAMEROON’S #1 JOB PLATFORM
           </span>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
-            Find the career <br className="hidden md:block" /> that fits your life
+            Find the career <br className="hidden md:block" /> that fits your
+            life
           </h1>
 
           <p className="text-base sm:text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
-            Explore thousands of opportunities across industries. Whether you’re a fresher or an experienced professional, we’ll help you land your dream job.
+            Explore thousands of opportunities across industries. Whether you’re
+            a fresher or an experienced professional, we’ll help you land your
+            dream job.
           </p>
 
           {/* Call to Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            {[["Earn from bid", "/pages/searchAJob"], ["Post a bid", "/pages/postAJob"]].map(([text, href], idx) => (
+            {[
+              ["Earn from bid", "/pages/searchAJob"],
+              ["Post a bid", "/pages/postAJob"],
+            ].map(([text, href], idx) => (
               <Link
                 key={idx}
                 href={href}
@@ -53,8 +59,6 @@ export default function Hero() {
               Search
             </button>
           </div>
-
-  
         </div>
 
         {/* Right Side Image */}
@@ -62,7 +66,7 @@ export default function Hero() {
           <img
             src="/black_man.jpeg"
             alt="Model"
-            className="max-w-[250px] sm:max-w-[300px] md:max-w-xs lg:max-w-sm object-contain"
+            className="max-w-[250px] sm:max-w-[300px] md:max-w-xs lg:max-w-sm object-contain mt-24"
           />
         </div>
       </div>
