@@ -12,8 +12,8 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Find Jobs", path: "/pages/searchAJob" },
-    { name: "Find Professionals", path: "/pages/searchProfessionals" },
+    { name: "Search Jobs & tenders", path: "/pages/searchAJob" },
+    { name: "Search Professionals", path: "/pages/searchProfessionals" },
     { name: "Blogs", path: "/pages/blogs" },
     { name: "About Us", path: "/pages/aboutUs" },
     { name: "Our Pricing", path: "/pages/pricing" },
@@ -69,13 +69,22 @@ const Navbar = () => {
                   show ? "absolute" : "hidden"
                 } flex flex-col w-[200px] h-[180px] top-13 rounded-md right-0 bg-blue-500 text-white p-4 `}
               >
-                <Link href={'/pages/dashboard/customer'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90">
+                <Link
+                  href={"/pages/dashboard/customer"}
+                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90"
+                >
                   Customer Profile
                 </Link>
-                <Link href={'/pages/dashboard/provider'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                <Link
+                  href={"/pages/dashboard/provider"}
+                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3"
+                >
                   Provider Profile
                 </Link>
-                <Link href={'/pages/dashboard/admin'} className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3">
+                <Link
+                  href={"/pages/dashboard/admin"}
+                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3"
+                >
                   Admin Profile
                 </Link>
               </div>

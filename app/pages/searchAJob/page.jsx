@@ -2,6 +2,7 @@
 import Navbar from "@/app/components/Navbar/Navbar";
 import React, { useState, useMemo } from "react";
 import { ChevronDown, ChevronUp, Filter, MapPin, Clock, DollarSign, Users } from "lucide-react";
+import { BsBag } from "react-icons/bs";
 import Footer from "@/app/components/Footer/Footer";
 import Link from "next/link";
 
@@ -28,6 +29,7 @@ const MOCK_JOBS = [
     description: "We are looking for a passionate Frontend Engineer who loves building UIs with React and Next.js.",
     workTime: "9:00 - 17:00",
     workDays: "Mon-Fri",
+    searchType: "Individual",
   },
   {
     id: 2,
@@ -51,6 +53,7 @@ const MOCK_JOBS = [
     description: "Experienced Node.js dev to build scalable APIs and services.",
     workTime: "Flexible",
     workDays: "Any",
+    searchType: "Tenders",
   },
   {
     id: 3,
@@ -74,6 +77,7 @@ const MOCK_JOBS = [
     description: "Entry-level QA tester for web applications.",
     workTime: "10:00 - 18:00",
     workDays: "Mon-Sat",
+    searchType: "Tenders",
   },
 ];
 
@@ -175,6 +179,12 @@ export default function SearchAJob() {
             <Users className="w-4 h-4" />
             <span className="text-sm">{job.currentBids}/{job.maxBids} bids</span>
           </div>
+
+          {/* show search type */}
+          <div className="flex items-center gap-2 text-slate-600">
+            <BsBag className="w-4 h-4" />
+            <h1>{job.searchType}</h1>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-4">
@@ -208,9 +218,9 @@ export default function SearchAJob() {
 
       {/* HERO SECTION */}
       <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Your Dream Job</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Your Dream Job And tenders</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
-          Explore thousands of job opportunities that match your skills and career goals. Filter, search, and apply seamlessly.
+          Explore thousands of job And tender opportunities that match your skills and career goals. Filter, search, and apply seamlessly.
         </p>
       </section>
 
