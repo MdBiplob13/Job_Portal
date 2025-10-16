@@ -263,14 +263,13 @@ export default function ProviderReview() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Client Reviews</h1>
-          <p className="text-gray-600 mt-2">See what your clients are saying about your work</p>
-        </div>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Client Reviews</h1>
+        <p className="text-gray-600 mt-2">See what your clients are saying about your work</p>
+      </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+      <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar - Stats and Filters */}
           <div className="lg:col-span-1 space-y-6">
             {/* Overall Rating Card */}
@@ -416,7 +415,6 @@ export default function ProviderReview() {
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

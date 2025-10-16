@@ -139,7 +139,7 @@ export default function ProviderProfile() {
         <div className="h-48 bg-gradient-to-r from-blue-500 to-blue-600"></div>
 
         {/* Profile Content Overlay */}
-        <div className="relative -top-16 max-w-6xl mx-auto px-6">
+        <div className="relative -top-16 px-6">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
             <div className="flex flex-col lg:flex-row items-start gap-8">
               {/* Profile Photo */}
@@ -218,7 +218,7 @@ export default function ProviderProfile() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="max-w-6xl mx-auto px-6 -mt-8 mb-8">
+      <div className="px-6 -mt-8 mb-8">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-1">
           <div className="flex overflow-x-auto">
             {[
@@ -252,7 +252,7 @@ export default function ProviderProfile() {
       </div>
 
       {/* Tab Content */}
-      <div className="max-w-6xl mx-auto px-6 mb-8">
+      <div className="px-6 mb-8">
         {/* Personal Details */}
         {activeTab === "personal" && (
           <div className="grid lg:grid-cols-2 gap-8">

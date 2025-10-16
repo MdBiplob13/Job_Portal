@@ -13,7 +13,7 @@ const layout = ({ children }) => {
         {/* Sidebar */}
         <ProviderSideBar />
 
-        <div className="mx-auto">{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
     </div>
   );
