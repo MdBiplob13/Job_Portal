@@ -5,7 +5,7 @@ const AdminDashboardHomePage = () => {
   return (
     <div>
       <DashboardNavbar />
-      AdminDashboardHomePage
+      <h1>Page design in progress</h1>
     </div>
   );
 };

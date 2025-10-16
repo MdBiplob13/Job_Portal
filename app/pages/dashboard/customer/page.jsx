@@ -5,7 +5,7 @@ const CustomerDashboardHomePage = () => {
   return (
     <div>
       <DashboardNavbar />
-      CustomerDashboardHomePage
+      <h1>Page design in progress</h1>
     </div>
   );
 };
