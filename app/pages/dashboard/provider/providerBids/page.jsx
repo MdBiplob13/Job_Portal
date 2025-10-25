@@ -261,7 +261,7 @@ export default function ProviderBids() {
               <FiEdit className="text-sm" />
               Edit Bid
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors cursor-pointer">
               <FiEye className="text-sm" />
               View Details
             </button>
@@ -274,7 +274,7 @@ export default function ProviderBids() {
               <FiMessageCircle className="text-sm" />
               Contact Client
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-primary transition-colors">
               <FiAward className="text-sm" />
               Negotiate
             </button>
@@ -282,7 +282,7 @@ export default function ProviderBids() {
         );
       case "won":
         return (
-          <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors w-full justify-center">
+          <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-primary transition-colors w-full justify-center">
             <FiCheckCircle className="text-sm" />
             Start Project
           </button>
@@ -350,7 +350,7 @@ export default function ProviderBids() {
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <FiDollarSign className="text-gray-400" />
-            <span className="text-sm font-semibold text-green-600">
+            <span className="text-sm font-semibold text-primary">
               My Bid: {bid.myBid}
             </span>
           </div>
@@ -546,7 +546,7 @@ export default function ProviderBids() {
             </button>
             <button
               onClick={() => setIsFilterOpen(false)}
-              className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+              className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-primary transition-colors"
             >
               Apply Filters
             </button>
@@ -567,7 +567,7 @@ export default function ProviderBids() {
               Track and manage all your submitted bids and tender applications
             </p>
           </div>
-          <Link href={'/pages/dashboard/provider/post/bids'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
+          <Link href={'/pages/dashboard/provider/post/bids'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center gap-2 w-fit cursor-pointer">
             <FiPlus className="text-lg" />
             Post New Bids
           </Link>
@@ -582,7 +582,7 @@ export default function ProviderBids() {
             <div className="text-gray-600 text-sm">Total Bids</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-primary">
               {stats.submitted}
             </div>
             <div className="text-gray-600 text-sm">Submitted</div>
@@ -594,7 +594,7 @@ export default function ProviderBids() {
             <div className="text-gray-600 text-sm">Shortlisted</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-primary">
               {stats.won}
             </div>
             <div className="text-gray-600 text-sm">Won</div>
@@ -677,7 +677,7 @@ export default function ProviderBids() {
             <p className="text-gray-600 mb-6">
               Try adjusting your search criteria or filters
             </p>
-            <Link href={'/pages/dashboard/provider/post/bids'} className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block">
+            <Link href={'/pages/dashboard/provider/post/bids'} className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary transition-colors inline-block">
               Post New Bids
             </Link>
           </div>

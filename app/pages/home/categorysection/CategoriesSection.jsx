@@ -25,7 +25,7 @@ export default function CategoriesSection() {
             transition={{ duration: 0.7 }}
             className="text-3xl md:text-4xl font-extrabold text-gray-900"
           >
-            Explore Popular <span className="text-blue-600">Categories</span>
+            Explore Popular <span className="text-primary">Categories</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -89,11 +89,11 @@ export default function CategoriesSection() {
           transition={{ delay: 0.5 }}
           className="flex justify-center mt-16"
         >
-          <button className="relative px-10 py-3 rounded-full font-medium text-blue-600 border border-blue-600 overflow-hidden group">
+          <button className="relative px-10 py-3 rounded-full font-medium text-primary border border-primary overflow-hidden group">
             <span className="relative z-10 group-hover:text-white transition-colors duration-500">
               Browse All Categories
             </span>
-            <span className="absolute inset-0 bg-blue-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></span>
+            <span className="absolute inset-0 bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></span>
           </button>
         </motion.div>
       </div>

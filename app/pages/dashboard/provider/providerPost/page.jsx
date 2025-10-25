@@ -67,7 +67,7 @@ export default function ProviderPost() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary to-blue-800 bg-clip-text text-transparent">
             Post a Job / Bid
           </h1>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -190,13 +190,13 @@ export default function ProviderPost() {
                   });
                   toast.success("Form cleared");
                 }}
-                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition"
+                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-primary font-medium rounded-xl hover:bg-blue-50 transition"
               >
                 Clear
               </button>
               <button
                 type="submit"
-                className="flex-1 md:flex-none px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
+                className="flex-1 md:flex-none px-6 py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
               >
                 Publish Job
               </button>
@@ -251,7 +251,7 @@ function Select({ label, options, value, onChange }) {
 function Checkbox({ label, checked, onChange }) {
   return (
     <div className="flex items-center gap-3 mt-5">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-blue-600" />
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-primary" />
       <label className="text-sm text-gray-700">{label}</label>
     </div>
   );
@@ -272,7 +272,7 @@ function TagInput({ label, value, setValue, addItem, removeItem, items }) {
         <button
           type="button"
           onClick={() => addItem(value)}
-          className="px-5 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+          className="px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 transition"
         >
           Add
         </button>
@@ -282,7 +282,7 @@ function TagInput({ label, value, setValue, addItem, removeItem, items }) {
         {items.map((i) => (
           <span
             key={i}
-            className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm"
+            className="inline-flex items-center gap-2 bg-blue-50 text-secondary px-3 py-1.5 rounded-full text-sm"
           >
             {i}
             <button type="button" onClick={() => removeItem(i)} className="hover:text-blue-900">✕</button>

@@ -91,12 +91,12 @@ export default function Stats() {
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-100/40 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
 
             {/* Icon */}
-            <div className="relative z-10 flex justify-center mb-4 text-blue-600 text-4xl">
+            <div className="relative z-10 flex justify-center mb-4 text-primary text-4xl">
               {stat.icon}
             </div>
 
             {/* Counter */}
-            <h3 className="relative z-10 text-4xl font-extrabold text-blue-700">
+            <h3 className="relative z-10 text-4xl font-extrabold text-secondary">
               {visible ? <Counter target={stat.target} duration={2000} /> : 0}
               {stat.suffix}
             </h3>

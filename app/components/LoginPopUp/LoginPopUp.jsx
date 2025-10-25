@@ -37,7 +37,7 @@ export default function LoginPopUp({ isOpen, onClose }) {
           <X size={22} />
         </button>
 
-        <h2 className="text-2xl font-bold text-blue-600 text-center mb-2">
+        <h2 className="text-2xl font-bold text-primary text-center mb-2">
           Welcome back
         </h2>
         <p className="text-slate-600 text-center mb-6">
@@ -89,14 +89,14 @@ export default function LoginPopUp({ isOpen, onClose }) {
               Remember me
             </label>
 
-            <Link href="/forgot-password" className="text-sm text-blue-600">
+            <Link href="/forgot-password" className="text-sm text-primary">
               Forgot password?
             </Link>
           </div>
 
           <button
             type="submit"
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-md"
+            className="w-full px-4 py-2 bg-primary text-white rounded-md"
           >
             Sign in
           </button>
@@ -104,7 +104,7 @@ export default function LoginPopUp({ isOpen, onClose }) {
 
         <div className="mt-4 text-center text-sm text-slate-600">
           Don’t have an account?{" "}
-          <Link href="/pages/auth/signup" className="text-blue-600 underline">
+          <Link href="/pages/auth/signup" className="text-primary underline">
             Create one
           </Link>
         </div>

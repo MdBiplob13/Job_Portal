@@ -191,7 +191,7 @@ export default function SearchAJob() {
           {job.skills.slice(0, 3).map((skill) => (
             <span
               key={skill}
-              className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full"
+              className="text-xs px-3 py-1 bg-blue-100 text-secondary rounded-full"
             >
               {skill}
             </span>
@@ -218,7 +218,7 @@ export default function SearchAJob() {
 
       {/* HERO SECTION */}
       <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Your Dream Job</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Find Your Dream Job</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
           Explore thousands of job And tender opportunities that match your skills and career goals. Filter, search, and apply seamlessly.
         </p>
@@ -229,7 +229,7 @@ export default function SearchAJob() {
           {/* FILTERS SIDEBAR */}
           <aside className="bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-md sticky top-24 h-fit">
             <div className="flex items-center gap-2 mb-5">
-              <Filter className="text-blue-600" />
+              <Filter className="text-primary" />
               <h2 className="text-lg font-semibold text-slate-800">Filter Jobs</h2>
             </div>
 
@@ -297,7 +297,7 @@ export default function SearchAJob() {
                       onClick={() => toggleJobType(t)}
                       className={`px-3 py-1 rounded-full text-sm border transition ${
                         filters.jobTypes.has(t)
-                          ? "bg-blue-600 text-white border-blue-600"
+                          ? "bg-primary text-white border-primary"
                           : "bg-white border-slate-300 text-slate-700 hover:bg-slate-100"
                       }`}
                     >
@@ -383,7 +383,7 @@ export default function SearchAJob() {
                     searchQuery: "",
                   })
                 }
-                className="w-full py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow hover:from-blue-600 hover:to-blue-700 transition"
+                className="w-full py-2 bg-gradient-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
               >
                 Reset Filters
               </button>

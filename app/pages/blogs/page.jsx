@@ -64,7 +64,7 @@ export default function Blogs() {
 
       {/* HERO */}
      <header className="relative overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+      <div className="bg-gradient-to-r from-primary to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* LEFT SIDE (unchanged) */}
@@ -82,7 +82,7 @@ export default function Blogs() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/pages/searchAJob"
-                  className="inline-block px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow hover:shadow-md transition"
+                  className="inline-block px-6 py-3 bg-white text-primary font-medium rounded-lg shadow hover:shadow-md transition"
                 >
                   Search Jobs
                 </Link>
@@ -114,7 +114,7 @@ export default function Blogs() {
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
                 {/* Header Strip */}
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
+                <div className="bg-gradient-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
                   <h3 className="text-xl font-semibold flex items-center gap-2">
                     <Briefcase size={22} /> Featured Job
                   </h3>
@@ -134,7 +134,7 @@ export default function Blogs() {
                         Remote • Full Time
                       </p>
                     </div>
-                    <div className="bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1 rounded-full">
+                    <div className="bg-blue-100 text-primary text-xs font-medium px-3 py-1 rounded-full">
                       $80k - $100k
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export default function Blogs() {
                   <div className="pt-3">
                     <Link
                       href="/pages/searchAJob"
-                      className="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
+                      className="w-full block text-center bg-primary hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
                     >
                       View Details
                     </Link>
@@ -191,7 +191,7 @@ export default function Blogs() {
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="p-8">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="inline-flex items-center gap-2 bg-blue-50 text-secondary px-3 py-1 rounded-full text-sm font-medium">
                     Featured
                   </div>
                   <div className="text-sm text-slate-400">• Admin post</div>
@@ -203,7 +203,7 @@ export default function Blogs() {
                 <div className="mt-6 flex items-center gap-3 text-sm text-slate-500">
                   {/* Admin chip (no photo) */}
                   <div className="inline-flex items-center gap-3 bg-slate-100 px-3 py-1 rounded-full">
-                    <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">A</div>
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">A</div>
                     <div>
                       <div className="font-medium">Admin</div>
                       <div className="text-xs text-slate-400">Sep 1, 2025 • 8 min read</div>
@@ -212,8 +212,8 @@ export default function Blogs() {
                 </div>
 
                 <div className="mt-6 flex gap-3">
-                  <Link href="/blogs/featured" className="px-4 py-2 bg-blue-600 text-white rounded-md">Read article</Link>
-                  <Link href="/signup" className="px-4 py-2 border border-blue-200 rounded-md text-blue-600">Create account to save</Link>
+                  <Link href="/blogs/featured" className="px-4 py-2 bg-primary text-white rounded-md">Read article</Link>
+                  <Link href="/signup" className="px-4 py-2 border border-blue-200 rounded-md text-primary">Create account to save</Link>
                 </div>
               </div>
 
@@ -237,7 +237,7 @@ export default function Blogs() {
               <article key={post.id} className="bg-white rounded-2xl shadow p-4 md:p-6 flex gap-4 items-start">
                 {/* removed photo: small category badge instead */}
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-lg bg-blue-50 flex items-center justify-center text-blue-700 font-semibold">
+                  <div className="w-16 h-16 rounded-lg bg-blue-50 flex items-center justify-center text-secondary font-semibold">
                     {post.category.slice(0,2).toUpperCase()}
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function Blogs() {
                   <p className="mt-1 text-sm text-slate-600">{post.excerpt}</p>
 
                   <div className="mt-3 flex items-center gap-3">
-                    <Link href={`/blogs/${post.id}`} className="text-sm font-medium text-blue-600">Read more →</Link>
+                    <Link href={`/blogs/${post.id}`} className="text-sm font-medium text-primary">Read more →</Link>
                     <div className="text-sm text-slate-500">by {post.author}</div>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export default function Blogs() {
             <label className="sr-only">Search articles</label>
             <div className="flex items-center gap-2">
               <input type="text" placeholder="Search articles..." className="flex-1 px-3 py-2 bg-slate-50 rounded-md border border-slate-200" />
-              <button className="px-3 py-2 bg-blue-600 text-white rounded-md">Search</button>
+              <button className="px-3 py-2 bg-primary text-white rounded-md">Search</button>
             </div>
           </div>
 
@@ -287,7 +287,7 @@ export default function Blogs() {
             <h4 className="font-medium">Categories</h4>
             <div className="mt-3 flex flex-wrap gap-2">
               {Object.entries(counts).map(([cat, cnt]) => (
-                <button key={cat} className="text-xs px-3 py-1 bg-slate-100 rounded-full hover:bg-blue-50 hover:text-blue-600 flex items-center gap-2 cursor-pointer">
+                <button key={cat} className="text-xs px-3 py-1 bg-slate-100 rounded-full hover:bg-blue-50 hover:text-primary flex items-center gap-2 cursor-pointer">
                   <span className="font-medium">{cat}</span>
                   <span className="text-slate-500 text-xs">({cnt})</span>
                 </button>
@@ -301,11 +301,11 @@ export default function Blogs() {
             <ul className="mt-3 space-y-3">
               {samplePosts.slice(0,3).map((p) => (
                 <li key={p.id} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-medium">
+                  <div className="w-10 h-10 rounded-full bg-blue-50 text-secondary flex items-center justify-center font-medium">
                     A
                   </div>
                   <div>
-                    <Link href={`/blogs/${p.id}`} className="text-sm font-medium text-slate-800 hover:text-blue-600">{p.title}</Link>
+                    <Link href={`/blogs/${p.id}`} className="text-sm font-medium text-slate-800 hover:text-primary">{p.title}</Link>
                     <div className="text-xs text-slate-400">{p.date}</div>
                   </div>
                 </li>
@@ -318,17 +318,17 @@ export default function Blogs() {
             <h4 className="font-medium">Tags</h4>
             <div className="mt-3 flex flex-wrap gap-2">
               {['hiring','remote','interview','culture','tips'].map((t) => (
-                <a key={t} href="#" className="text-xs px-3 py-1 bg-slate-100 rounded-full hover:bg-blue-50 hover:text-blue-600">#{t}</a>
+                <a key={t} href="#" className="text-xs px-3 py-1 bg-slate-100 rounded-full hover:bg-blue-50 hover:text-primary">#{t}</a>
               ))}
             </div>
           </div>
 
           {/* CTA: Get hiring insights (no subscribe) */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-xl shadow">
+          <div className="bg-gradient-to-r from-primary to-blue-500 text-white p-4 rounded-xl shadow">
             <h4 className="font-semibold">Get hiring insights</h4>
             <p className="text-sm mt-2">Create an account to save articles, bookmark guides, and get product updates tailored for recruiters.</p>
             <div className="mt-4 flex gap-2">
-              <Link href="/pages/auth/signup" className="flex-1 px-3 py-2 bg-white text-blue-600 rounded-md text-center">Create account</Link>
+              <Link href="/pages/auth/signup" className="flex-1 px-3 py-2 bg-white text-primary rounded-md text-center">Create account</Link>
               <Link href="/blogs/featured" className="flex-1 px-3 py-2 border border-white/40 rounded-md text-center">Read our guide</Link>
             </div>
           </div>
@@ -344,7 +344,7 @@ export default function Blogs() {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/blogs" className="px-5 py-3 bg-blue-600 text-white rounded-lg font-medium">All Articles</Link>
+            <Link href="/blogs" className="px-5 py-3 bg-primary text-white rounded-lg font-medium">All Articles</Link>
             <Link href="/pages/auth/signup" className="px-5 py-3 border border-slate-200 rounded-lg">Create Account</Link>
           </div>
         </div>

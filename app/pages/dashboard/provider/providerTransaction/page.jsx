@@ -170,7 +170,7 @@ const ProviderTransaction = () => {
       case "Bank Transfer":
         return <FiCreditCard className="text-blue-500" />;
       case "PayPal":
-        return <FiCreditCard className="text-blue-600" />;
+        return <FiCreditCard className="text-primary" />;
       case "Credit Card":
         return <FiCreditCard className="text-gray-600" />;
       default:
@@ -194,7 +194,7 @@ const ProviderTransaction = () => {
               <FiDownload className="text-sm" />
               Export
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors">
               <FiCalendar className="text-sm" />
               Filter by Date
             </button>
@@ -206,9 +206,9 @@ const ProviderTransaction = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-green-100 rounded-xl">
-                <FiTrendingUp className="text-green-600 text-xl" />
+                <FiTrendingUp className="text-primary text-xl" />
               </div>
-              <span className="text-sm text-green-600 font-semibold">+12.5%</span>
+              <span className="text-sm text-primary font-semibold">+12.5%</span>
             </div>
             <div className="text-2xl font-bold text-gray-800">${totalIncome.toLocaleString()}</div>
             <div className="text-gray-600 text-sm">Total Income</div>
@@ -228,9 +228,9 @@ const ProviderTransaction = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-blue-100 rounded-xl">
-                <FiDollarSign className="text-blue-600 text-xl" />
+                <FiDollarSign className="text-primary text-xl" />
               </div>
-              <span className="text-sm text-blue-600 font-semibold">+15.3%</span>
+              <span className="text-sm text-primary font-semibold">+15.3%</span>
             </div>
             <div className="text-2xl font-bold text-gray-800">${netEarnings.toLocaleString()}</div>
             <div className="text-gray-600 text-sm">Net Earnings</div>
@@ -297,7 +297,7 @@ const ProviderTransaction = () => {
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-gray-800 text-lg group-hover:text-blue-600 transition-colors">
+                      <h3 className="font-semibold text-gray-800 text-lg group-hover:text-primary transition-colors">
                         {transaction.title}
                       </h3>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(transaction.status)}`}>
@@ -332,7 +332,7 @@ const ProviderTransaction = () => {
                 <div className="flex items-center gap-4">
                   <div className="text-right">
                     <div className={`text-xl font-bold ${
-                      transaction.type === "income" ? "text-green-600" : "text-red-600"
+                      transaction.type === "income" ? "text-primary" : "text-red-600"
                     }`}>
                       {transaction.type === "income" ? "+" : ""}${Math.abs(transaction.amount).toLocaleString()}
                     </div>

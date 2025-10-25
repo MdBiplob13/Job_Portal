@@ -13,7 +13,7 @@ const AboutUs = () => {
 
       {/* HERO */}
      <header className="relative overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white">
+      <div className="bg-gradient-to-r from-primary to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* LEFT SIDE (unchanged) */}
@@ -31,7 +31,7 @@ const AboutUs = () => {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/pages/searchAJob"
-                  className="inline-block px-6 py-3 bg-white text-blue-600 font-medium rounded-lg shadow hover:shadow-md transition"
+                  className="inline-block px-6 py-3 bg-white text-primary font-medium rounded-lg shadow hover:shadow-md transition"
                 >
                   Search Jobs
                 </Link>
@@ -63,7 +63,7 @@ const AboutUs = () => {
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
                 {/* Header Strip */}
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
+                <div className="bg-gradient-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
                   <h3 className="text-xl font-semibold flex items-center gap-2">
                     <Briefcase size={22} /> Featured Job
                   </h3>
@@ -83,7 +83,7 @@ const AboutUs = () => {
                         Remote • Full Time
                       </p>
                     </div>
-                    <div className="bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1 rounded-full">
+                    <div className="bg-blue-100 text-primary text-xs font-medium px-3 py-1 rounded-full">
                       $80k - $100k
                     </div>
                   </div>
@@ -101,7 +101,7 @@ const AboutUs = () => {
                   <div className="pt-3">
                     <Link
                       href="/pages/searchAJob"
-                      className="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
+                      className="w-full block text-center bg-primary hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
                     >
                       View Details
                     </Link>
@@ -194,7 +194,7 @@ const AboutUs = () => {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/pages/searchAJob" className="px-5 py-3 bg-blue-600 text-white rounded-lg font-medium">Search Jobs</Link>
+            <Link href="/pages/searchAJob" className="px-5 py-3 bg-primary text-white rounded-lg font-medium">Search Jobs</Link>
             <Link href="/pages/postAJob" className="px-5 py-3 border border-slate-200 rounded-lg">Post a Job</Link>
           </div>
         </div>

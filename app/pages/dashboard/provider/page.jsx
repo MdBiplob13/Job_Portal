@@ -179,7 +179,7 @@ const ProviderHomePage = () => {
               >
                 {item.icon}
               </div>
-              <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+              <span className="text-sm font-semibold text-primary bg-green-50 px-2 py-1 rounded-full">
                 {item.trend}
               </span>
             </div>

@@ -26,7 +26,7 @@ export default function TrendingJobs() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
         <h2 className="text-center text-3xl md:text-4xl font-extrabold mb-10 text-gray-900">
-          Trending Job Roles in <span className="text-blue-600">Cameroon</span>
+          Trending Job Roles in <span className="text-primary">Cameroon</span>
         </h2>
 
         {/* --- MOBILE VERSION (Horizontal Scroll) --- */}
@@ -42,7 +42,7 @@ export default function TrendingJobs() {
                   <p className="text-base font-semibold text-gray-800">{job.title}</p>
                   <p className="text-xs text-gray-500">{job.openings}</p>
                 </div>
-                <ArrowRight className="ml-3 w-5 h-5 text-blue-600" />
+                <ArrowRight className="ml-3 w-5 h-5 text-primary" />
               </div>
             ))}
           </div>
@@ -58,7 +58,7 @@ export default function TrendingJobs() {
                   <p className="text-base font-semibold text-gray-800">{job.title}</p>
                   <p className="text-xs text-gray-500">{job.openings}</p>
                 </div>
-                <ArrowRight className="ml-3 w-5 h-5 text-blue-600" />
+                <ArrowRight className="ml-3 w-5 h-5 text-primary" />
               </div>
             ))}
           </div>
@@ -76,7 +76,7 @@ export default function TrendingJobs() {
                   <p className="text-sm font-semibold text-gray-800">{job.title}</p>
                   <p className="text-xs text-gray-500">{job.openings}</p>
                 </div>
-                <ArrowRight className="ml-3 w-5 h-5 text-blue-600" />
+                <ArrowRight className="ml-3 w-5 h-5 text-primary" />
               </div>
             ))}
           </div>
@@ -91,7 +91,7 @@ export default function TrendingJobs() {
                   <p className="text-sm font-semibold text-gray-800">{job.title}</p>
                   <p className="text-xs text-gray-500">{job.openings}</p>
                 </div>
-                <ArrowRight className="ml-3 w-5 h-5 text-blue-600" />
+                <ArrowRight className="ml-3 w-5 h-5 text-primary" />
               </div>
             ))}
           </div>

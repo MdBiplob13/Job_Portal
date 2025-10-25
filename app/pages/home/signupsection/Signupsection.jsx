@@ -13,12 +13,12 @@ export default function SignUp() {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16">
         {/* Left Content */}
         <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">
-          <span className="inline-block px-5 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full shadow-sm">
+          <span className="inline-block px-5 py-1 text-sm font-semibold text-secondary bg-blue-100 rounded-full shadow-sm">
             Stay Ahead
           </span>
 
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-            Get job <span className="text-blue-600">alerts</span> <br className="hidden md:block" /> straight to your
+            Get job <span className="text-primary">alerts</span> <br className="hidden md:block" /> straight to your
             inbox
           </h2>
 
@@ -32,10 +32,10 @@ export default function SignUp() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link
               href="/pages/searchAJob"
-              className="relative px-8 py-3 rounded-lg border border-blue-600 text-blue-600 font-medium overflow-hidden group transition-all duration-500"
+              className="relative px-8 py-3 rounded-lg border border-primary text-primary font-medium overflow-hidden group transition-all duration-500"
             >
               {/* Background fill on hover */}
-              <span className="absolute inset-0 bg-blue-600 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></span>
+              <span className="absolute inset-0 bg-primary translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></span>
 
               {/* Text */}
               <span className="relative z-10 group-hover:text-white transition-colors duration-500">
@@ -47,7 +47,7 @@ export default function SignUp() {
         </div>
 
         {/* Right Image */}
-        <div className="w-full md:w-1/2 flex justify-center relative">
+        <div className="w-full md:w-1/2 flex justify-center relative ">
           <div className="relative z-10">
             <img
               src="/signin.jpg"

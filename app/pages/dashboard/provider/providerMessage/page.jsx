@@ -257,7 +257,7 @@ export default function ProviderMessage() {
                       <FiStar className="text-yellow-400 text-xs" />
                       <span className="text-xs text-gray-500">{item.rating}</span>
                     </div>
-                    <span className="text-xs font-semibold text-green-600">
+                    <span className="text-xs font-semibold text-primary">
                       {item.projectValue}
                     </span>
                   </div>
@@ -299,7 +299,7 @@ export default function ProviderMessage() {
             
             <div className="flex items-center gap-3">
               
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
+              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors text-sm font-medium">
                 View Project
               </button>
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
@@ -370,7 +370,7 @@ export default function ProviderMessage() {
                 disabled={!newMessage.trim()}
                 className={`p-3 rounded-xl transition-colors ${
                   newMessage.trim()
-                    ? "bg-blue-500 text-white hover:bg-blue-600"
+                    ? "bg-blue-500 text-white hover:bg-primary"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}
               >

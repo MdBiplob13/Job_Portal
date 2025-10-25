@@ -246,7 +246,7 @@ export default function ProviderJobs() {
               <FiEdit className="text-sm" />
               Edit
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors cursor-pointer">
               <FiEye className="text-sm" />
               View Bids
             </button>
@@ -259,7 +259,7 @@ export default function ProviderJobs() {
               <FiMessageCircle className="text-sm" />
               Message
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors">
               <FiCheckCircle className="text-sm" />
               Complete
             </button>
@@ -538,7 +538,7 @@ export default function ProviderJobs() {
               Manage and track all your job postings in one place
             </p>
           </div>
-          <Link href={'/pages/dashboard/provider/post/jobs'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
+          <Link href={'/pages/dashboard/provider/post/jobs'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center gap-2 w-fit cursor-pointer">
             <FiPlus className="text-lg" />
             Post New Job
           </Link>
@@ -553,7 +553,7 @@ export default function ProviderJobs() {
             <div className="text-gray-600 text-sm">Total Jobs</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-primary">
               {stats.published}
             </div>
             <div className="text-gray-600 text-sm">Published</div>
@@ -565,7 +565,7 @@ export default function ProviderJobs() {
             <div className="text-gray-600 text-sm">In Progress</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-primary">
               {stats.completed}
             </div>
             <div className="text-gray-600 text-sm">Completed</div>
@@ -638,7 +638,7 @@ export default function ProviderJobs() {
             </p>
             <button
               onClick={handleClearFilters}
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary transition-colors"
             >
               Clear Filters
             </button>

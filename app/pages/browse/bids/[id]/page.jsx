@@ -139,7 +139,7 @@ export default function JobDetailPage() {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-slate-800 mb-4">Job Not Found</h1>
-            <Link href="/pages/searchAJob" className="text-blue-600 hover:underline">
+            <Link href="/pages/searchAJob" className="text-primary hover:underline">
               ← Back to Job Listings
             </Link>
           </div>
@@ -173,7 +173,7 @@ export default function JobDetailPage() {
           <div className="flex items-center gap-4 mb-4">
             <Link 
               href="/pages/searchAJob" 
-              className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition"
+              className="flex items-center gap-2 text-slate-600 hover:text-primary transition"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Jobs
@@ -217,8 +217,8 @@ export default function JobDetailPage() {
                   onClick={() => setActiveSection(section.id)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
                     activeSection === section.id
-                      ? "bg-blue-600 text-white"
-                      : "text-slate-600 hover:text-blue-600 hover:bg-blue-50"
+                      ? "bg-primary text-white"
+                      : "text-slate-600 hover:text-primary hover:bg-blue-50"
                   }`}
                 >
                   <span className="text-lg">{section.icon}</span>
@@ -244,7 +244,7 @@ export default function JobDetailPage() {
                     <ul className="space-y-2">
                       {job.requirements.map((req, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <span className="text-blue-600 mt-1">•</span>
+                          <span className="text-primary mt-1">•</span>
                           <span className="text-slate-700">{req}</span>
                         </li>
                       ))}
@@ -256,7 +256,7 @@ export default function JobDetailPage() {
                     <ul className="space-y-2">
                       {job.responsibilities.map((resp, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <span className="text-blue-600 mt-1">•</span>
+                          <span className="text-primary mt-1">•</span>
                           <span className="text-slate-700">{resp}</span>
                         </li>
                       ))}
@@ -270,7 +270,7 @@ export default function JobDetailPage() {
                     {job.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
+                        className="px-4 py-2 bg-blue-100 text-secondary rounded-full text-sm font-medium"
                       >
                         {skill}
                       </span>
@@ -378,7 +378,7 @@ export default function JobDetailPage() {
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold text-slate-800">Current Bids ({job.currentBids})</h2>
-                  <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition">
+                  <button className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-blue-700 transition">
                     Propose Bid
                   </button>
                 </div>
@@ -410,7 +410,7 @@ export default function JobDetailPage() {
                         I'm available to start immediately and can work {job.workDays.toLowerCase()} from {job.workTime}.
                       </p>
                       <div className="flex items-center gap-4 mt-4">
-                        <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm">
+                        <button className="px-4 py-2 bg-primary   text-white rounded-lg hover:bg-secondary transition text-sm">
                           Accept Bid
                         </button>
                         <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition text-sm">
@@ -428,7 +428,7 @@ export default function JobDetailPage() {
                       <p className="text-slate-500">
                         +{job.currentBids - 5} more bids available
                       </p>
-                      <button className="mt-2 text-blue-600 hover:underline">
+                      <button className="mt-2 text-primary hover:underline">
                         View All Bids
                       </button>
                     </div>

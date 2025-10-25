@@ -280,7 +280,7 @@ const ProviderNotification = () => {
                 <>
                   <button
                     onClick={() => markAsRead(selectedNotifications)}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-blue-700 transition-colors"
                   >
                     <FiCheck size={16} />
                     Mark as Read
@@ -320,7 +320,7 @@ const ProviderNotification = () => {
                   </button>
                   <button
                     onClick={markAllAsRead}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-secondary transition-colors"
                   >
                     <FiCheckCircle size={16} />
                     Read All
@@ -467,7 +467,7 @@ const ProviderNotification = () => {
                           onChange={() =>
                             toggleSelectNotification(notification.id)
                           }
-                          className="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                          className="mt-1 w-4 h-4 text-primary rounded focus:ring-blue-500"
                         />
 
                         {/* Icon */}
@@ -502,7 +502,7 @@ const ProviderNotification = () => {
                                     onClick={() =>
                                       markAsRead([notification.id])
                                     }
-                                    className="p-1 text-gray-400 hover:text-green-600 transition-colors"
+                                    className="p-1 text-gray-400 hover:text-primary transition-colors"
                                     title="Mark as read"
                                   >
                                     <FiEye size={16} />

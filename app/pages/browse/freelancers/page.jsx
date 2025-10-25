@@ -170,7 +170,7 @@ export default function SearchProfessionals() {
           {professional.skills.slice(0, 3).map((skill) => (
             <span
               key={skill}
-              className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded-full"
+              className="text-xs px-3 py-1 bg-green-100 text-secondary rounded-full"
             >
               {skill}
             </span>
@@ -184,7 +184,7 @@ export default function SearchProfessionals() {
 
         <div className="flex items-center justify-between">
           <span className="text-sm text-slate-500">{professional.joinDate}</span>
-          <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+          <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition font-medium">
             Contract Now
           </button>
         </div>
@@ -198,7 +198,7 @@ export default function SearchProfessionals() {
 
       {/* HERO SECTION */}
       <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find freelancers</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Find freelancers</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
           Connect with skilled professionals and experts in various fields. Find the perfect match for your project.
         </p>
@@ -209,7 +209,7 @@ export default function SearchProfessionals() {
           {/* FILTERS SIDEBAR */}
           <aside className="bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-slate-100 shadow-md sticky top-24 h-fit">
             <div className="flex items-center gap-2 mb-5">
-              <Filter className="text-blue-600" />
+              <Filter className="text-primary" />
               <h2 className="text-lg font-semibold text-slate-800">Filter Professionals</h2>
             </div>
 
@@ -314,7 +314,7 @@ export default function SearchProfessionals() {
                     searchQuery: "",
                   })
                 }
-                className="w-full py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow hover:from-blue-600 hover:to-blue-700 transition"
+                className="w-full py-2 bg-gradient-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
               >
                 Reset Filters
               </button>

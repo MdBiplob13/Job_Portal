@@ -8,11 +8,11 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col md:flex-row items-center min-h-[600px] gap-8 md:gap-12">
         {/* Left Side Content */}
         <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-20">
-          <span className="inline-block px-4 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full">
+          <span className="inline-block px-4 py-1 text-sm font-semibold text-secondary bg-blue-100 rounded-full">
             The Caribbean’s first AI job seeker tool
           </span>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-black leading-snug">
             Post. Bid. Win.
           </h1>
 
@@ -29,9 +29,9 @@ export default function Hero() {
               <Link
                 key={idx}
                 href={href}
-                className="relative overflow-hidden px-4 py-3 border border-blue-600 text-blue-600 font-medium rounded-lg transition group w-full sm:w-auto"
+                className="relative overflow-hidden px-4 py-3 border border-primary text-secondary font-medium rounded-lg transition group w-full sm:w-auto"
               >
-                <span className="absolute top-0 left-0 w-0 h-full bg-blue-600 transition-all duration-500 ease-out group-hover:w-full"></span>
+                <span className="absolute top-0 left-0 w-0 h-full bg-primary transition-all duration-500 ease-out group-hover:w-full"></span>
                 <span className="relative z-10 transition-colors duration-500 ease-out group-hover:text-white">
                   {text}
                 </span>
@@ -44,15 +44,15 @@ export default function Hero() {
             <input
               type="text"
               placeholder="Search job or professional"
-              className="w-full sm:w-[280px] px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full sm:w-[280px] px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
             />
-            <select className="w-full sm:w-[180px] px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <select className="w-full sm:w-[180px] px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
               <option>Location</option>
               <option>Yaoundé</option>
               <option>Douala</option>
               <option>Bamenda</option>
             </select>
-            <button className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+            <button className="w-full sm:w-auto px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-secondary transition">
               Search
             </button>
           </div>

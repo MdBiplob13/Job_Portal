@@ -250,7 +250,7 @@ export default function ProviderReview() {
         {review.tags.map((tag, index) => (
           <span
             key={index}
-            className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium"
+            className="px-3 py-1 bg-blue-50 text-secondary rounded-full text-xs font-medium"
           >
             {tag}
           </span>
@@ -308,7 +308,7 @@ export default function ProviderReview() {
                 <div className="text-gray-600 text-sm">Total Reviews</div>
               </div>
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 text-center">
-                <div className="text-2xl font-bold text-green-600 mb-1">{stats.responseRate}%</div>
+                <div className="text-2xl font-bold text-primary mb-1">{stats.responseRate}%</div>
                 <div className="text-gray-600 text-sm">Response Rate</div>
               </div>
             </div>

@@ -136,7 +136,7 @@ export default function ProviderProfile() {
       {/* Top Banner Section */}
       <div className="relative">
         {/* Banner */}
-        <div className="h-48 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+        <div className="h-48 bg-gradient-to-r from-blue-500 to-primary"></div>
 
         {/* Profile Content Overlay */}
         <div className="relative -top-16 px-6">
@@ -148,7 +148,7 @@ export default function ProviderProfile() {
                   <div className="w-32 h-32 lg:w-40 lg:h-40 bg-gray-300 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white text-4xl font-bold">
                     {profileData.personal.name.charAt(0)}
                   </div>
-                  <button className="absolute bottom-2 right-2 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600 transition-colors">
+                  <button className="absolute bottom-2 right-2 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-primary transition-colors">
                     <FiEdit className="text-lg" />
                   </button>
                 </div>
@@ -199,7 +199,7 @@ export default function ProviderProfile() {
                     </button>
                     <button
                       onClick={() => setIsEditing(!isEditing)}
-                      className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2"
+                      className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-primary transition-colors flex items-center gap-2"
                     >
                       <FiEdit className="text-lg" />
                       Edit Profile
@@ -373,7 +373,7 @@ export default function ProviderProfile() {
                   {profileData.personal.languages.map((language, index) => (
                     <span
                       key={index}
-                      className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-medium text-sm"
+                      className="px-4 py-2 bg-blue-50 text-secondary rounded-xl font-medium text-sm"
                     >
                       {language}
                     </span>
@@ -398,7 +398,7 @@ export default function ProviderProfile() {
                 Skills & Expertise
               </h3>
               {isEditing && (
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-primary transition-colors">
                   Add Skill
                 </button>
               )}
@@ -447,7 +447,7 @@ export default function ProviderProfile() {
                   Work Experience
                 </h3>
                 {isEditing && (
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+                  <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-primary transition-colors">
                     Add Experience
                   </button>
                 )}
@@ -496,7 +496,7 @@ export default function ProviderProfile() {
                   Certificates & Licenses
                 </h3>
                 {isEditing && (
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+                  <button className="px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-primary transition-colors">
                     Add Certificate
                   </button>
                 )}
@@ -511,7 +511,7 @@ export default function ProviderProfile() {
                       className="p-4 border border-gray-200 rounded-xl hover:border-blue-500 transition-colors group"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-primary flex-shrink-0">
                           <FiCheck className="text-lg" />
                         </div>
                         <div className="flex-1">
@@ -579,7 +579,7 @@ export default function ProviderProfile() {
                 />
               </div>
 
-              <button className="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+              <button className="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-primary transition-colors">
                 Update Password
               </button>
             </div>

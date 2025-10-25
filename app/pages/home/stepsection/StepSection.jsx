@@ -34,7 +34,7 @@ export default function StepSection() {
       <div className="max-w-6xl mx-auto text-center">
         {/* Top Heading */}
         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-10">
-          How BidPole  <span className="text-blue-600">Works</span>
+          How BidPole  <span className="text-primary">Works</span>
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-14">
           A simple, transparent process to help you browse job opportunities, place bids and win contracts, tenders or earn as a freelancer all in one place.
@@ -52,12 +52,12 @@ export default function StepSection() {
               className="group flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-500 relative"
             >
               {/* Icon container */}
-              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-blue-400 text-white mb-6 group-hover:scale-110 transform transition-transform duration-500 shadow-lg">
+              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-blue-500 text-white mb-6 group-hover:scale-110 transform transition-transform duration-500 shadow-lg">
                 {step.icon}
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">
                 {step.title}
               </h3>
 

@@ -121,7 +121,7 @@ const ProviderNavbar = () => {
           {/* Left: Logo */}
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="text-xl font-bold text-blue-600">BidPole</div>
+              <div className="text-xl font-bold text-primary">BidPole</div>
             </Link>
           </div>
 
@@ -129,14 +129,14 @@ const ProviderNavbar = () => {
           <div className="flex items-center gap-4">
             {/* Post a Job & Credit Points */}
             <div className="flex items-center gap-3">
-              <div className="text-green-600 font-bold mr-5">
+              <div className="text-primary font-bold mr-5">
                 5 CREDIT POINTS
               </div>
             </div>
 
             <Link
               href="/pages/dashboard/customer"
-              className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-blue-600 bg-white text-blue-600 font-medium hover:bg-blue-50 transition"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-primary bg-white text-primary font-medium hover:bg-blue-50 transition"
             >
               <span className="text-sm">Switch to Freelancer</span>
             </Link>
@@ -169,7 +169,7 @@ const ProviderNavbar = () => {
                         </span>
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
+                          className="text-xs text-primary hover:text-secondary font-medium cursor-pointer"
                         >
                           Mark all read
                         </button>
@@ -220,7 +220,7 @@ const ProviderNavbar = () => {
                               {!notification.isRead && (
                                 <button
                                   onClick={() => markAsRead(notification.id)}
-                                  className="text-xs text-blue-600 hover:text-blue-700 font-medium flex cursor-pointer items-center gap-1"
+                                  className="text-xs text-primary hover:text-secondary font-medium flex cursor-pointer items-center gap-1"
                                 >
                                   <FiCheck size={12} />
                                   Mark read

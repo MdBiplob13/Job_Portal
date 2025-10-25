@@ -97,7 +97,7 @@ const Navbar = () => {
       <nav className="w-full bg-white shadow-md fixed top-0 left-0 z-50 h-16">
         <div className="mx-20 px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-blue-600">
+          <Link href="/" className="text-2xl font-bold text-primary">
             Job Pole
           </Link>
 
@@ -114,7 +114,7 @@ const Navbar = () => {
                     onMouseEnter={() => setActiveDropdown(link.name)}
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
-                    <button className="flex items-center px-3 py-2 text-gray-700 cursor-pointer hover:text-blue-600 transition font-medium">
+                    <button className="flex items-center px-3 py-2 text-gray-700 cursor-pointer hover:text-primary transition font-medium">
                       {link.name}
                       <ChevronDown className="ml-1 h-4 w-4 transition-transform" />
                     </button>
@@ -130,7 +130,7 @@ const Navbar = () => {
                           <Link
                             key={itemIdx}
                             href={item.path}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                             onClick={handleDropdownLinkClick}
                           >
                             {item.name}
@@ -142,7 +142,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     href={link.path}
-                    className="px-3 py-2 text-gray-700 hover:text-blue-600 transition font-medium"
+                    className="px-3 py-2 text-gray-700 hover:text-primary transition font-medium"
                   >
                     {link.name}
                   </Link>
@@ -155,13 +155,13 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/pages/auth/login"
-              className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+              className="px-4 py-2 border border-primary  text-primary rounded-lg hover:bg-blue-50 transition"
             >
               Login
             </Link>
             <Link
               href="/pages/auth/signup"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
             >
               Sign Up
             </Link>
@@ -181,21 +181,21 @@ const Navbar = () => {
                 <div className="absolute top-12 right-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                   <Link
                     href={"/pages/dashboard/customer"}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
                     Customer Profile
                   </Link>
                   <Link
                     href={"/pages/dashboard/provider"}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
                     Provider Profile
                   </Link>
                   <Link
                     href={"/pages/dashboard/admin"}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
                     Admin Profile
@@ -240,7 +240,7 @@ const Navbar = () => {
                             <Link
                               key={itemIdx}
                               href={item.path}
-                              className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition"
+                              className="block py-2 text-sm text-gray-600 hover:text-primary transition"
                               onClick={handleMobileLinkClick}
                             >
                               {item.name}
@@ -252,7 +252,7 @@ const Navbar = () => {
                   ) : (
                     <Link
                       href={link.path}
-                      className="block px-4 py-3 text-gray-700 hover:text-blue-600 transition font-medium"
+                      className="block px-4 py-3 text-gray-700 hover:text-primary transition font-medium"
                       onClick={handleMobileLinkClick}
                     >
                       {link.name}
@@ -265,14 +265,14 @@ const Navbar = () => {
               <div className="px-4 pt-4 border-t border-gray-200 space-y-3">
                 <Link
                   href="/pages/auth/login"
-                  className="block w-full text-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+                  className="block w-full text-center px-4 py-2 border border-primary text-primary rounded-lg hover:bg-blue-50 transition"
                   onClick={handleMobileLinkClick}
                 >
                   Login
                 </Link>
                 <Link
                   href="/pages/auth/signup"
-                  className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  className="block w-full text-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
                   onClick={handleMobileLinkClick}
                 >
                   Sign Up

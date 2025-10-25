@@ -20,8 +20,8 @@ const DashboardSidebar = ({ activeTab, setActiveTab }) => {
               <li key={item.id}>
                 <button
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center cursor-pointer w-full p-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 ${
-                    activeTab === item.id ? "bg-blue-100 text-blue-700" : ""
+                  className={`flex items-center cursor-pointer w-full p-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary ${
+                    activeTab === item.id ? "bg-blue-100 text-secondary" : ""
                   }`}
                 >
                   <span className="mr-3 text-lg">{item.icon}</span>

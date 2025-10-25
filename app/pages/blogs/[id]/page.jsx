@@ -38,7 +38,7 @@ export default function SingleBlogPage({ params }) {
               <div className="text-right">
                 <div className="text-sm text-slate-500">{post.category}</div>
                 <div className="mt-4 flex gap-2">
-                  <Link href="/signup" className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm">Create account</Link>
+                  <Link href="/signup" className="px-3 py-2 bg-primary text-white rounded-md text-sm">Create account</Link>
                   <Link href="/post-job" className="px-3 py-2 border border-slate-200 rounded-md text-sm">Post a job</Link>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default function SingleBlogPage({ params }) {
 
           {/* Footer CTAs */}
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link href="/signup" className="px-4 py-3 bg-blue-600 text-white rounded-md text-center">Create account to save</Link>
+            <Link href="/signup" className="px-4 py-3 bg-primary text-white rounded-md text-center">Create account to save</Link>
             <Link href="/contact" className="px-4 py-3 border border-slate-200 rounded-md text-center">Contact us for custom help</Link>
           </div>
         </article>
