@@ -154,7 +154,7 @@ export default function SearchAJob() {
   };
 
   const JobCard = ({ job }) => (
-    <Link href={`/pages/searchAJob/${job.id}`} className="block">
+    <Link href={`/pages/browse/jobs/${job.id}`} className="block">
       <div className="bg-white/80 backdrop-blur-sm border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
@@ -218,7 +218,7 @@ export default function SearchAJob() {
 
       {/* HERO SECTION */}
       <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Your Dream Job And tenders</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Your Dream Job</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
           Explore thousands of job And tender opportunities that match your skills and career goals. Filter, search, and apply seamlessly.
         </p>

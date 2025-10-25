@@ -34,10 +34,10 @@ export default function StepSection() {
       <div className="max-w-6xl mx-auto text-center">
         {/* Top Heading */}
         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-10">
-          Let's make thing <span className="text-blue-600">easily</span>
+          How BidPole  <span className="text-blue-600">Works</span>
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-14">
-          A simple and efficient process designed to save your time and connect you with the right providers.
+          A simple, transparent process to help you browse job opportunities, place bids and win contracts, tenders or earn as a freelancer all in one place.
         </p>
 
         {/* Steps */}

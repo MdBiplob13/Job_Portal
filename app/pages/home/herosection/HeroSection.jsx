@@ -9,25 +9,22 @@ export default function Hero() {
         {/* Left Side Content */}
         <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-20">
           <span className="inline-block px-4 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full">
-            CAMEROON’S #1 JOB PLATFORM
+            The Caribbean’s first AI job seeker tool
           </span>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
-            Find the career <br className="hidden md:block" /> that fits your
-            life
+            Post. Bid. Win.
           </h1>
 
           <p className="text-base sm:text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
-            Explore thousands of opportunities across industries. Whether you’re
-            a fresher or an experienced professional, we’ll help you land your
-            dream job.
+            One platform, endless opportunities
           </p>
 
           {/* Call to Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             {[
-              ["Earn from bid", "/pages/searchAJob"],
-              ["Post a bid", "/pages/postAJob"],
+              ["Browse Opportunities", "/pages/searchAJob"],
+              ["Post Bid", "/pages/postAJob"],
             ].map(([text, href], idx) => (
               <Link
                 key={idx}

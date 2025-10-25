@@ -154,3 +154,28 @@
 .PhoneInputCountry {
   margin-right: 12px;
 }
+
+.text-blue {
+  color: #53cbfb
+}
+.bg-blue {
+  background-color: #53cbfb;
+}
+.text-dark-blue {
+  color: #0443f2;
+}
+.bg-dark-blue {
+  background-color: #0443f2;
+}
+.text-black{
+  color: #040404
+}
+.bg-black{
+  background-color: #040404;
+}
+.text-alto{
+  color: #cfcfcf;
+}
+.bg-alto{
+  background-color: #cfcfcf;
+}

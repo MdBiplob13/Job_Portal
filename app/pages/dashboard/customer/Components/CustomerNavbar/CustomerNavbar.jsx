@@ -12,7 +12,7 @@ import {
   FiMailOpen,
 } from "react-icons/fi";
 
-const DashboardNavbar = () => {
+const CustomerNavbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
@@ -135,10 +135,10 @@ const DashboardNavbar = () => {
             </div>
 
             <Link
-              href="/pages/dashboard/customer"
+              href="/pages/dashboard/provider"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-blue-600 bg-white text-blue-600 font-medium hover:bg-blue-50 transition"
             >
-              <span className="text-sm">Switch to Freelancer</span>
+              <span className="text-sm">Switch to Provider</span>
             </Link>
 
             {/* Notification Dropdown */}
@@ -266,4 +266,4 @@ const DashboardNavbar = () => {
   );
 };
 
-export default DashboardNavbar;
+export default CustomerNavbar;

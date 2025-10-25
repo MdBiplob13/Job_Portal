@@ -11,10 +11,12 @@ import {
   FiLogOut,
   FiStar,
 } from "react-icons/fi";
+import { TbHammer } from "react-icons/tb";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", link:"/pages/dashboard/provider", icon: <FiHome /> },
   { id: "jobs", label: "My Jobs", link:"/pages/dashboard/provider/providerJobs", icon: <FiBriefcase /> },
+  { id: "bids", label: "My Bids", link:"/pages/dashboard/provider/providerBids", icon: <TbHammer /> },
   { id: "messages", label: "Messages", link:"/pages/dashboard/provider/providerMessage", icon: <FiMessageCircle /> },
   { id: "transactions", label: "Transactions", link:"/pages/dashboard/provider/providerTransaction", icon: <FiDollarSign /> },
   { id: "Reviews", label: "Reviews", link:"/pages/dashboard/provider/providerReview", icon: <FiStar /> },

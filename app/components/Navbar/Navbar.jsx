@@ -1,44 +1,157 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import LoginPopUp from "../LoginPopUp/LoginPopUp";
+import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Search Jobs & tenders", path: "/pages/searchAJob" },
-    { name: "Search Professionals", path: "/pages/searchProfessionals" },
-    { name: "Blogs", path: "/pages/blogs" },
-    { name: "About Us", path: "/pages/aboutUs" },
-    { name: "Our Pricing", path: "/pages/pricing" },
+    {
+      name: "Home",
+      path: "/",
+      dropdown: null,
+    },
+    {
+      name: "Browse",
+      path: "#",
+      dropdown: [
+        { name: "Browse Jobs", path: "/pages/browse/jobs" },
+        { name: "Browse Bids", path: "/pages/browse/bids" },
+        { name: "Browse Freelancers", path: "/pages/browse/freelancers" },
+      ],
+    },
+    // {
+    //   name: "Post Bid",
+    //   path: "#",
+    //   dropdown: [
+    //     { name: "Post a Job", path: "/pages/post-job" },
+    //     { name: "Post a Tender", path: "/pages/post-tender" },
+    //     { name: "Earn as a Freelancer", path: "/pages/become-freelancer" },
+    //   ],
+    // },
+    {
+      name: "How It Work",
+      path: "#",
+      dropdown: [
+        { name: "Posting Guide", path: "/pages/posting-guide" },
+        { name: "Video Tutorial", path: "/pages/video-tutorial" },
+        { name: "FAQ", path: "/pages/faq" },
+        { name: "Tips for Bidding", path: "/pages/bidding-tips" },
+      ],
+    },
+    {
+      name: "Pricing",
+      path: "/pages/pricing",
+      dropdown: null,
+    },
+    {
+      name: "About Us",
+      path: "#",
+      dropdown: [
+        { name: "Who We Are", path: "/pages/who-we-are" },
+        { name: "Our Mission/Vision", path: "/pages/mission-vision" },
+        { name: "Core Values", path: "/pages/core-values" },
+        { name: "Partner / Affiliates", path: "/pages/partners" },
+      ],
+    },
+    {
+      name: "Blogs",
+      path: "/pages/blogs",
+      dropdown: null,
+    },
   ];
+
+  const handleDropdownToggle = (name) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  const handleMobileLinkClick = () => {
+    setIsOpen(false);
+    setActiveDropdown(null);
+  };
+
+  const handleDropdownLinkClick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setActiveDropdown(null);
+  };
 
   return (
     <>
       <nav className="w-full bg-white shadow-md fixed top-0 left-0 z-50 h-16">
-        <div className="mx-10 px-5 md:px-10 flex justify-between items-center h-full">
+        <div className="mx-20 px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
+          {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-blue-600">
             Job Pole
           </Link>
 
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Desktop Navigation */}
+          <div
+            className="hidden md:flex items-center space-x-1"
+            ref={dropdownRef}
+          >
             {navLinks.map((link, idx) => (
-              <Link
-                key={idx}
-                href={link.path}
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                {link.name}
-              </Link>
+              <div key={idx} className="relative">
+                {link.dropdown ? (
+                  <div
+                    className="relative group"
+                    onMouseEnter={() => setActiveDropdown(link.name)}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
+                    <button className="flex items-center px-3 py-2 text-gray-700 cursor-pointer hover:text-blue-600 transition font-medium">
+                      {link.name}
+                      <ChevronDown className="ml-1 h-4 w-4 transition-transform" />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {activeDropdown === link.name && (
+                      <div
+                        className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                        onMouseEnter={() => setActiveDropdown(link.name)}
+                        onMouseLeave={() => setActiveDropdown(null)}
+                      >
+                        {link.dropdown.map((item, itemIdx) => (
+                          <Link
+                            key={itemIdx}
+                            href={item.path}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                            onClick={handleDropdownLinkClick}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href={link.path}
+                    className="px-3 py-2 text-gray-700 hover:text-blue-600 transition font-medium"
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
 
+          {/* Desktop Auth Buttons & User Profile */}
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/pages/auth/login"
@@ -53,44 +166,46 @@ const Navbar = () => {
               Sign Up
             </Link>
 
-            {/* user profile */}
-            <div className="cursor-pointer relative">
+            {/* User Profile Dropdown */}
+            <div className="relative">
               <Image
-                onClick={() => setShow(!show)}
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
                 src={"/user1.jpeg"}
                 alt="user"
                 width={60}
                 height={60}
-                className="rounded-lg"
+                className="rounded-lg cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
               />
 
-              <div
-                className={`${
-                  show ? "absolute" : "hidden"
-                } flex flex-col w-[200px] h-[180px] top-13 rounded-md right-0 bg-blue-500 text-white p-4 `}
-              >
-                <Link
-                  href={"/pages/dashboard/customer"}
-                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90"
-                >
-                  Customer Profile
-                </Link>
-                <Link
-                  href={"/pages/dashboard/provider"}
-                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3"
-                >
-                  Provider Profile
-                </Link>
-                <Link
-                  href={"/pages/dashboard/admin"}
-                  className=" bg-white text-blue-500 p-2 rounded-lg hover:bg-white/90 mt-3"
-                >
-                  Admin Profile
-                </Link>
-              </div>
+              {showUserDropdown && (
+                <div className="absolute top-12 right-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  <Link
+                    href={"/pages/dashboard/customer"}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    onClick={() => setShowUserDropdown(false)}
+                  >
+                    Customer Profile
+                  </Link>
+                  <Link
+                    href={"/pages/dashboard/provider"}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    onClick={() => setShowUserDropdown(false)}
+                  >
+                    Provider Profile
+                  </Link>
+                  <Link
+                    href={"/pages/dashboard/admin"}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                    onClick={() => setShowUserDropdown(false)}
+                  >
+                    Admin Profile
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             className="md:hidden p-2 rounded-md border border-gray-300"
             onClick={() => setIsOpen(!isOpen)}
@@ -99,36 +214,76 @@ const Navbar = () => {
           </button>
         </div>
 
+        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
-            <div className="flex flex-col items-center py-4 space-y-4">
+            <div className="flex flex-col py-4 space-y-2">
               {navLinks.map((link, idx) => (
-                <Link
-                  key={idx}
-                  href={link.path}
-                  className="text-gray-700 hover:text-blue-600 transition font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </Link>
+                <div key={idx}>
+                  {link.dropdown ? (
+                    <div className="px-4">
+                      <button
+                        className="flex items-center justify-between w-full py-3 text-gray-700 font-medium"
+                        onClick={() => handleDropdownToggle(link.name)}
+                      >
+                        {link.name}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            activeDropdown === link.name ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {activeDropdown === link.name && (
+                        <div className="ml-4 space-y-2 border-l-2 border-gray-200 pl-4 py-2">
+                          {link.dropdown.map((item, itemIdx) => (
+                            <Link
+                              key={itemIdx}
+                              href={item.path}
+                              className="block py-2 text-sm text-gray-600 hover:text-blue-600 transition"
+                              onClick={handleMobileLinkClick}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.path}
+                      className="block px-4 py-3 text-gray-700 hover:text-blue-600 transition font-medium"
+                      onClick={handleMobileLinkClick}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
               ))}
-              <Link
-                href="/pages/auth/login"
-                className="w-3/4 text-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition cursor-pointer"
-              >
-                Login
-              </Link>
-              <Link
-                href="/pages/auth/signup"
-                className="w-3/4 text-center px-4 py-2 cursor-pointer bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              >
-                Sign Up
-              </Link>
+
+              {/* Mobile Auth Buttons */}
+              <div className="px-4 pt-4 border-t border-gray-200 space-y-3">
+                <Link
+                  href="/pages/auth/login"
+                  className="block w-full text-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+                  onClick={handleMobileLinkClick}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/pages/auth/signup"
+                  className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  onClick={handleMobileLinkClick}
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </div>
         )}
       </nav>
 
+      {/* Spacer for fixed navbar */}
       <div className="h-16" />
     </>
   );

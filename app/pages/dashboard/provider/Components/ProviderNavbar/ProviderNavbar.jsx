@@ -12,7 +12,7 @@ import {
   FiMailOpen,
 } from "react-icons/fi";
 
-const DashboardNavbar = () => {
+const ProviderNavbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
@@ -266,4 +266,4 @@ const DashboardNavbar = () => {
   );
 };
 
-export default DashboardNavbar;
+export default ProviderNavbar;

@@ -198,7 +198,7 @@ export default function SearchProfessionals() {
 
       {/* HERO SECTION */}
       <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find Professionals</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-600">Find freelancers</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
           Connect with skilled professionals and experts in various fields. Find the perfect match for your project.
         </p>
