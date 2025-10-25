@@ -50,10 +50,10 @@ const Navbar = () => {
       name: "How It Work",
       path: "#",
       dropdown: [
-        { name: "Posting Guide", path: "/pages/posting-guide" },
-        { name: "Video Tutorial", path: "/pages/video-tutorial" },
-        { name: "FAQ", path: "/pages/faq" },
-        { name: "Tips for Bidding", path: "/pages/bidding-tips" },
+        { name: "Posting Guide", path: "/pages/howItWork/postingGuide" },
+        { name: "Video Tutorial", path: "/pages/howItWork/videoTutorial"  },
+        { name: "FAQ", path: "/pages/howItWork/faq"  },
+        { name: "Tips for Bidding", path: "/pages/howItWork/tipsForBidding"  },
       ],
     },
     {
@@ -65,10 +65,10 @@ const Navbar = () => {
       name: "About Us",
       path: "#",
       dropdown: [
-        { name: "Who We Are", path: "/pages/who-we-are" },
-        { name: "Our Mission/Vision", path: "/pages/mission-vision" },
-        { name: "Core Values", path: "/pages/core-values" },
-        { name: "Partner / Affiliates", path: "/pages/partners" },
+        { name: "Who We Are", path: "/pages/aboutUs/whoWeAre" },
+        { name: "Our Mission/Vision", path: "/pages/aboutUs/ourMission" },
+        { name: "Core Values", path:"/pages/aboutUs/coreValues"  },
+        { name: "Partner / Affiliates", path: "/pages/aboutUs/partner"  },
       ],
     },
     {
