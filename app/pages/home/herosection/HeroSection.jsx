@@ -66,7 +66,7 @@ export default function Hero() {
 
             {/* Main image - full viewport height */}
             <img
-              src="/office_photo.png"
+              src="/office_2.png"
               alt="Office"
               className="relative w-full h-[550px] md:h-[700px] lg:h-[800px] object-cover object-left-bottom drop-shadow-3xl rounded-l-3xl transform hover:scale-105 transition-transform duration-700"
             />
