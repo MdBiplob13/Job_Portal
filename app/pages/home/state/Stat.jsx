@@ -75,7 +75,7 @@ export default function Stats() {
   ];
 
   return (
-    <section id="stats" className="bg-[#53cbfb] py-20">
+    <section id="stats" className="bg-[#CFCFCF] py-20">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
         {stats.map((stat, i) => (
           <motion.div
@@ -84,10 +84,10 @@ export default function Stats() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2, duration: 0.6 }}
             whileHover={{ scale: 1.05 }}
-            className="p-8 bg-white/70 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 hover:border-white hover:shadow-xl transition relative overflow-hidden"
+            className="p-8 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-[#53cbfb]/20 hover:border-[#53cbfb] hover:shadow-xl transition relative overflow-hidden"
           >
             {/* Glow Background */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#53cbfb]/20 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
 
             {/* Icon */}
             <div className="relative z-10 flex justify-center mb-4 text-[#53cbfb] text-4xl">
@@ -101,7 +101,7 @@ export default function Stats() {
             </h3>
 
             {/* Label */}
-            <p className="relative z-10 mt-3 text-gray-700 font-medium">{stat.label}</p>
+            <p className="relative z-10 mt-3 text-[#040404] font-medium">{stat.label}</p>
           </motion.div>
         ))}
       </div>

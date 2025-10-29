@@ -24,13 +24,13 @@ export default function StepSection() {
   ];
 
   return (
-    <section className="py-20 px-6 md:px-12 lg:px-20 bg-[#53cbfb]">
+    <section className="py-20 px-6 md:px-12 lg:px-20 bg-[#CFCFCF]">
       <div className="max-w-6xl mx-auto text-center">
         {/* Top Heading */}
-        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-10">
-          How It <span className="text-white">Works</span>
+        <h2 className="text-3xl md:text-7xl font-extrabold text-[#040404] mb-10">
+          How It <span className="text-[#53cbfb]">Works</span>
         </h2>
-        <p className="text-white max-w-2xl mx-auto mb-14">
+        <p className="text-[#040404] max-w-2xl mx-auto mb-14 text-[20px]">
           A streamlined process to post jobs, receive bids, and win with the perfect provider—all in one platform.
         </p>
 
@@ -47,17 +47,17 @@ export default function StepSection() {
             >
               
               {/* Icon container */}
-              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-r from-[#53cbfb] to-[#3abef0] text-white mb-6 group-hover:scale-110 transform transition-transform duration-500 shadow-lg">
+              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-r from-[#53cbfb] to-[#0443f2] text-white mb-6 group-hover:scale-110 transform transition-transform duration-500 shadow-lg">
                 {step.icon}
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-[#53cbfb] transition-colors duration-300">
+              <h3 className="text-xl font-bold text-[#040404] mb-4 group-hover:text-[#53cbfb] transition-colors duration-300">
                 {step.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#040404] leading-relaxed">
                 {step.desc}
               </p>
 
