@@ -14,7 +14,7 @@ export default function CategoriesSection() {
   ];
 
   return (
-    <section className="w-full py-20 bg-blue-50 ">
+    <section className="w-full py-20 bg-[#53cbfb]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Heading */}
         <div className="text-center mb-14">
@@ -23,16 +23,16 @@ export default function CategoriesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="text-3xl md:text-4xl font-extrabold text-gray-900"
+            className="text-3xl md:text-4xl font-extrabold text-white"
           >
-            Explore Popular <span className="text-primary">Categories</span>
+            Explore Popular <span className="text-white">Categories</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-gray-600 mt-3"
+            className="text-white mt-3"
           >
             Find services that fit your needs from our wide range of categories.
           </motion.p>
@@ -64,10 +64,10 @@ export default function CategoriesSection() {
 
               {/* Icon + Text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <div className="text-blue-400 text-4xl mb-3 opacity-80 group-hover:opacity-100 transition duration-500">
+                <div className="text-white text-4xl mb-3 opacity-80 group-hover:opacity-100 transition duration-500">
                   {cat.icon}
                 </div>
-                <h3 className="text-white font-semibold text-lg group-hover:text-blue-300 transition-colors duration-300">
+                <h3 className="text-white font-semibold text-lg group-hover:text-white transition-colors duration-300">
                   {cat.name}
                 </h3>
                 <p className="text-gray-200 text-sm mt-2 opacity-0 group-hover:opacity-100 transition duration-500">
@@ -76,7 +76,7 @@ export default function CategoriesSection() {
               </div>
 
               {/* Glow Border Effect */}
-              <span className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-blue-400 group-hover:shadow-[0_0_15px_rgba(37,99,235,0.6)] transition duration-500"></span>
+              <span className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition duration-500"></span>
             </motion.div>
           ))}
         </div>
@@ -89,11 +89,11 @@ export default function CategoriesSection() {
           transition={{ delay: 0.5 }}
           className="flex justify-center mt-16"
         >
-          <button className="relative px-10 py-3 rounded-full font-medium text-primary border border-primary overflow-hidden group">
-            <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+          <button className="relative px-10 py-3 rounded-full font-medium text-white border border-white overflow-hidden group">
+            <span className="relative z-10 group-hover:text-[#53cbfb] transition-colors duration-500">
               Browse All Categories
             </span>
-            <span className="absolute inset-0 bg-primary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></span>
+            <span className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></span>
           </button>
         </motion.div>
       </div>

@@ -157,3 +157,7 @@
   margin-right: 12px;
 }
 
+.text-alto {
+  color: var(--alto);
+}
+

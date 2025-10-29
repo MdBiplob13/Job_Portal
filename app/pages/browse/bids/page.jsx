@@ -161,7 +161,7 @@ export default function BrowseBids() {
   };
 
   const BidCard = ({ bid }) => (
-    <Link href={`/pages/browse-bids/${bid.id}`} className="block">
+    <Link href={`/pages/browse/bids/${bid.id}`} className="block">
       <div className="bg-white/80 backdrop-blur-sm border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">

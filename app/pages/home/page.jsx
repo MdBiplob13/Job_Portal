@@ -11,7 +11,7 @@ import CategoriesSection from "./categorysection/CategoriesSection";
 
 const Home = () => {
   return (
-    <div>
+    <div className="w-full overflow-x-hidden">
       <Navbar />
       <HeroSection />
       {/* <TrendingJobs /> */}

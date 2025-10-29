@@ -32,9 +32,9 @@ export default function TestimonialSection() {
   }, []);
 
   return (
-    <section className="relative py-20 bg-blue-50 flex items-center justify-center">
+    <section className="relative py-20 bg-[#53cbfb] flex items-center justify-center">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-secondary mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-12">
           What Our Clients Say
         </h2>
 
@@ -50,9 +50,9 @@ export default function TestimonialSection() {
               className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-10 md:p-12 relative"
             >
               <p className="text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">
-                <span className="text-5xl text-primary font-serif">“</span>{" "}
+                <span className="text-5xl text-[#53cbfb] font-serif">"</span>{" "}
                 {testimonials[current].text}{" "}
-                <span className="text-5xl text-primary font-serif">”</span>
+                <span className="text-5xl text-[#53cbfb] font-serif">"</span>
               </p>
               <div className="mt-8">
                 <p className="text-lg font-semibold text-gray-900">
@@ -71,8 +71,8 @@ export default function TestimonialSection() {
                 onClick={() => setCurrent(idx)}
                 className={`w-3 h-3 rounded-full transition-all ${
                   idx === current
-                    ? "bg-primary w-6"
-                    : "bg-gray-300 hover:bg-blue-400"
+                    ? "bg-white w-6"
+                    : "bg-white/50 hover:bg-white"
                 }`}
               ></button>
             ))}
