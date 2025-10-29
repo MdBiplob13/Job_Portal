@@ -75,33 +75,33 @@ export default function Stats() {
   ];
 
   return (
-    <section id="stats" className="bg-[#CFCFCF] py-20">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+    <section id="stats" className="py-24 bg-gradient-to-t from-[#CFCFCF] to-[#0443F2]/10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
         {stats.map((stat, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2, duration: 0.6 }}
-            whileHover={{ scale: 1.05 }}
-            className="p-8 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-[#53cbfb]/20 hover:border-[#53cbfb] hover:shadow-xl transition relative overflow-hidden"
+            whileHover={{ scale: 1.05, y: -5 }}
+            className="p-10 bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border-2 border-[#53CBFB]/20 hover:border-[#53CBFB] hover:shadow-3xl transition-all duration-500 relative overflow-hidden"
           >
             {/* Glow Background */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#53cbfb]/20 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#53CBFB]/20 to-transparent opacity-50 group-hover:opacity-80 transition"></div>
 
             {/* Icon */}
-            <div className="relative z-10 flex justify-center mb-4 text-[#53cbfb] text-4xl">
+            <div className="relative z-10 flex justify-center mb-6 text-[#53CBFB] text-5xl">
               {stat.icon}
             </div>
 
             {/* Counter */}
-            <h3 className="relative z-10 text-4xl font-extrabold text-[#0443f2]">
+            <h3 className="relative z-10 text-5xl font-extrabold text-[#0443F2] mb-4">
               {visible ? <Counter target={stat.target} duration={2000} /> : 0}
               {stat.suffix}
             </h3>
 
             {/* Label */}
-            <p className="relative z-10 mt-3 text-[#040404] font-medium">{stat.label}</p>
+            <p className="relative z-10 text-xl text-[#040404] font-bold">{stat.label}</p>
           </motion.div>
         ))}
       </div>
