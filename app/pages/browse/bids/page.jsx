@@ -226,11 +226,12 @@ export default function BrowseBids() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
+    <div className="min-h-screen  bg-[#dfdbdb]">
       <Navbar />
 
-      {/* HERO SECTION */}
-      <section className="text-center py-16 px-6 bg-gradient-to-b from-blue-100 to-transparent rounded-b-3xl shadow-inner">
+      <div className="max-w-6xl mx-auto mt-8 mb-16 ">
+        {/* HERO SECTION */}
+      <section className="text-center py-16 px-6  to-transparent rounded-b-3xl shadow-inner">
         <h1 className="text-4xl md:text-5xl font-extrabold text-primary">Browse Tenders & Bids</h1>
         <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
           Discover exciting tender opportunities and submit your bids. Find projects that match your expertise and grow your business.
@@ -423,6 +424,7 @@ export default function BrowseBids() {
             )}
           </section>
         </div>
+      </div>
       </div>
 
       <Footer />
