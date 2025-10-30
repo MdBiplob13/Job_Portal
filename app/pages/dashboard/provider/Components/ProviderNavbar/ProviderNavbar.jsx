@@ -10,12 +10,33 @@ import {
   FiTrash2,
   FiMail,
   FiMailOpen,
+  FiMapPin,
 } from "react-icons/fi";
 
 const ProviderNavbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState("Kingston, Jamaica");
   const [notifications, setNotifications] = useState([]);
+  const [locations] = useState([
+    "Kingston, Jamaica",
+    "Montego Bay, Jamaica",
+    "Bridgetown, Barbados",
+    "Port of Spain, Trinidad",
+    "Nassau, Bahamas",
+    "Havana, Cuba",
+    "Santo Domingo, Dominican Republic",
+    "San Juan, Puerto Rico",
+    "St. John's, Antigua",
+    "Georgetown, Guyana",
+    "Port-au-Prince, Haiti",
+    "Castries, St. Lucia",
+    "Basseterre, St. Kitts",
+    "Kingstown, St. Vincent",
+    "Roseau, Dominica"
+  ]);
   const dropdownRef = useRef(null);
+  const locationRef = useRef(null);
 
   // Mock notifications data
   useEffect(() => {
@@ -65,11 +86,14 @@ const ProviderNavbar = () => {
     ]);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsNotificationOpen(false);
+      }
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setIsLocationOpen(false);
       }
     };
 
@@ -114,6 +138,11 @@ const ProviderNavbar = () => {
     }
   };
 
+  const handleLocationSelect = (location) => {
+    setCurrentLocation(location);
+    setIsLocationOpen(false);
+  };
+
   return (
     <header className="w-full bg-white shadow-sm border-b border-gray-200">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -132,6 +161,50 @@ const ProviderNavbar = () => {
               <div className="text-primary font-bold mr-5">
                 5 CREDIT POINTS
               </div>
+            </div>
+
+            {/* Location Dropdown */}
+            <div className="relative" ref={locationRef}>
+              <button
+                onClick={() => setIsLocationOpen(!isLocationOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 hover:border-primary hover:bg-blue-50 transition cursor-pointer"
+              >
+                <FiMapPin size={18} className="text-primary" />
+                <span className="text-sm font-medium text-gray-700">
+                  {currentLocation}
+                </span>
+              </button>
+
+              {/* Location Dropdown Menu */}
+              {isLocationOpen && (
+                <div className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+                  <div className="p-4 border-b border-gray-200">
+                    <h3 className="font-semibold text-gray-800">
+                      Select Location
+                    </h3>
+                  </div>
+                  
+                  <div className="max-h-80 overflow-y-auto">
+                    {locations.map((location, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleLocationSelect(location)}
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
+                          currentLocation === location ? "bg-blue-50 text-primary" : "text-gray-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <FiMapPin 
+                            size={16} 
+                            className={currentLocation === location ? "text-primary" : "text-gray-400"} 
+                          />
+                          <span className="text-sm font-medium">{location}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <Link

@@ -184,14 +184,14 @@ const Navbar = () => {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
-                    Customer Profile
+                    Customer Bid Profile 
                   </Link>
                   <Link
                     href={"/pages/dashboard/provider"}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
-                    Provider Profile
+                    Provider Job Profile
                   </Link>
                   <Link
                     href={"/pages/dashboard/admin"}
