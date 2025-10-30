@@ -16,24 +16,26 @@ import {
 const ProviderNavbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState("Kingston, Jamaica");
+  const [currentLocation, setCurrentLocation] = useState("Cameroon");
   const [notifications, setNotifications] = useState([]);
   const [locations] = useState([
-    "Kingston, Jamaica",
-    "Montego Bay, Jamaica",
-    "Bridgetown, Barbados",
-    "Port of Spain, Trinidad",
-    "Nassau, Bahamas",
-    "Havana, Cuba",
-    "Santo Domingo, Dominican Republic",
-    "San Juan, Puerto Rico",
-    "St. John's, Antigua",
-    "Georgetown, Guyana",
-    "Port-au-Prince, Haiti",
-    "Castries, St. Lucia",
-    "Basseterre, St. Kitts",
-    "Kingstown, St. Vincent",
-    "Roseau, Dominica"
+    "Antigua and Barbuda",
+    "Bahamas",
+    "Barbados",
+    "Belize",
+    "Cuba",
+    "Cameroon",
+    "Dominica",
+    "Dominican Republic",
+    "Grenada",
+    "Guyana",
+    "Haiti",
+    "Jamaica",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Suriname",
+    "Trinidad and Tobago"
   ]);
   const dropdownRef = useRef(null);
   const locationRef = useRef(null);

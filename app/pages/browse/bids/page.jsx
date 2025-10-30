@@ -87,7 +87,7 @@ const MOCK_BIDS = [
   },
 ];
 
-const REGIONS = ["All", "Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
+const REGIONS = [ "Antigua and Barbuda", "Cameroon", "Bahamas", "Barbados", "Belize", "Cuba", "Dominica", "Dominican Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Suriname", "Trinidad and Tobago" ];
 const LANGUAGES = ["Any", "English", "Bangla"];
 const BID_TYPES = ["full-project", "remote", "part-time", "contract"];
 const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];

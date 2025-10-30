@@ -88,7 +88,7 @@ const MOCK_PROFESSIONALS = [
   },
 ];
 
-const REGIONS = ["All", "New York, NY", "San Francisco, CA", "Austin, TX", "Miami, FL", "Seattle, WA", "Remote"];
+const REGIONS = [ "Antigua and Barbuda", "Cameroon", "Bahamas", "Barbados", "Belize", "Cuba", "Dominica", "Dominican Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Suriname", "Trinidad and Tobago" ];
 const LANGUAGES = ["Any", "English", "Spanish", "French", "Mandarin", "Korean"];
 const SKILL_CATEGORIES = ["Development", "Design", "Marketing", "Management", "Data Science"];
 

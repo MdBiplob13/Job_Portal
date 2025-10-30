@@ -228,13 +228,12 @@ const Pricing = () => {
 
         {/* Marketing Pitch */}
         <div className="mt-12 bg-blue-50 p-6 rounded-lg text-center">
-          <h4 className="text-lg font-semibold">Why Job Portal for your hiring?</h4>
+          <h4 className="text-lg font-semibold">Bid Portal — Connecting opportunities with suppliers</h4>
           <p className="mt-3 text-slate-700 max-w-3xl mx-auto">
-            We help you reach the right talent faster. Our platform is optimized to
-            surface qualified candidates with tools that reduce time-to-hire and
-            improve hiring quality. With transparent pricing and no hidden fees,
-            companies of every size can scale their recruiting with confidence.
+            Bid Portal is a modern procurement platform designed to help organisations find the right personnel and help suppliers discover valuable business opportunities. We focus on transparency, relevant matches, and a user-friendly submission experience.
           </p>
+
+          <p className="mt-5">Search Bid  -- -- post a bid</p>
 
           <div className="mt-6 flex justify-center gap-4">
             <Link href="/pages/postAJob" className="px-5 py-3 bg-primary text-white rounded-lg">Post a Job</Link>
@@ -285,3 +284,6 @@ const Pricing = () => {
 };
 
 export default Pricing;
+
+
+[ "Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Cuba", "Dominica", "Dominican Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Suriname", "Trinidad and Tobago" ]

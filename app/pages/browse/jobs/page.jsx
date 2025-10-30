@@ -82,7 +82,7 @@ const MOCK_JOBS = [
 ];
 
 
-const REGIONS = ["All", "Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
+const REGIONS = [ "Antigua and Barbuda","Cameroon", "Bahamas", "Barbados", "Belize", "Cuba", "Dominica", "Dominican Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Suriname", "Trinidad and Tobago" ];
 const LANGUAGES = ["Any", "English", "Bangla"];
 const JOB_TYPES = ["full-time", "part-time", "remote", "contract"];
 const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
