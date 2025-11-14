@@ -25,7 +25,7 @@ const LoginPage = () => {
     <div>
       <Navbar />
 
-      <div className="relative min-h-[100vh]">
+      <div className="relative min-h-screen">
         {/* Photo container */}
         <div className="absolute inset-0">
           <img
@@ -36,10 +36,10 @@ const LoginPage = () => {
         </div>
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-l from-primary to-white/30 z-10"></div>
+        <div className="absolute inset-0 bg-linear-to-l from-primary to-white/30 z-10"></div>
 
         {/* Form container - positioned to right */}
-        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-[100vh] p-4">
+        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
           <form 
             onSubmit={handleSubmit}
             className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md border border-white/20 mr-4 sm:mr-8 lg:mr-16"
@@ -89,7 +89,7 @@ const LoginPage = () => {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
+                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
               >
                 Sign In
               </button>
