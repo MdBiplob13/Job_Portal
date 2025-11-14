@@ -1,5 +1,4 @@
 import React from "react";
-import { Toaster } from "react-hot-toast";
 import Navbar from "../components/Navbar/Navbar";
 import Home from "./home/page";
 

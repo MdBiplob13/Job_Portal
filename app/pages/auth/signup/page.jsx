@@ -1,14 +1,14 @@
 "use client";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [button, setButton] = useState("look");
   const [error, setError] = useState("");
+  const router = useRouter();
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
@@ -16,24 +16,31 @@ const SignUpPage = () => {
     const form = e.target;
     const firstName = form.firstName.value;
     const lastName = form.lastName.value;
-    const username = form.username.value;
+    const userName = form.username.value;
     const email = form.email.value;
     const password = form.password.value;
-    const phoneNumber = form.phone.value;
+    const phone = form.phone.value;
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       return;
     }
 
+    if (userName.length < 5) {
+      setError("username must be at least 5 characters long");
+      return;
+    }
+
     const userData = {
       name: `${firstName} ${lastName}`,
-      username,
+      userName,
       email,
       password,
-      phoneNumber,
+      phone,
       role: button === "look" ? "employer" : "professional",
     };
+
+    console.log("🚀 ~ handleSubmit ~ userData:", userData);
 
     fetch("/api/auth/signup", {
       method: "POST",
@@ -44,7 +51,20 @@ const SignUpPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log("Success:", data);
+        if (data.status === "success") {
+          toast.success("Account created successfully! Please log in.", {
+            style: {
+              width: "fit-content",
+              maxWidth: "none",
+            },
+            duration: 4000,
+          });
+
+          form.reset();
+          router.push("/pages/auth/login");
+        } else {
+          setError(data.message);
+        }
       });
   };
 
@@ -197,7 +217,7 @@ const SignUpPage = () => {
                   <input
                     type="text"
                     name="username"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70 lowercase"
                     placeholder="Username"
                     required
                   />
@@ -207,7 +227,7 @@ const SignUpPage = () => {
                   <input
                     type="email"
                     name="email"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70 lowercase"
                     placeholder="Email"
                     required
                   />

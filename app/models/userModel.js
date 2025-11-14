@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    default: null,
   },
   userName: {
     type: String,
@@ -107,7 +106,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    default: null,
   },
   role: {
     type: String,
@@ -130,10 +128,10 @@ const userSchema = new mongoose.Schema({
     },
   },
   paymentMethods: {
-    type: Array,
-    default: [],
-    enum: ["credit card", "paypal", "stripe", "bank transfer"],
-  },
+  type: [String],
+  default: [],
+  enum: ["credit card", "paypal", "stripe", "bank transfer"],
+},
   createDate: {
     type: Date,
     default: Date.now,
