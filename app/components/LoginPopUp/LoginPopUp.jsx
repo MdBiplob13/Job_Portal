@@ -20,9 +20,7 @@ export default function LoginPopUp({ isOpen, onClose }) {
     if (!password) return toast.error("Password is required");
 
     const payload = { email, password, remember };
-    console.log("Login payload (mock):", payload);
 
-    toast.success("Logged in (mock). Check console for payload.");
     onClose();
   }
 

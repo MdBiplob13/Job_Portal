@@ -8,19 +8,51 @@ import "react-phone-number-input/style.css";
 
 const SignUpPage = () => {
   const [button, setButton] = useState("look");
-  const [phone, setPhone] = useState("");
-  console.log("🚀 ~ SignUpPage ~ button:", button);
+  const [error, setError] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted");
+    setError("");
+
+    const form = e.target;
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const username = form.username.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const phoneNumber = form.phone.value;
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    const userData = {
+      name: `${firstName} ${lastName}`,
+      username,
+      email,
+      password,
+      phoneNumber,
+      role: button === "look" ? "employer" : "professional",
+    };
+
+    fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log("Success:", data);
+      });
   };
 
   return (
     <div>
       <Navbar />
 
-      <div className="relative min-h-[100vh]">
+      <div className="relative min-h-screen">
         {/* Photo container */}
         <div className="absolute inset-0">
           <img
@@ -31,11 +63,14 @@ const SignUpPage = () => {
         </div>
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-l from-primary to-white/30 z-10"></div>
+        <div className="absolute inset-0 bg-linear-to-l from-primary to-white/30 z-10"></div>
 
         {/* Form container - positioned to right */}
-        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-[100vh] p-4">
-          <form className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16">
+        <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16"
+          >
             <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white">
               Sign Up with BidPole
             </h2>
@@ -50,7 +85,7 @@ const SignUpPage = () => {
                     : "bg-transparent border border-white/50"
                 }`}
               >
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <svg
                     width="20"
                     height="20"
@@ -95,7 +130,7 @@ const SignUpPage = () => {
                     : "bg-transparent border border-white/50"
                 }`}
               >
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <svg
                     width="20"
                     height="20"
@@ -156,42 +191,36 @@ const SignUpPage = () => {
                 </div>
               </div>
 
-              {/* Email */}
-              <div className="">
-                <input
-                  type="email"
-                  name="email"
-                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
-                  placeholder="Email"
-                  required
-                />
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Username */}
+                <div className="">
+                  <input
+                    type="text"
+                    name="username"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="Username"
+                    required
+                  />
+                </div>
+                {/* Email */}
+                <div className="">
+                  <input
+                    type="email"
+                    name="email"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
               </div>
 
               {/* Phone number */}
               <div className="flex flex-col sm:flex-row gap-4">
                 {/* Country code dropdown */}
-                <div className="w-full sm:w-1/3">
-                  <div className="border border-blue-500 rounded-lg bg-transparent px-3 py-1 h-12 flex items-center focus-within:ring-2 focus-within:ring-blue-200 focus-within:border-blue-500 transition-all duration-200">
-                    <PhoneInput
-                      international
-                      defaultCountry="CM"
-                      value={phone}
-                      onChange={setPhone}
-                      className="w-full [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:border-none [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:text-white [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:py-2 [&_.PhoneInputInput]:placeholder-gray-300
-                                [&_.PhoneInputCountrySelect]:bg-white [&_.PhoneInputCountrySelect]:text-black [&_.PhoneInputCountrySelect]:border-none [&_.PhoneInputCountrySelect]:mr-2
-                                [&_.PhoneInputCountrySelectArrow]:text-white [&_.PhoneInputCountrySelectArrow]:ml-1
-                                [&_.PhoneInputCountryIcon]:rounded-sm [&_.PhoneInputInput]:text-sm"
-                    />
-                  </div>
-                </div>
-
-                {/* Phone number input */}
-                <div className="w-full sm:w-2/3">
+                <div className="w-full">
                   <input
                     type="tel"
                     name="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
                     className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
                     placeholder="Phone Number"
                     required
@@ -211,10 +240,11 @@ const SignUpPage = () => {
               </div>
             </div>
 
+            <p className="text-red-500 mt-2 text-center font-bold">{error}</p>
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
+                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
               >
                 Create Account
               </button>

@@ -58,7 +58,6 @@ export default function ProviderPost() {
     if (!form.description.trim()) return toast.error("Project description is required");
     if (!form.budget) return toast.error("Budget is required");
 
-    console.log("Submitting bid:", form);
     toast.success("Bid posted successfully!");
   };
 

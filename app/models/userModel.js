@@ -1,75 +1,140 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  reviews: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "reviews",
-    default: null,
-  },
-  experience: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "experiences",
-    default: null,
-  },
-  qualifications: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "qualifications",
-    default: null,
-  },
-  certifications: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "certifications",
-    default: null,
-  },
   name: {
     type: String,
-    required: [true, "Please enter your name"],
-    trim: true,
-    maxLength: [50, "name is too long"],
+    required: true,
+    default: null,
   },
   userName: {
     type: String,
-    default: null,
-    trim: true,
+    required: true,
     unique: true,
-    maxLength: [50, "user name is too long"],
-    required: [true, "Please enter your user name"],
+  },
+  banner: {
+    type: String,
+    default: null,
+  },
+  photo: {
+    type: String,
+    default: null,
+  },
+  intro: {
+    type: String,
+    default: null,
+  },
+  discretion: {
+    type: String,
+    default: null,
+  },
+  review: {
+    rating: {
+      type: Number, // average rating like 4.8
+      default: 0,
+    },
+    totalRatings: {
+      type: Number, // how many people rated
+      default: 0,
+    },
+  },
+  job: {
+    jobPosted: {
+      type: Number,
+      default: 0,
+    },
+    jobCompleted: {
+      type: Number,
+      default: 0,
+    },
+    ongoingProjects: {
+      type: Number,
+      default: 0,
+    },
+    jobSuccessRate: {
+      type: Number,
+      default: 0,
+    },
+  },
+  location: {
+    type: String,
+    default: null,
+  },
+  chargeParHour: {
+    type: Number,
+    default: 0,
+  },
+  Languages: {
+    type: Array,
+    default: [],
+  },
+  currentJobStatus: {
+    type: String,
+    default: "Open to work",
+    enum: ["Open to work", "Working", "Not available"],
+  },
+  currentPosition: {
+    type: Object,
+    default: null,
+  },
+  contracts: {
+    phone: {
+      type: String,
+      default: null,
+    },
+    email: {
+      type: String,
+      default: null,
+    },
+  },
+  social: {
+    facebook: {
+      type: String,
+      default: null,
+    },
+    linkedin: {
+      type: String,
+      default: null,
+    },
+    instagram: {
+      type: String,
+      default: null,
+    },
+    portfolio: {
+      type: String,
+      default: null,
+    },
   },
   password: {
     type: String,
+    required: true,
     default: null,
   },
   role: {
     type: String,
-    enum: ["user", "client", , "admin"],
-    default: "user",
-  },
-  photo: {
-    type: Object,
-    default: null,
+    default: "professional",
+    enum: ["professional", "employer", "admin"],
   },
   status: {
     type: String,
-    enum: ["active", "inactive", "blocked"],
     default: "active",
+    enum: ["active", "on leave", "blocked"],
   },
   verification: {
-    type: Number,
-    default: 0,
+    email: {
+      type: Boolean,
+      default: false,
+    },
+    phone: {
+      type: Boolean,
+      default: false,
+    },
   },
-  aboutMe: {
-    type: Object,
-    default: null,
+  paymentMethods: {
+    type: Array,
+    default: [],
+    enum: ["credit card", "paypal", "stripe", "bank transfer"],
   },
-  address: {
-    type: Object,
-    default: null,
-  },
-  socialLinks: {
-    type: Object,
-    default: null,
-  },
-  createdAt: {
+  createDate: {
     type: Date,
     default: Date.now,
   },

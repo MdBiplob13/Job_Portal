@@ -58,7 +58,6 @@ export default function ProviderPost() {
     if (!form.company.trim()) return toast.error("Company name is required");
     if (!form.description.trim()) return toast.error("Job description is required");
 
-    console.log("Submitting:", form);
     toast.success("Job posted successfully (mock submission)");
   };
 
