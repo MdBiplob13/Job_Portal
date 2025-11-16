@@ -6,13 +6,11 @@ import bcrypt from "bcryptjs";
 export async function POST(req) {
   try {
     await connectMongoDb(); // Ensure the database is connected
-    const { name, userName, email, password, phone, role } = await req.json();
+    const { name, userName, email, password, role } = await req.json();
 
-    console.log(
-      name, userName, email, password, phone
-    )
+    
     // check for required fields
-    if (!name || !userName || !email || !password || !phone) {
+    if (!name || !userName || !email || !password) {
       throw new Error("All fields are required");
     }
 
@@ -38,10 +36,8 @@ export async function POST(req) {
       userName,
       email,
       password: hashedPassword,
-      phone,
       role,
     });
-    console.log(user)
 
     await newUser.save();
 

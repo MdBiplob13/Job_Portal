@@ -75,15 +75,13 @@ const userSchema = new mongoose.Schema({
     type: Object,
     default: null,
   },
-  contracts: {
-    phone: {
-      type: String,
-      default: null,
-    },
-    email: {
-      type: String,
-      default: null,
-    },
+  phone: {
+    type: String,
+    default: null,
+  },
+  email: {
+    type: String,
+    default: null,
   },
   social: {
     facebook: {
@@ -128,10 +126,10 @@ const userSchema = new mongoose.Schema({
     },
   },
   paymentMethods: {
-  type: [String],
-  default: [],
-  enum: ["credit card", "paypal", "stripe", "bank transfer"],
-},
+    type: [String],
+    default: [],
+    enum: ["credit card", "paypal", "stripe", "bank transfer"],
+  },
   createDate: {
     type: Date,
     default: Date.now,

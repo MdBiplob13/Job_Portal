@@ -19,7 +19,6 @@ const SignUpPage = () => {
     const userName = form.username.value;
     const email = form.email.value;
     const password = form.password.value;
-    const phone = form.phone.value;
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
@@ -36,11 +35,8 @@ const SignUpPage = () => {
       userName,
       email,
       password,
-      phone,
       role: button === "look" ? "employer" : "professional",
     };
-
-    console.log("🚀 ~ handleSubmit ~ userData:", userData);
 
     fetch("/api/auth/signup", {
       method: "POST",
@@ -211,38 +207,27 @@ const SignUpPage = () => {
                 </div>
               </div>
 
+              {/* Email */}
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* Username */}
-                <div className="">
+                <div className="w-full">
                   <input
                     type="text"
                     name="username"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70 lowercase"
-                    placeholder="Username"
-                    required
-                  />
-                </div>
-                {/* Email */}
-                <div className="">
-                  <input
-                    type="email"
-                    name="email"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70 lowercase"
-                    placeholder="Email"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    placeholder="User Name"
                     required
                   />
                 </div>
               </div>
 
-              {/* Phone number */}
+              {/* Email */}
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* Country code dropdown */}
                 <div className="w-full">
                   <input
-                    type="tel"
-                    name="phone"
+                    type="email"
+                    name="email"
                     className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
-                    placeholder="Phone Number"
+                    placeholder="Email"
                     required
                   />
                 </div>
@@ -260,8 +245,8 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            <p className="text-red-500 mt-2 text-center font-bold">{error}</p>
             <div className="mt-6">
+            <p className="text-red-500 mt-2 text-center font-bold mb-2">{error}</p>
               <button
                 type="submit"
                 className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"

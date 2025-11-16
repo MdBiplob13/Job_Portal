@@ -1,24 +1,62 @@
 "use client";
 import Navbar from "@/app/components/Navbar/Navbar";
+import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login submission here
+    setError("");
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    if (!email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    const user = {
+      email,
+      password,
+    };
+
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          toast.success(data.message);
+          // Save token in cookie
+          Cookies.set("bidpoleToken", data.token, {
+            expires: 7, // 7 days
+            secure: true, // HTTPS only
+            sameSite: "strict",
+            path: "/",
+          });
+          router.push("/pages/dashboard/provider");
+          console.log(user);
+        } else {
+          setError(data.message);
+          console.log(data);
+        }
+      });
   };
 
   return (
@@ -40,7 +78,7 @@ const LoginPage = () => {
 
         {/* Form container - positioned to right */}
         <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
-          <form 
+          <form
             onSubmit={handleSubmit}
             className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md border border-white/20 mr-4 sm:mr-8 lg:mr-16"
           >
@@ -54,8 +92,6 @@ const LoginPage = () => {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
                   placeholder="Email"
                   required
@@ -67,8 +103,6 @@ const LoginPage = () => {
                 <input
                   type="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
                   className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
                   placeholder="Password"
                   required
@@ -85,11 +119,13 @@ const LoginPage = () => {
                 </Link>
               </div>
             </div>
-
             <div className="mt-6">
+              <p className="text-red-500 mt-2 text-center font-bold mb-2">
+                {error}
+              </p>
               <button
                 type="submit"
-                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg"
+                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
               >
                 Sign In
               </button>
@@ -106,8 +142,6 @@ const LoginPage = () => {
                 </Link>
               </p>
             </div>
-
-            
           </form>
         </div>
       </div>
