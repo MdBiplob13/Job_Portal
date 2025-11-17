@@ -55,11 +55,11 @@ const Partners = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Partners & Affiliates</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -112,11 +112,11 @@ const Partners = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
+          <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
             <h2 className="text-3xl font-bold mb-6">Become a Partner</h2>
             <p className="text-white/90 leading-relaxed mb-6">
               Join our network of industry leaders and expand your reach while 
-              delivering exceptional value to our shared customers.
+              delivering exceptional value to our shared professionals.
             </p>
             <div className="space-y-4">
               <button className="w-full bg-white text-primary py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">

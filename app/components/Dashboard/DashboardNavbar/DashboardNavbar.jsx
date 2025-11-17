@@ -135,7 +135,7 @@ const DashboardNavbar = () => {
             </div>
 
             <Link
-              href="/pages/dashboard/customer"
+              href="/pages/dashboard/professional"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-primary bg-white text-primary font-medium hover:bg-blue-50 transition"
             >
               <span className="text-sm">Switch to Freelancer</span>
@@ -236,7 +236,7 @@ const DashboardNavbar = () => {
                   {/* Footer */}
                   <div className="p-4 border-t border-gray-200">
                     <Link
-                      href="/pages/dashboard/provider/providerNotification"
+                      href="/pages/dashboard/employer/employerNotification"
                       onClick={() => setIsNotificationOpen(false)}
                       className="w-full bg-gray-100 text-gray-700 py-2 rounded-xl font-medium hover:bg-gray-200 transition-colors flex items-center justify-center"
                     >

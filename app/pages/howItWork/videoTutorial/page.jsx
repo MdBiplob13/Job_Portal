@@ -61,11 +61,11 @@ const VideoTutorial = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Video Tutorials</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -116,7 +116,7 @@ const VideoTutorial = () => {
               <div className="grid md:grid-cols-2 gap-3">
                 {tutorials[activeVideo].topics.map((topic, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <FiCheckCircle className="text-green-500 flex-shrink-0" />
+                    <FiCheckCircle className="text-green-500 shrink-0" />
                     <span className="text-gray-700">{topic}</span>
                   </div>
                 ))}
@@ -142,7 +142,7 @@ const VideoTutorial = () => {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <h4 className="font-semibold text-gray-800 pr-4">{tutorial.title}</h4>
-                      <FiPlay className={`text-lg flex-shrink-0 ${
+                      <FiPlay className={`text-lg shrink-0 ${
                         activeVideo === index ? "text-primary" : "text-gray-400"
                       }`} />
                     </div>
@@ -187,7 +187,7 @@ const VideoTutorial = () => {
             </div>
 
             {/* Support CTA */}
-            <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-6 text-white text-center">
+            <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-6 text-white text-center">
               <h3 className="font-semibold mb-2">Need Help?</h3>
               <p className="text-white/90 text-sm mb-4">Our support team is here for you</p>
               <button className="w-full bg-white text-primary py-2 rounded-xl font-semibold hover:bg-gray-100 transition-colors">

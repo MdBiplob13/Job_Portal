@@ -50,7 +50,7 @@ const LoginPage = () => {
             sameSite: "strict",
             path: "/",
           });
-          router.push("/pages/dashboard/provider");
+          router.push("/pages/dashboard/employer");
           console.log(user);
         } else {
           setError(data.message);

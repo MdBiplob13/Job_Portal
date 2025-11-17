@@ -65,7 +65,7 @@ const FAQ = () => {
       },
       {
         question: "What's the bidding system?",
-        answer: "Our bidding system allows service providers to submit proposals for your projects, helping you find the best talent at competitive rates."
+        answer: "Our bidding system allows service employers to submit proposals for your projects, helping you find the best talent at competitive rates."
       },
       {
         question: "How do I review applicants?",
@@ -75,7 +75,7 @@ const FAQ = () => {
     bidding: [
       {
         question: "How does the bidding process work?",
-        answer: "Employers post projects, service providers submit bids with proposals and pricing, employers review bids and select the best match for their needs."
+        answer: "Employers post projects, service employer submit bids with proposals and pricing, employers review bids and select the best match for their needs."
       },
       {
         question: "What makes a good bid?",
@@ -83,7 +83,7 @@ const FAQ = () => {
       },
       {
         question: "Are there bidding fees?",
-        answer: "No, submitting bids is free for verified service providers. We only charge success fees when projects are successfully awarded and completed."
+        answer: "No, submitting bids is free for verified service employer. We only charge success fees when projects are successfully awarded and completed."
       }
     ]
   };
@@ -108,11 +108,11 @@ const FAQ = () => {
   }, {});
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Frequently Asked Questions</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -170,9 +170,9 @@ const FAQ = () => {
                   >
                     <span className="font-semibold text-gray-800 pr-4">{faq.question}</span>
                     {openItems.includes(index) ? (
-                      <FiChevronUp className="text-primary flex-shrink-0" />
+                      <FiChevronUp className="text-primary shrink-0" />
                     ) : (
-                      <FiChevronDown className="text-primary flex-shrink-0" />
+                      <FiChevronDown className="text-primary shrink-0" />
                     )}
                   </button>
                   {openItems.includes(index) && (
@@ -193,7 +193,7 @@ const FAQ = () => {
         </div>
 
         {/* Contact Support */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center mt-12">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center mt-12">
           <h2 className="text-3xl font-bold mb-4">Still Have Questions?</h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
             Our support team is here to help you with any additional questions or concerns.

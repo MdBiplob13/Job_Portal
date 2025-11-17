@@ -8,7 +8,7 @@ export default function BusinessOpportunities() {
         
         {/* Left Content */}
         <div className="flex items-center gap-4 text-center md:text-left">
-          <Trophy className="h-10 w-10 flex-shrink-0" />
+          <Trophy className="h-10 w-10 shrink-0" />
           <div>
             <p className="text-sm font-semibold">Win More New Business</p>
             <h2 className="text-xl md:text-2xl font-bold leading-snug">

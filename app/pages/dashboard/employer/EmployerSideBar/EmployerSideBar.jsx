@@ -1,0 +1,57 @@
+"use client";
+import Link from "next/link";
+import React, { useState } from "react";
+import {
+  FiHome,
+  FiSearch,
+  FiBriefcase,
+  FiMessageCircle,
+  FiDollarSign,
+  FiUser,
+  FiLogOut,
+  FiStar,
+} from "react-icons/fi";
+import { TbHammer } from "react-icons/tb";
+
+const menuItems = [
+  { id: "dashboard", label: "Dashboard", link:"/pages/dashboard/employer", icon: <FiHome /> },
+  { id: "jobs", label: "My Jobs", link:"/pages/dashboard/employer/employerJobs", icon: <FiBriefcase /> },
+  { id: "bids", label: "My Bids", link:"/pages/dashboard/employer/employerBids", icon: <TbHammer /> },
+  { id: "messages", label: "Messages", link:"/pages/dashboard/employer/employerMessage", icon: <FiMessageCircle /> },
+  { id: "transactions", label: "Transactions", link:"/pages/dashboard/employer/employerTransaction", icon: <FiDollarSign /> },
+  { id: "Reviews", label: "Reviews", link:"/pages/dashboard/employer/employerReview", icon: <FiStar /> },
+  { id: "profile", label: "Profile", link:"/pages/dashboard/employer/employerProfile", icon: <FiUser /> },
+  { id: "logout", label: "Logout", link:"/pages/dashboard/employer", icon: <FiLogOut /> },
+];
+
+const EmployerSideBar = () => {
+  const [activeTab, setActiveTab] = useState
+  ("dashboard");
+  return (
+    <aside className="w-64 min-h-screen bg-white shadow-lg border-r">
+      
+      <div className="flex flex-col justify-between h-full p-4">
+        <div>
+          <ul className="space-y-2">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  href={item.link}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center cursor-pointer w-full p-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary ${
+                    activeTab === item.id ? "bg-blue-100 text-secondary" : ""
+                  }`}
+                >
+                  <span className="mr-3 text-lg">{item.icon}</span>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </aside>
+  );
+};
+
+export default EmployerSideBar;

@@ -9,29 +9,29 @@ export default function StepSection() {
     {
       icon: <FaRegFileAlt className="w-12 h-12" />,
       title: "Post",
-      desc: "Create and publish your job requirements to attract qualified professionals and service providers.",
+      desc: "Create and publish your job requirements to attract qualified professionals and service employers.",
     },
     {
       icon: <FaGavel className="w-12 h-12" />,
       title: "Bid",
-      desc: "Receive competitive offers and proposals from multiple providers vying for your project.",
+      desc: "Receive competitive offers and proposals from multiple employers vying for your project.",
     },
     {
       icon: <MdOutlineEmojiEvents className="w-12 h-12" />,
       title: "Win",
-      desc: "Select the best provider and successfully complete your project with guaranteed satisfaction.",
+      desc: "Select the best employer and successfully complete your project with guaranteed satisfaction.",
     },
   ];
 
   return (
-    <section className="py-24 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-[#CFCFCF] to-[#53CBFB]/30">
+    <section className="py-24 px-6 md:px-12 lg:px-20 bg-linear-to-b from-[#CFCFCF] to-[#53CBFB]/30">
       <div className="max-w-6xl mx-auto text-center">
         {/* Top Heading */}
         <h2 className="text-5xl md:text-8xl font-extrabold text-[#040404] mb-8">
           How It <span className="text-[#53CBFB]">Works</span>
         </h2>
         <p className="text-2xl text-[#040404] max-w-3xl mx-auto mb-16 font-medium">
-          A streamlined process to post jobs, receive bids, and win with the perfect provider—all in one platform.
+          A streamlined process to post jobs, receive bids, and win with the perfect employer—all in one platform.
         </p>
 
         {/* Steps */}
@@ -52,7 +52,7 @@ export default function StepSection() {
               </div>
 
               {/* Icon container */}
-              <div className="w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-[#53CBFB] to-[#0443F2] text-white mb-8 group-hover:scale-110 transform transition-transform duration-500 shadow-xl">
+              <div className="w-24 h-24 flex items-center justify-center rounded-full bg-linear-to-br from-[#53CBFB] to-[#0443F2] text-white mb-8 group-hover:scale-110 transform transition-transform duration-500 shadow-xl">
                 {step.icon}
               </div>
 

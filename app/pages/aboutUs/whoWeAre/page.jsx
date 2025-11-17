@@ -30,11 +30,11 @@ const WhoWeAre = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Who We Are</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -66,7 +66,7 @@ const WhoWeAre = () => {
                 professionals across various industries.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-primary/10 to-blue-400/10 rounded-2xl p-8 h-64 flex items-center justify-center">
+            <div className="bg-linear-to-br from-primary/10 to-blue-400/10 rounded-2xl p-8 h-64 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-4xl font-bold text-primary mb-2">5K+</div>
                 <div className="text-gray-600">Successful Placements</div>
@@ -87,7 +87,7 @@ const WhoWeAre = () => {
         </div>
 
         {/* Values Preview */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Our Core Values</h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
             Integrity, Innovation, and Impact drive everything we do. 

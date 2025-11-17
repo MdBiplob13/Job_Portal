@@ -180,18 +180,18 @@ const Navbar = () => {
               {showUserDropdown && (
                 <div className="absolute top-12 right-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                   <Link
-                    href={"/pages/dashboard/customer"}
+                    href={"/pages/dashboard/professional"}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
-                    Customer Bid Profile 
+                    Professional Bid Profile 
                   </Link>
                   <Link
-                    href={"/pages/dashboard/provider"}
+                    href={"/pages/dashboard/employer"}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
                     onClick={() => setShowUserDropdown(false)}
                   >
-                    Provider Job Profile
+                    Employer Job Profile
                   </Link>
                   <Link
                     href={"/pages/dashboard/admin"}

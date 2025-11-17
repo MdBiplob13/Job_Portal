@@ -7,11 +7,11 @@ import { FiTarget, FiEye, FiStar } from "react-icons/fi";
 
 const MissionVision = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Our Mission & Vision</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -43,7 +43,7 @@ const MissionVision = () => {
                 "Build trust through transparency and integrity"
               ].map((item, index) => (
                 <li key={index} className="flex items-center gap-3 text-gray-600">
-                  <FiStar className="text-primary flex-shrink-0" />
+                  <FiStar className="text-primary shrink-0" />
                   {item}
                 </li>
               ))}
@@ -70,7 +70,7 @@ const MissionVision = () => {
                 "Sustainable employment ecosystems"
               ].map((item, index) => (
                 <li key={index} className="flex items-center gap-3 text-gray-600">
-                  <FiStar className="text-primary flex-shrink-0" />
+                  <FiStar className="text-primary shrink-0" />
                   {item}
                 </li>
               ))}
@@ -79,7 +79,7 @@ const MissionVision = () => {
         </div>
 
         {/* Goals Section */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
           <h2 className="text-3xl font-bold text-center mb-8">Our 2025 Goals</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[

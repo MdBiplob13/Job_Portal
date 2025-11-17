@@ -13,7 +13,7 @@ const AboutUs = () => {
 
       {/* HERO */}
      <header className="relative overflow-hidden">
-      <div className="bg-gradient-to-r from-primary to-blue-500 text-white">
+      <div className="bg-linear-to-r from-primary to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* LEFT SIDE (unchanged) */}
@@ -63,7 +63,7 @@ const AboutUs = () => {
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
                 {/* Header Strip */}
-                <div className="bg-gradient-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
+                <div className="bg-linear-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
                   <h3 className="text-xl font-semibold flex items-center gap-2">
                     <Briefcase size={22} /> Featured Job
                   </h3>

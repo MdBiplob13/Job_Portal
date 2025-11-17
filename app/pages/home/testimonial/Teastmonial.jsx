@@ -32,7 +32,7 @@ export default function TestimonialSection() {
   }, []);
 
   return (
-    <section className="relative py-24 bg-gradient-to-br from-[#53CBFB] to-[#0443F2] flex items-center justify-center">
+    <section className="relative py-24 bg-linear-to-br from-[#53CBFB] to-[#0443F2] flex items-center justify-center">
       <div className="max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-5xl md:text-8xl font-extrabold text-white mb-16">
           What Our Clients Say

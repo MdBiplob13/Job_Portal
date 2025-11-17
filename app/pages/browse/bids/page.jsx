@@ -397,7 +397,7 @@ export default function BrowseBids() {
                     bidCategory: "All",
                   })
                 }
-                className="w-full py-2 bg-gradient-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
+                className="w-full py-2 bg-linear-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
               >
                 Reset Filters
               </button>

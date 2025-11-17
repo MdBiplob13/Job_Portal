@@ -64,7 +64,7 @@ export default function Blogs() {
 
       {/* HERO */}
      <header className="relative overflow-hidden">
-      <div className="bg-gradient-to-r from-primary to-blue-500 text-white">
+      <div className="bg-linear-to-r from-primary to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* LEFT SIDE (unchanged) */}
@@ -114,7 +114,7 @@ export default function Blogs() {
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
                 {/* Header Strip */}
-                <div className="bg-gradient-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
+                <div className="bg-linear-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
                   <h3 className="text-xl font-semibold flex items-center gap-2">
                     <Briefcase size={22} /> Featured Job
                   </h3>
@@ -236,7 +236,7 @@ export default function Blogs() {
             {samplePosts.map((post) => (
               <article key={post.id} className="bg-white rounded-2xl shadow p-4 md:p-6 flex gap-4 items-start">
                 {/* removed photo: small category badge instead */}
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="w-16 h-16 rounded-lg bg-blue-50 flex items-center justify-center text-secondary font-semibold">
                     {post.category.slice(0,2).toUpperCase()}
                   </div>
@@ -324,7 +324,7 @@ export default function Blogs() {
           </div>
 
           {/* CTA: Get hiring insights (no subscribe) */}
-          <div className="bg-gradient-to-r from-primary to-blue-500 text-white p-4 rounded-xl shadow">
+          <div className="bg-linear-to-r from-primary to-blue-500 text-white p-4 rounded-xl shadow">
             <h4 className="font-semibold">Get hiring insights</h4>
             <p className="text-sm mt-2">Create an account to save articles, bookmark guides, and get product updates tailored for recruiters.</p>
             <div className="mt-4 flex gap-2">

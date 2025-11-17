@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="w-full bg-gradient-to-br from-[#53CBFB] via-[#CFCFCF] to-[#0443F2]/20 -mt-[62px]">
+    <section className="w-full bg-linear-to-br from-[#53CBFB] via-[#CFCFCF] to-[#0443F2]/20 -mt-[62px]">
       <div className=" mx-auto px-4 sm:px-6 lg:px-12 flex flex-col md:flex-row items-center min-h-[600px] gap-8 md:gap-12">
         {/* Left Side Content */}
         <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-20">
@@ -62,7 +62,7 @@ export default function Hero() {
         <div className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-end items-end">
           <div className="relative w-full h-full">
             {/* Background effects */}
-            <div className="absolute -inset-12 bg-gradient-to-bl from-[#53CBFB]/25 via-[#0443F2]/15 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute -inset-12 bg-linear-to-bl from-[#53CBFB]/25 via-[#0443F2]/15 to-transparent rounded-full blur-3xl"></div>
 
             {/* Main image - full viewport height */}
             <img
@@ -72,7 +72,7 @@ export default function Hero() {
             />
 
             {/* Gradient overlay for better blending */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#53CBFB]/10 rounded-l-3xl"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#53CBFB]/10 rounded-l-3xl"></div>
           </div>
         </div>
       </div>

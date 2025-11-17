@@ -53,11 +53,11 @@ const CoreValues = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Our Core Values</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -74,7 +74,7 @@ const CoreValues = () => {
               key={index} 
               className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
-              <div className={`w-16 h-16 bg-gradient-to-r ${value.color} rounded-2xl flex items-center justify-center text-white mb-4`}>
+              <div className={`w-16 h-16 bg-linear-to-r ${value.color} rounded-2xl flex items-center justify-center text-white mb-4`}>
                 {value.icon}
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">{value.title}</h3>
@@ -84,7 +84,7 @@ const CoreValues = () => {
         </div>
 
         {/* Culture Section */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-3xl font-bold mb-4">Our Culture</h2>

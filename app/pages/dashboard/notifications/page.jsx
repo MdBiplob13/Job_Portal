@@ -1,7 +1,7 @@
 "use client";
 import DashboardNavbar from "@/app/components/Dashboard/DashboardNavbar/DashboardNavbar";
 import React, { useState } from "react";
-import ProviderSideBar from "../provider/ProviderSideBar/ProviderSideBar";
+import EmployerSideBar from "../employer/EmployerSideBar/EmployerSideBar";
 import NotificationsPageDesign from "./NotificationPageDesign/NotificationPageDesign";
 
 
@@ -15,7 +15,7 @@ const page = () => {
       {/* Main Layout */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <ProviderSideBar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <EmployerSideBar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {/* Content Area */}
         <main className="flex-1 p-6 overflow-y-auto">

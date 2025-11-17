@@ -131,7 +131,7 @@ export default function SearchProfessionals() {
   }, [filters]);
 
   const ProfessionalCard = ({ professional }) => (
-    <Link href={`/pages/dashboard/provider/providerProfile`} className="block">
+    <Link href={`/pages/dashboard/employer/employerProfile`} className="block">
       <div className="bg-white/80 backdrop-blur-sm border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg transition">
         <div className="flex items-start gap-4 mb-4">
           <img 
@@ -315,7 +315,7 @@ export default function SearchProfessionals() {
                     searchQuery: "",
                   })
                 }
-                className="w-full py-2 bg-gradient-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
+                className="w-full py-2 bg-linear-to-r from-blue-500 to-primary text-white rounded-xl font-medium shadow hover:from-primary hover:to-blue-700 transition"
               >
                 Reset Filters
               </button>

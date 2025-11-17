@@ -85,11 +85,11 @@ const BiddingTips = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Tips for Bidding</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -112,7 +112,7 @@ const BiddingTips = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {tips.map((tip, index) => (
             <div key={index} className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-400 rounded-2xl flex items-center justify-center text-white mb-4">
+              <div className="w-12 h-12 bg-linear-to-r from-primary to-blue-400 rounded-2xl flex items-center justify-center text-white mb-4">
                 {tip.icon}
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-3">{tip.title}</h3>
@@ -120,7 +120,7 @@ const BiddingTips = () => {
               <ul className="space-y-2">
                 {tip.details.map((detail, detailIndex) => (
                   <li key={detailIndex} className="flex items-center gap-2 text-sm text-gray-600">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0"></div>
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full shrink-0"></div>
                     {detail}
                   </li>
                 ))}
@@ -137,7 +137,7 @@ const BiddingTips = () => {
             <div className="space-y-4">
               {commonMistakes.map((mistake, index) => (
                 <div key={index} className="flex items-center gap-4 p-4 border border-red-100 bg-red-50 rounded-xl">
-                  <div className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center shrink-0">
                     ✕
                   </div>
                   <span className="text-gray-700">{mistake}</span>
@@ -147,7 +147,7 @@ const BiddingTips = () => {
           </div>
 
           {/* Success Formula */}
-          <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
+          <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
             <h2 className="text-2xl font-bold mb-6">Winning Bid Formula</h2>
             <div className="space-y-4">
               {[
@@ -166,7 +166,7 @@ const BiddingTips = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Bidding?</h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
             Apply these tips and start winning more projects on JobPole today.

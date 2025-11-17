@@ -33,7 +33,7 @@ const PostingGuide = () => {
     {
       step: "03",
       title: "Set Preferences",
-      description: "Define your ideal candidate or service provider",
+      description: "Define your ideal candidate or service employer",
       tips: [
         "Experience level requirements",
         "Location preferences",
@@ -80,11 +80,11 @@ const PostingGuide = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-400 text-white py-20">
+      <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Posting Guide</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -133,7 +133,7 @@ const PostingGuide = () => {
                   <ul className="grid md:grid-cols-2 gap-3">
                     {step.tips.map((tip, tipIndex) => (
                       <li key={tipIndex} className="flex items-center gap-3 text-gray-600">
-                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-primary rounded-full shrink-0"></div>
                         {tip}
                       </li>
                     ))}
@@ -155,7 +155,7 @@ const PostingGuide = () => {
               <ul className="space-y-3">
                 {practice.items.map((item, itemIndex) => (
                   <li key={itemIndex} className="flex items-center gap-3 text-gray-600">
-                    <div className="w-2 h-2 bg-gray-300 rounded-full flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-gray-300 rounded-full shrink-0"></div>
                     {item}
                   </li>
                 ))}
@@ -165,7 +165,7 @@ const PostingGuide = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
+        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Post?</h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
             Start creating your job post or project listing now and connect with qualified professionals.

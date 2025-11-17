@@ -134,7 +134,7 @@ export default function JobDetailPage() {
 
   if (!job) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
+      <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
         <Navbar />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
@@ -159,12 +159,12 @@ export default function JobDetailPage() {
 
   const sections = [
     { id: "overview", label: "Overview", icon: "📋" },
-    { id: "provider", label: "Provider Info", icon: "👤" },
+    { id: "employer", label: "Employer Info", icon: "👤" },
     { id: "bids", label: "Current Bids", icon: "💰" }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
       <Navbar />
 
       {/* Header */}
@@ -295,8 +295,8 @@ export default function JobDetailPage() {
               </div>
             )}
 
-            {/* Provider Info Section */}
-            {activeSection === "provider" && (
+            {/* employer Info Section */}
+            {activeSection === "employer" && (
               <div className="space-y-8">
                 <div className="flex items-center gap-6">
                   <img 

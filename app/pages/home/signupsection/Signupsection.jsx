@@ -50,7 +50,7 @@ export default function SignUp() {
               className="max-w-xs sm:max-w-sm md:max-w-md rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500 border-4 border-white"
             />
             {/* Floating Glow */}
-            <div className="absolute -inset-6 bg-gradient-to-r from-[#53CBFB]/30 to-[#0443F2]/20 rounded-3xl opacity-30 blur-3xl"></div>
+            <div className="absolute -inset-6 bg-linear-to-r from-[#53CBFB]/30 to-[#0443F2]/20 rounded-3xl opacity-30 blur-3xl"></div>
           </div>
         </div>
       </div>

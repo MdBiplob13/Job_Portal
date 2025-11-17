@@ -5,7 +5,7 @@ import { FaFacebookF, FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-[#53cbfb] via-[#3bb8f0] to-[#2a9fd6] text-white">
+    <footer className="bg-linear-to-br from-[#53cbfb] via-[#3bb8f0] to-[#2a9fd6] text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
         {/* Brand & About */}
