@@ -77,7 +77,10 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1" ref={dropdownRef}>
+          <div
+            className="hidden md:flex items-center space-x-1"
+            ref={dropdownRef}
+          >
             {navLinks.map((link, idx) => (
               <div key={idx} className="relative">
                 {link.dropdown ? (
@@ -120,9 +123,7 @@ const Navbar = () => {
           {/* Desktop Auth Section */}
           <div className="hidden md:flex items-center gap-3">
             {/* Loading */}
-            {userLoading && (
-              <div className="text-gray-500 text-sm">Loading...</div>
-            )}
+            {userLoading && <div className="text-gray-500 text-sm"></div>}
 
             {/* No user: Login + Signup */}
             {!userLoading && !user && (
@@ -144,13 +145,15 @@ const Navbar = () => {
 
             {/* User logged in: Show ONLY avatar */}
             {!userLoading && user && (
-              <Image
-                src={user?.profileImage || "/user1.jpeg"}
-                alt="user"
-                width={60}
-                height={60}
-                className="rounded-lg cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
-              />
+              <Link href={`/pages/dashboard/${user.role}`}>
+                <Image
+                  src={user?.profileImage || "/user1.jpeg"}
+                  alt="user"
+                  width={60}
+                  height={60}
+                  className="rounded-lg cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
+                />
+              </Link>
             )}
           </div>
 

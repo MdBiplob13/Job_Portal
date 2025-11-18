@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/app/components/Navbar/Navbar";
+import useUser from "@/app/hooks/user/userHook";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import toast from "react-hot-toast";
 const LoginPage = () => {
   const [error, setError] = useState("");
   const router = useRouter();
+  const { setUserRefresh, userRefresh } = useUser();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +44,11 @@ const LoginPage = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          toast.success(data.message);
+          toast.success(
+            `${
+              data.user.role === "employer" ? "Employer" : "Professional"
+            } logged in successfully`
+          );
           // Save token in cookie
           Cookies.set("bidpoleToken", data.token, {
             expires: 7, // 7 days
@@ -50,8 +56,8 @@ const LoginPage = () => {
             sameSite: "strict",
             path: "/",
           });
-          router.push("/pages/dashboard/employer");
-          console.log(user);
+          router.push(`/pages/dashboard/${data.user.role}`);
+          setUserRefresh(userRefresh + 1);
         } else {
           setError(data.message);
           console.log(data);

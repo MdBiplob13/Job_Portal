@@ -6,7 +6,7 @@ const useUser = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
-  const [userRefetching, setUserRefetching] = useState(false);
+  const [userRefresh, setUserRefresh] = useState(1);
 
   const token = Cookies.get("bidpoleToken");
 
@@ -14,7 +14,11 @@ const useUser = () => {
     // If no token → redirect to login
     if (!token) {
       setUserLoading(false);
-      router.push("/pages/auth/login");
+      return;
+    }
+
+    if (user) {
+      setUserLoading(false);
       return;
     }
 
@@ -45,16 +49,15 @@ const useUser = () => {
     };
 
     fetchUser();
-
-  }, [token, userRefetching, router]);
+  }, [token, userRefresh, router]);
 
   return {
     user,
     setUser,
     userLoading,
     setUserLoading,
-    userRefetching,
-    setUserRefetching,
+    userRefresh,
+    setUserRefresh,
   };
 };
 

@@ -8,7 +8,7 @@ export async function POST(req) {
   try {
     await connectMongoDb(); // Ensure the database is connected
     const { email, password } = await req.json();
-    console.log("🚀 ~ POST ~ password:", password)
+    console.log("🚀 ~ POST ~ password:", password);
 
     // check for required fields
     if (!email || !password) {
@@ -25,6 +25,11 @@ export async function POST(req) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error("Invalid email or password");
+    }
+
+    // check if user is blocked
+    if (user.status === "blocked") {
+      throw new Error("Your account has been blocked. Please contact support.");
     }
 
     const token = generateToken(user._id, user.role);
