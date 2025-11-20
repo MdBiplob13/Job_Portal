@@ -213,7 +213,7 @@ const EmployerNavbar = () => {
               href="/pages/dashboard/professional"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-primary bg-white text-primary font-medium hover:bg-blue-50 transition"
             >
-              <span className="text-sm">Switch to Freelancer</span>
+              <span className="text-sm">Switch To Professional</span>
             </Link>
 
             {/* Notification Dropdown */}

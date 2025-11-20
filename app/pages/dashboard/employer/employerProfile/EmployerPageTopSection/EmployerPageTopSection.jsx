@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FiBriefcase,
   FiCalendar,
@@ -6,15 +6,60 @@ import {
   FiMapPin,
   FiStar,
 } from "react-icons/fi";
-
 import * as Dialog from "@radix-ui/react-dialog";
+import useUser from "@/app/hooks/user/userHook";
 
-const EmployerPageTopSection = ({ profileData, stats }) => {
+const EmployerPageTopSection = () => {
+  const { user, updateUser, setUserRefresh, userRefresh } = useUser();
   const [isEditing, setIsEditing] = useState(false);
-  const [bannerPreview, setBannerPreview] = useState(
-    profileData.personal.banner
-  );
-  const [photoPreview, setPhotoPreview] = useState(profileData.personal.photo);
+  const [bannerPreview, setBannerPreview] = useState(user?.banner || "");
+  const [photoPreview, setPhotoPreview] = useState(user?.photo || "");
+  const [selectedBanner, setSelectedBanner] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: user?.name || "",
+    userName: user?.userName || "",
+    intro: user?.intro || "",
+    discretion: user?.discretion || "",
+    location: user?.location || "",
+    chargeParHour: user?.chargeParHour || 0,
+    phone: user?.phone || "",
+    currentJobStatus: user?.currentJobStatus || "Open to work",
+    social: {
+      facebook: user?.social?.facebook || "",
+      linkedin: user?.social?.linkedin || "",
+      instagram: user?.social?.instagram || "",
+      portfolio: user?.social?.portfolio || "",
+    },
+    Languages: user?.Languages || [],
+  });
+
+  // Update form data when user changes
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        userName: user.userName || "",
+        intro: user.intro || "",
+        discretion: user.discretion || "",
+        location: user.location || "",
+        chargeParHour: user.chargeParHour || 0,
+        phone: user.phone || "",
+        currentJobStatus: user.currentJobStatus || "Open to work",
+        social: {
+          facebook: user.social?.facebook || "",
+          linkedin: user.social?.linkedin || "",
+          instagram: user.social?.instagram || "",
+          portfolio: user.social?.portfolio || "",
+        },
+        Languages: user.Languages || [],
+      });
+      setBannerPreview(user.banner || "");
+      setPhotoPreview(user.photo || "");
+    }
+  }, [user]);
 
   const StarRating = ({ rating, size = "sm" }) => {
     const sizeClasses = {
@@ -40,23 +85,137 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
     );
   };
 
+  // Calculate stats from user data
+  const stats = {
+    rating: user?.review?.rating || 0,
+    totalReviews: user?.review?.totalRatings || 0,
+    jobsCompleted: user?.job?.jobCompleted || 0,
+    responseRate: 95,
+  };
+
+  // Format join date from createDate
+  const formatJoinDate = (dateString) => {
+    if (!dateString) return "Recently joined";
+    const date = new Date(dateString);
+    return `Joined ${date.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    })}`;
+  };
+
+  // Get current position title or default
+  const getCurrentPositionTitle = () => {
+    return user?.currentPosition?.title || "Professional";
+  };
+
+  // Get hourly rate display
+  const getHourlyRate = () => {
+    return user?.chargeParHour ? `$${user.chargeParHour}/hour` : "Rate not set";
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSocialChange = (platform, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      social: {
+        ...prev.social,
+        [platform]: value,
+      },
+    }));
+  };
+
+  const handleFileChange = (field, file) => {
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      if (field === "banner") {
+        setBannerPreview(previewUrl);
+        setSelectedBanner(file);
+      } else if (field === "photo") {
+        setPhotoPreview(previewUrl);
+        setSelectedPhoto(file);
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const submitData = new FormData();
+
+      // Add email to identify the user
+      submitData.append("email", user.email);
+
+      // Append text fields
+      Object.keys(formData).forEach((key) => {
+        if (key === "social") {
+          Object.keys(formData.social).forEach((socialKey) => {
+            submitData.append(socialKey, formData.social[socialKey]);
+          });
+        } else if (key === "Languages") {
+          submitData.append("Languages", formData.Languages.join(","));
+        } else {
+          submitData.append(key, formData[key]);
+        }
+      });
+
+      // Append files
+      if (selectedBanner) submitData.append("banner", selectedBanner);
+      if (selectedPhoto) submitData.append("photo", selectedPhoto);
+
+      const response = await fetch("/api/dashboard/profile", {
+        method: "PUT",
+        body: submitData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Update local user state
+        if (updateUser) {
+          updateUser(result.user);
+        }
+        setIsEditing(false);
+        setSelectedBanner(null);
+        setSelectedPhoto(null);
+        setUserRefresh(userRefresh + 1);
+      } else {
+        console.error("Update failed:", result.error);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       {/* MODAL */}
       <Dialog.Root open={isEditing} onOpenChange={setIsEditing}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" />
-
-          <Dialog.Content
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-  w-[95%] max-w-4xl bg-white p-8 rounded-2xl shadow-xl z-50"
-          >
+          <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl bg-white p-8 rounded-2xl shadow-xl z-50 max-h-[90vh] overflow-y-auto">
             <Dialog.Title className="text-xl font-semibold mb-6">
               Edit Profile
             </Dialog.Title>
 
-            {/* LANDSCAPE GRID */}
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            >
               {/* LEFT SIDE */}
               <div className="flex flex-col gap-6">
                 {/* Banner Upload */}
@@ -75,16 +234,13 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                       </div>
                     )}
                   </div>
-
                   <input
                     type="file"
                     accept="image/*"
-                    name="banner"
                     className="mt-2"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) setBannerPreview(URL.createObjectURL(file));
-                    }}
+                    onChange={(e) =>
+                      handleFileChange("banner", e.target.files[0])
+                    }
                   />
                 </div>
 
@@ -95,6 +251,7 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                     {photoPreview ? (
                       <img
                         src={photoPreview}
+                        alt="Profile"
                         className="w-20 h-20 rounded-full object-cover border"
                       />
                     ) : (
@@ -105,82 +262,168 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                     <input
                       type="file"
                       accept="image/*"
-                      name="photo"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) setPhotoPreview(URL.createObjectURL(file));
-                      }}
+                      onChange={(e) =>
+                        handleFileChange("photo", e.target.files[0])
+                      }
                     />
                   </div>
+                </div>
+
+                {/* Social Links */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium">Social Links</label>
+                  <input
+                    type="url"
+                    placeholder="Facebook URL"
+                    value={formData.social.facebook}
+                    onChange={(e) =>
+                      handleSocialChange("facebook", e.target.value)
+                    }
+                    className="w-full p-3 border rounded-xl"
+                  />
+                  <input
+                    type="url"
+                    placeholder="LinkedIn URL"
+                    value={formData.social.linkedin}
+                    onChange={(e) =>
+                      handleSocialChange("linkedin", e.target.value)
+                    }
+                    className="w-full p-3 border rounded-xl"
+                  />
+                  <input
+                    type="url"
+                    placeholder="Instagram URL"
+                    value={formData.social.instagram}
+                    onChange={(e) =>
+                      handleSocialChange("instagram", e.target.value)
+                    }
+                    className="w-full p-3 border rounded-xl"
+                  />
+                  <input
+                    type="url"
+                    placeholder="Portfolio URL"
+                    value={formData.social.portfolio}
+                    onChange={(e) =>
+                      handleSocialChange("portfolio", e.target.value)
+                    }
+                    className="w-full p-3 border rounded-xl"
+                  />
                 </div>
               </div>
 
               {/* RIGHT SIDE */}
               <div className="flex flex-col gap-6">
-                {/* Name */}
                 <div>
-                  <label className="text-sm font-medium">Name</label>
+                  <label className="text-sm font-medium">Full Name *</label>
                   <input
                     name="name"
-                    defaultValue={profileData.personal.name}
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
 
-                {/* Title */}
                 <div>
-                  <label className="text-sm font-medium">Title</label>
+                  <label className="text-sm font-medium">Username *</label>
                   <input
-                    name="title"
-                    defaultValue={profileData.personal.title}
+                    name="userName"
+                    value={formData.userName}
+                    onChange={handleInputChange}
+                    required
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
 
-                {/* Location */}
                 <div>
                   <label className="text-sm font-medium">Location</label>
                   <input
                     name="location"
-                    defaultValue={profileData.personal.location}
+                    value={formData.location}
+                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
 
-                {/* Hourly Rate */}
                 <div>
-                  <label className="text-sm font-medium">Hourly Rate</label>
+                  <label className="text-sm font-medium">
+                    Charge Per Hour ($)
+                  </label>
                   <input
-                    name="hourlyRate"
-                    defaultValue={profileData.personal.hourlyRate}
+                    type="number"
+                    name="chargeParHour"
+                    value={formData.chargeParHour}
+                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">Phone</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full mt-1 p-3 border rounded-xl"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">Job Status</label>
+                  <select
+                    name="currentJobStatus"
+                    value={formData.currentJobStatus}
+                    onChange={handleInputChange}
+                    className="w-full mt-1 p-3 border rounded-xl"
+                  >
+                    <option value="Open to work">Open to work</option>
+                    <option value="Working">Working</option>
+                    <option value="Not available">Not available</option>
+                  </select>
                 </div>
               </div>
 
-              {/* FULL-WIDTH DESCRIPTION */}
+              {/* FULL-WIDTH FIELDS */}
+              <div className="md:col-span-2">
+                <label className="text-sm font-medium">Introduction</label>
+                <textarea
+                  name="intro"
+                  value={formData.intro}
+                  onChange={handleInputChange}
+                  className="w-full mt-1 p-3 border rounded-xl min-h-[100px]"
+                  placeholder="Short introduction about yourself..."
+                />
+              </div>
+
               <div className="md:col-span-2">
                 <label className="text-sm font-medium">Description</label>
                 <textarea
-                  name="description"
-                  defaultValue={profileData.personal.description}
+                  name="discretion"
+                  value={formData.discretion}
+                  onChange={handleInputChange}
                   className="w-full mt-1 p-3 border rounded-xl min-h-[120px]"
+                  placeholder="Detailed description about your skills and experience..."
                 />
               </div>
 
               {/* BUTTONS */}
               <div className="md:col-span-2 flex justify-end gap-3">
                 <Dialog.Close asChild>
-                  <button className="px-5 py-2 border rounded-xl hover:bg-gray-100">
+                  <button
+                    type="button"
+                    className="px-5 py-2 border rounded-xl hover:bg-gray-100"
+                    disabled={isLoading}
+                  >
                     Cancel
                   </button>
                 </Dialog.Close>
-
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-500"
+                  disabled={isLoading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-500 disabled:opacity-50"
                 >
-                  Save Changes
+                  {isLoading ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>
@@ -190,7 +433,16 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
 
       {/* MAIN UI */}
       <div className="relative">
-        <div className="h-48 bg-linear-to-r from-blue-500 to-primary"></div>
+        {/* Banner */}
+        {user.banner ? (
+          <img
+            src={user.banner}
+            alt="Banner"
+            className="h-48 w-full object-cover"
+          />
+        ) : (
+          <div className="h-48 bg-gradient-to-r from-blue-500 to-primary"></div>
+        )}
 
         <div className="relative -top-16 px-6">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
@@ -198,12 +450,17 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
               {/* Profile Photo */}
               <div className="relative -top-20 lg:top-0 lg:shrink-0">
                 <div className="relative">
-                  <div className="w-32 h-32 lg:w-40 lg:h-40 bg-gray-300 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white text-4xl font-bold">
-                    {profileData.personal.name.charAt(0)}
-                  </div>
-                  <button className="absolute bottom-2 right-2 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-primary transition-colors">
-                    <FiEdit className="text-lg" />
-                  </button>
+                  {user.photo ? (
+                    <img
+                      src={user.photo}
+                      alt={user.name}
+                      className="w-32 h-32 lg:w-40 lg:h-40 rounded-full border-4 border-white shadow-lg object-cover"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 lg:w-40 lg:h-40 bg-gray-300 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white text-4xl font-bold">
+                      {user.name.charAt(0)}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -212,11 +469,9 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                   <div className="flex-1">
                     <h1 className="text-3xl font-bold text-gray-800">
-                      {profileData.personal.name}
+                      {user.name}
                     </h1>
-                    <p className="text-xl text-gray-600 mt-1">
-                      {profileData.personal.title}
-                    </p>
+                    <p className="text-gray-500">@{user.userName}</p>
 
                     {/* Rating */}
                     <div className="flex flex-wrap items-center gap-6 mt-4">
@@ -224,7 +479,7 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                       <div className="flex items-center gap-6 text-sm text-gray-600">
                         <span>⭐ {stats.totalReviews} reviews</span>
                         <span>✅ {stats.jobsCompleted} jobs</span>
-                        <span>🔄 {stats.responseRate}% response rate</span>
+                        {/* <span>🔄 {stats.responseRate}% response rate</span> */}
                       </div>
                     </div>
 
@@ -232,15 +487,26 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                     <div className="flex flex-wrap gap-4 mt-4 text-sm text-gray-600">
                       <div className="flex items-center gap-2">
                         <FiMapPin className="text-gray-400" />
-                        {profileData.personal.location}
+                        {user.location || "Location not set"}
                       </div>
                       <div className="flex items-center gap-2">
                         <FiCalendar className="text-gray-400" />
-                        {profileData.personal.joinDate}
+                        {formatJoinDate(user.createDate)}
                       </div>
                       <div className="flex items-center gap-2">
                         <FiBriefcase className="text-gray-400" />
-                        {profileData.personal.hourlyRate}
+                        {getHourlyRate()}
+                      </div>
+                      <div
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          user.currentJobStatus === "Open to work"
+                            ? "bg-green-100 text-green-800"
+                            : user.currentJobStatus === "Working"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {user.currentJobStatus}
                       </div>
                     </div>
                   </div>
@@ -262,8 +528,27 @@ const EmployerPageTopSection = ({ profileData, stats }) => {
                 </div>
 
                 <p className="text-gray-600 mt-4 leading-relaxed">
-                  {profileData.personal.description}
+                  {user.discretion || user.intro || "No description provided."}
                 </p>
+
+                {/* Languages */}
+                {user.Languages && user.Languages.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="text-sm font-medium text-gray-700">
+                      Languages
+                    </h4>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {user.Languages.map((language, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                        >
+                          {language}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

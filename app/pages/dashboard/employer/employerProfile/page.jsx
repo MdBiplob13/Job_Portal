@@ -20,6 +20,7 @@ import EmployerSkillTab from "./EmployerSkillTab/EmployerSkillTab";
 import EmployerExperienceTab from "./EmployerExperienceTab/EmployerExperienceTab";
 import EmployerPasswordTab from "./EmployerPasswordTab/EmployerPasswordTab";
 import EmployerPageTopSection from "./EmployerPageTopSection/EmployerPageTopSection";
+import hostPhoto from "@/utils/hostPhoto/hostPhoto";
 
 export default function EmployerProfile() {
   const [activeTab, setActiveTab] = useState("personal");
@@ -112,6 +113,8 @@ export default function EmployerProfile() {
       <span className="text-xs text-gray-500 mt-1">{skill.category}</span>
     </div>
   );
+
+  hostPhoto
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
