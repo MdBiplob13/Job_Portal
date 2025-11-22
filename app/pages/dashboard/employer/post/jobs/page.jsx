@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
 import toast from "react-hot-toast";
+import useUser from "@/app/hooks/user/userHook";
+import { useRouter } from "next/navigation";
 
 const REGIONS = ["Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
@@ -11,6 +13,10 @@ const SALARY_TYPES = ["Monthly", "Hourly", "Fixed"];
 const SEARCH_TYPE = ["Individual", "Tender"];
 
 export default function EmployerPost() {
+  const { user } = useUser();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  
   const [form, setForm] = useState({
     title: "",
     company: "",
@@ -29,7 +35,8 @@ export default function EmployerPost() {
     benefits: [],
     languages: [],
     description: "",
-    contactEmail: "",
+    contactEmail: user?.email || "",
+    searchType: SEARCH_TYPE[0],
   });
 
   const [skillInput, setSkillInput] = useState("");
@@ -43,7 +50,10 @@ export default function EmployerPost() {
   const addItem = (field, value, setValue) => {
     const trimmed = value.trim();
     if (!trimmed) return;
-    if (form[field].includes(trimmed)) return;
+    if (form[field].includes(trimmed)) {
+      toast.error(`${field.slice(0, -1)} already added`);
+      return;
+    }
     update(field, [...form[field], trimmed]);
     setValue("");
   };
@@ -52,17 +62,101 @@ export default function EmployerPost() {
     update(field, form[field].filter((v) => v !== value));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast.error("Please login to post a job");
+      return;
+    }
+
     if (!form.title.trim()) return toast.error("Job title is required");
     if (!form.company.trim()) return toast.error("Company name is required");
     if (!form.description.trim()) return toast.error("Job description is required");
+    if (!form.salary) return toast.error("Salary is required");
 
-    toast.success("Job posted successfully (mock submission)");
+    setIsSubmitting(true);
+
+    try {
+      const jobData = {
+        ...form,
+        employerEmail: user.email,
+        salary: parseFloat(form.salary),
+        totalHiring: parseInt(form.totalHiring),
+        applicationLimit: form.applicationLimitEnabled ? parseInt(form.applicationLimit) : 0,
+        contactEmail: form.contactEmail || user.email
+      };
+
+      const response = await fetch('/api/dashboard/employer/job/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jobData),
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        toast.success("Job posted successfully!");
+        
+        // Reset form
+        setForm({
+          title: "",
+          company: "",
+          location: REGIONS[0],
+          jobType: JOB_TYPES[0],
+          workType: "On-site",
+          salary: "",
+          salaryType: SALARY_TYPES[0],
+          totalHiring: "1",
+          applicationLimitEnabled: false,
+          applicationLimit: "",
+          workTime: "",
+          workDays: WORK_DAYS[0],
+          postDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+          skills: [],
+          benefits: [],
+          languages: [],
+          description: "",
+          contactEmail: user.email,
+          searchType: SEARCH_TYPE[0],
+        });
+        setSkillInput("");
+        setLanguageInput("");
+        setBenefitInput("");
+        router.push('/pages/dashboard/employer/employerJobs');
+      } else {
+        toast.error(result.message || "Failed to post job");
+      }
+    } catch (error) {
+      console.error("Job post error:", error);
+      toast.error("Failed to post job. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleClear = () => {
+    setForm({
+      ...form,
+      title: "",
+      company: "",
+      salary: "",
+      description: "",
+      skills: [],
+      benefits: [],
+      languages: [],
+    });
+    setSkillInput("");
+    setLanguageInput("");
+    setBenefitInput("");
+    toast.success("Form cleared");
   };
 
   return (
     <div className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-100">
+      <Navbar />
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-12">
@@ -95,7 +189,7 @@ export default function EmployerPost() {
 
           {/* === Salary Details === */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Input label="Salary" type="number" value={form.salary} onChange={(v) => update("salary", v)} placeholder="e.g. 50000" />
+            <Input label="Salary *" type="number" value={form.salary} onChange={(v) => update("salary", v)} placeholder="e.g. 50000" />
             <Select label="Salary Type" options={SALARY_TYPES} value={form.salaryType} onChange={(v) => update("salaryType", v)} />
             <Input label="Total Hiring" type="number" value={form.totalHiring} onChange={(v) => update("totalHiring", v)} />
           </div>
@@ -120,7 +214,7 @@ export default function EmployerPost() {
           {form.salaryType === "Monthly" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Select label="Working Days" options={WORK_DAYS} value={form.workDays} onChange={(v) => update("workDays", v)} />
-              <Select label="Job Type" options={SEARCH_TYPE} value={form.searchType} onChange={(v) => update("searchType", v)} />
+              <Select label="Search Type" options={SEARCH_TYPE} value={form.searchType} onChange={(v) => update("searchType", v)} />
             </div>
           )}
 
@@ -177,33 +271,24 @@ export default function EmployerPost() {
             <div className="flex gap-3 w-full md:w-auto">
               <button
                 type="button"
-                onClick={() => {
-                  setForm({
-                    ...form,
-                    title: "",
-                    description: "",
-                    skills: [],
-                    benefits: [],
-                    languages: [],
-                    salary: "",
-                  });
-                  toast.success("Form cleared");
-                }}
-                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-primary font-medium rounded-xl hover:bg-blue-50 transition"
+                onClick={handleClear}
+                disabled={isSubmitting}
+                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-primary font-medium rounded-xl hover:bg-blue-50 transition disabled:opacity-50"
               >
                 Clear
               </button>
               <button
                 type="submit"
-                className="flex-1 md:flex-none px-6 py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
+                disabled={isSubmitting}
+                className="flex-1 md:flex-none px-6 py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition disabled:opacity-50"
               >
-                Publish Job
+                {isSubmitting ? "Posting..." : "Publish Job"}
               </button>
             </div>
           </div>
         </form>
       </main>
-
+      <Footer />
     </div>
   );
 }

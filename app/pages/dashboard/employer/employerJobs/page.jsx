@@ -1,7 +1,7 @@
 // app/components/Dashboard/Jobs/JobsPage.jsx
 "use client";
 import Link from "next/link";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   FiSearch,
   FiFilter,
@@ -15,179 +15,132 @@ import {
   FiEye,
   FiEdit,
   FiMessageCircle,
+  FiLoader,
+  FiAlertCircle,
 } from "react-icons/fi";
-
-/* ---------- Mock data ---------- */
-const MOCK_JOBS = [
-  {
-    id: 1,
-    title: "Port Shed Repair",
-    department: "Procurement Department",
-    summary: "Repair and repaint the main port shed roof and floor leveling.",
-    status: "published",
-    statusLabel: "Open",
-    time: "2 days ago",
-    deadline: "Mar 30, 2025",
-    bids: 12,
-    milestones: 3,
-    budget: "$15,000",
-    location: "Port Authority",
-    urgency: "high",
-    category: "Construction",
-  },
-  {
-    id: 2,
-    title: "Harbor Lighting Installation",
-    department: "Maritime Authority",
-    summary: "Install LED lighting across pier A and B with solar backup.",
-    status: "published",
-    statusLabel: "Open",
-    time: "4 days ago",
-    deadline: "Apr 12, 2025",
-    bids: 8,
-    milestones: 2,
-    budget: "$8,500",
-    location: "Harbor Front",
-    urgency: "medium",
-    category: "Electrical",
-  },
-  {
-    id: 3,
-    title: "Coastal Reinforcement",
-    department: "Environmental Division",
-    summary: "Reinforce coastline with gabions. Contractor mobilized.",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    time: "1 week ago",
-    deadline: "May 10, 2025",
-    bids: 20,
-    milestones: 4,
-    budget: "$25,000",
-    location: "Coastal Area",
-    urgency: "high",
-    category: "Environmental",
-  },
-  {
-    id: 4,
-    title: "Dock Reconstruction",
-    department: "Property & Procurement",
-    summary: "Full dock restoration and dredging, completed successfully.",
-    status: "completed",
-    statusLabel: "Completed",
-    time: "Mar 01, 2025",
-    deadline: "Mar 01, 2025",
-    bids: 32,
-    milestones: 5,
-    budget: "$45,000",
-    location: "Main Dock",
-    urgency: "completed",
-    category: "Construction",
-  },
-  {
-    id: 5,
-    title: "Office Building Renovation",
-    department: "Public Works",
-    summary: "Complete interior renovation of government office building.",
-    status: "published",
-    statusLabel: "Open",
-    time: "1 day ago",
-    deadline: "Apr 15, 2025",
-    bids: 5,
-    milestones: 4,
-    budget: "$35,000",
-    location: "City Center",
-    urgency: "medium",
-    category: "Renovation",
-  },
-  {
-    id: 6,
-    title: "Park Landscaping Project",
-    department: "Parks & Recreation",
-    summary: "Landscape redesign and planting for central park area.",
-    status: "in-progress",
-    statusLabel: "In Progress",
-    time: "3 days ago",
-    deadline: "Apr 30, 2025",
-    bids: 15,
-    milestones: 3,
-    budget: "$12,000",
-    location: "Central Park",
-    urgency: "low",
-    category: "Landscaping",
-  },
-];
+import useUser from "@/app/hooks/user/userHook";
 
 export default function EmployerJobs() {
+  const { user } = useUser();
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     status: "all",
     category: "all",
-    urgency: "all",
-    budgetRange: "all",
+    jobType: "all",
   });
 
-  // Filter options
+  // Fetch jobs from backend
+  const fetchJobs = async () => {
+    if (!user?.email) return;
+    
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`/api/dashboard/employer/job/get?employerEmail=${user.email}`);
+      const result = await response.json();
+      
+      if (result.status === "success") {
+        setJobs(result.jobs || []);
+      } else {
+        setError(result.message || "Failed to fetch jobs");
+      }
+    } catch (err) {
+      setError("Failed to load jobs. Please try again.");
+      console.error("Error fetching jobs:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.email) {
+      fetchJobs();
+    }
+  }, [user?.email]);
+
+  // Filter options based on real data
   const statusOptions = [
     { value: "all", label: "All Status" },
-    { value: "published", label: "Published" },
-    { value: "in-progress", label: "In Progress" },
-    { value: "completed", label: "Completed" },
+    { value: "active", label: "Active" },
+    { value: "closed", label: "Closed" },
+    { value: "draft", label: "Draft" },
   ];
 
-  const categoryOptions = [
-    { value: "all", label: "All Categories" },
-    { value: "Construction", label: "Construction" },
-    { value: "Electrical", label: "Electrical" },
-    { value: "Environmental", label: "Environmental" },
-    { value: "Renovation", label: "Renovation" },
-    { value: "Landscaping", label: "Landscaping" },
+  const jobTypeOptions = [
+    { value: "all", label: "All Types" },
+    { value: "Full-time", label: "Full-time" },
+    { value: "Part-time", label: "Part-time" },
+    { value: "Contract", label: "Contract" },
+    { value: "Internship", label: "Internship" },
   ];
 
-  const urgencyOptions = [
-    { value: "all", label: "All Urgency" },
-    { value: "high", label: "High Priority" },
-    { value: "medium", label: "Medium Priority" },
-    { value: "low", label: "Low Priority" },
+  const workTypeOptions = [
+    { value: "all", label: "All Work Types" },
+    { value: "On-site", label: "On-site" },
+    { value: "Remote", label: "Remote" },
+    { value: "Hybrid", label: "Hybrid" },
   ];
+
+  // Extract unique categories from jobs
+  const categoryOptions = useMemo(() => {
+    const categories = [...new Set(jobs.map(job => job.category).filter(Boolean))];
+    return [
+      { value: "all", label: "All Categories" },
+      ...categories.map(cat => ({ value: cat, label: cat }))
+    ];
+  }, [jobs]);
 
   const filteredJobs = useMemo(() => {
-    let jobs = MOCK_JOBS;
+    let filtered = jobs;
 
     // Search filter
     if (searchQuery.trim()) {
-      jobs = jobs.filter(
+      filtered = filtered.filter(
         (job) =>
-          job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          job.location.toLowerCase().includes(searchQuery.toLowerCase())
+          job.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          job.company?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          job.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Status filter
     if (filters.status !== "all") {
-      jobs = jobs.filter((job) => job.status === filters.status);
+      filtered = filtered.filter((job) => job.status === filters.status);
+    }
+
+    // Job type filter
+    if (filters.jobType !== "all") {
+      filtered = filtered.filter((job) => job.jobType === filters.jobType);
+    }
+
+    // Work type filter
+    if (filters.workType !== "all") {
+      filtered = filtered.filter((job) => job.workType === filters.workType);
     }
 
     // Category filter
     if (filters.category !== "all") {
-      jobs = jobs.filter((job) => job.category === filters.category);
+      filtered = filtered.filter((job) => job.category === filters.category);
     }
 
-    // Urgency filter
-    if (filters.urgency !== "all") {
-      jobs = jobs.filter((job) => job.urgency === filters.urgency);
-    }
+    return filtered;
+  }, [jobs, searchQuery, filters]);
 
-    return jobs;
-  }, [searchQuery, filters]);
+  // Calculate stats from real data
+  const stats = useMemo(() => {
+    const total = jobs.length;
+    const active = jobs.filter((job) => job.status === "active").length;
+    const closed = jobs.filter((job) => job.status === "closed").length;
+    const draft = jobs.filter((job) => job.status === "draft").length;
 
-  const stats = {
-    total: MOCK_JOBS.length,
-    published: MOCK_JOBS.filter((job) => job.status === "published").length,
-    inProgress: MOCK_JOBS.filter((job) => job.status === "in-progress").length,
-    completed: MOCK_JOBS.filter((job) => job.status === "completed").length,
-  };
+    return { total, active, closed, draft };
+  }, [jobs]);
 
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters);
@@ -198,8 +151,8 @@ export default function EmployerJobs() {
     setFilters({
       status: "all",
       category: "all",
-      urgency: "all",
-      budgetRange: "all",
+      jobType: "all",
+      workType: "all",
     });
   };
 
@@ -213,59 +166,82 @@ export default function EmployerJobs() {
   // Helper functions for job cards
   const getStatusColor = (status) => {
     switch (status) {
-      case "published":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "in-progress":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "completed":
+      case "active":
         return "bg-green-100 text-green-800 border-green-200";
+      case "closed":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "draft":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
-  const getUrgencyColor = (urgency) => {
-    switch (urgency) {
-      case "high":
-        return "bg-red-100 text-red-800";
-      case "medium":
-        return "bg-yellow-100 text-yellow-800";
-      case "low":
-        return "bg-green-100 text-green-800";
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case "active":
+        return "Active";
+      case "closed":
+        return "Closed";
+      case "draft":
+        return "Draft";
       default:
-        return "bg-gray-100 text-gray-800";
+        return status;
     }
   };
 
-  const getActionButtons = (status) => {
-    switch (status) {
-      case "published":
+  const formatDate = (dateString) => {
+    if (!dateString) return "No deadline";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+
+  const getTimeAgo = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return "1 day ago";
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+    return `${Math.floor(diffDays / 30)} months ago`;
+  };
+
+  const getActionButtons = (job) => {
+    switch (job.status) {
+      case "active":
         return (
           <>
             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
               <FiEdit className="text-sm" />
               Edit
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors cursor-pointer">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
               <FiEye className="text-sm" />
-              View Bids
+              View Bids ({job.applicationCount || 0})
             </button>
           </>
         );
-      case "in-progress":
+      case "draft":
         return (
           <>
             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiMessageCircle className="text-sm" />
-              Message
+              <FiEdit className="text-sm" />
+              Edit
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-primary transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
               <FiCheckCircle className="text-sm" />
-              Complete
+              Publish
             </button>
           </>
         );
-      case "completed":
+      case "closed":
         return (
           <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors w-full justify-center">
             <FiEye className="text-sm" />
@@ -287,7 +263,7 @@ export default function EmployerJobs() {
             <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-500 transition-colors">
               {job.title}
             </h3>
-            <p className="text-gray-600 mt-1">{job.department}</p>
+            <p className="text-gray-600 mt-1">{job.company}</p>
           </div>
           <div className="flex items-center gap-2">
             <span
@@ -295,19 +271,14 @@ export default function EmployerJobs() {
                 job.status
               )}`}
             >
-              {job.statusLabel}
-            </span>
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(
-                job.urgency
-              )}`}
-            >
-              {job.urgency}
+              {getStatusLabel(job.status)}
             </span>
           </div>
         </div>
 
-        <p className="text-gray-600 leading-relaxed">{job.summary}</p>
+        <p className="text-gray-600 leading-relaxed line-clamp-2">
+          {job.description}
+        </p>
       </div>
 
       {/* Details */}
@@ -320,36 +291,57 @@ export default function EmployerJobs() {
           <div className="flex items-center gap-2 text-gray-600">
             <FiDollarSign className="text-gray-400" />
             <span className="text-sm font-semibold text-gray-800">
-              {job.budget}
+              ${job.salary} {job.salaryType}
             </span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <FiClock className="text-gray-400" />
-            <span className="text-sm">{job.deadline}</span>
+            <span className="text-sm">{formatDate(job.postDeadline)}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <FiCheckCircle className="text-gray-400" />
-            <span className="text-sm">{job.milestones} milestones</span>
+            <span className="text-sm">{job.jobType}</span>
           </div>
         </div>
+
+        {/* Skills */}
+        {job.skills && job.skills.length > 0 && (
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-2">
+              {job.skills.slice(0, 3).map((skill, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+              {job.skills.length > 3 && (
+                <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">
+                  +{job.skills.length - 3} more
+                </span>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="flex justify-between items-center pt-4 border-t border-gray-100">
           <div className="flex items-center gap-6 text-sm text-gray-600">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              {job.bids} bids
+              {job.applicationCount || 0} applications
             </span>
-            <span className="text-gray-400">{job.time}</span>
+            <span className="text-gray-400">{getTimeAgo(job.createdAt)}</span>
           </div>
           <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
-            {job.category}
+            {job.workType}
           </span>
         </div>
 
         {/* Actions */}
         <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
-          {getActionButtons(job.status)}
+          {getActionButtons(job)}
         </div>
       </div>
     </div>
@@ -425,35 +417,35 @@ export default function EmployerJobs() {
             </div>
           </div>
 
-          {/* Category Filter */}
+          {/* Job Type Filter */}
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Job Category
+              Job Type
             </h3>
             <div className="space-y-3">
-              {categoryOptions.map((option) => (
+              {jobTypeOptions.map((option) => (
                 <label
                   key={option.value}
                   className="flex items-center cursor-pointer group"
                 >
                   <input
                     type="radio"
-                    name="category"
+                    name="jobType"
                     value={option.value}
-                    checked={filters.category === option.value}
+                    checked={filters.jobType === option.value}
                     onChange={(e) =>
-                      handleFilterChange("category", e.target.value)
+                      handleFilterChange("jobType", e.target.value)
                     }
                     className="hidden"
                   />
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${
-                      filters.category === option.value
+                      filters.jobType === option.value
                         ? "border-blue-500 bg-blue-500"
                         : "border-gray-300 group-hover:border-blue-500"
                     }`}
                   >
-                    {filters.category === option.value && (
+                    {filters.jobType === option.value && (
                       <FiCheck className="text-white text-xs" />
                     )}
                   </div>
@@ -465,35 +457,35 @@ export default function EmployerJobs() {
             </div>
           </div>
 
-          {/* Urgency Filter */}
+          {/* Work Type Filter */}
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Priority Level
+              Work Type
             </h3>
             <div className="space-y-3">
-              {urgencyOptions.map((option) => (
+              {workTypeOptions.map((option) => (
                 <label
                   key={option.value}
                   className="flex items-center cursor-pointer group"
                 >
                   <input
                     type="radio"
-                    name="urgency"
+                    name="workType"
                     value={option.value}
-                    checked={filters.urgency === option.value}
+                    checked={filters.workType === option.value}
                     onChange={(e) =>
-                      handleFilterChange("urgency", e.target.value)
+                      handleFilterChange("workType", e.target.value)
                     }
                     className="hidden"
                   />
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${
-                      filters.urgency === option.value
+                      filters.workType === option.value
                         ? "border-blue-500 bg-blue-500"
                         : "border-gray-300 group-hover:border-blue-500"
                     }`}
                   >
-                    {filters.urgency === option.value && (
+                    {filters.workType === option.value && (
                       <FiCheck className="text-white text-xs" />
                     )}
                   </div>
@@ -517,7 +509,7 @@ export default function EmployerJobs() {
             </button>
             <button
               onClick={() => setIsFilterOpen(false)}
-              className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors"
+              className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
             >
               Apply Filters
             </button>
@@ -526,6 +518,37 @@ export default function EmployerJobs() {
       </div>
     </>
   );
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6 flex items-center justify-center">
+        <div className="text-center">
+          <FiLoader className="animate-spin text-4xl text-blue-500 mx-auto mb-4" />
+          <p className="text-gray-600">Loading your jobs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error State
+  if (error) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <FiAlertCircle className="text-4xl text-red-500 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Error Loading Jobs</h3>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
+            onClick={fetchJobs}
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
@@ -538,7 +561,7 @@ export default function EmployerJobs() {
               Manage and track all your job postings in one place
             </p>
           </div>
-          <Link href={'/pages/dashboard/employer/post/jobs'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center gap-2 w-fit cursor-pointer">
+          <Link href={'/pages/dashboard/employer/post/jobs'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
             <FiPlus className="text-lg" />
             Post New Job
           </Link>
@@ -553,22 +576,22 @@ export default function EmployerJobs() {
             <div className="text-gray-600 text-sm">Total Jobs</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-primary">
-              {stats.published}
+            <div className="text-2xl font-bold text-green-600">
+              {stats.active}
             </div>
-            <div className="text-gray-600 text-sm">Published</div>
+            <div className="text-gray-600 text-sm">Active</div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div className="text-2xl font-bold text-red-600">
+              {stats.closed}
+            </div>
+            <div className="text-gray-600 text-sm">Closed</div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
             <div className="text-2xl font-bold text-yellow-600">
-              {stats.inProgress}
+              {stats.draft}
             </div>
-            <div className="text-gray-600 text-sm">In Progress</div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-primary">
-              {stats.completed}
-            </div>
-            <div className="text-gray-600 text-sm">Completed</div>
+            <div className="text-gray-600 text-sm">Draft</div>
           </div>
         </div>
 
@@ -579,7 +602,7 @@ export default function EmployerJobs() {
               <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
               <input
                 type="text"
-                placeholder="Search jobs, departments, locations..."
+                placeholder="Search jobs, companies, locations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
@@ -596,22 +619,22 @@ export default function EmployerJobs() {
 
           {/* Active Filters */}
           {(filters.status !== "all" ||
-            filters.category !== "all" ||
-            filters.urgency !== "all") && (
+            filters.jobType !== "all" ||
+            filters.workType !== "all") && (
             <div className="mt-4 flex flex-wrap gap-2">
               {filters.status !== "all" && (
                 <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                  Status: {filters.status}
+                  Status: {getStatusLabel(filters.status)}
                 </span>
               )}
-              {filters.category !== "all" && (
+              {filters.jobType !== "all" && (
                 <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                  Category: {filters.category}
+                  Type: {filters.jobType}
                 </span>
               )}
-              {filters.urgency !== "all" && (
+              {filters.workType !== "all" && (
                 <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                  Urgency: {filters.urgency}
+                  Work: {filters.workType}
                 </span>
               )}
               <button
@@ -631,25 +654,35 @@ export default function EmployerJobs() {
           <div className="col-span-2 bg-white rounded-2xl p-12 text-center border border-gray-200">
             <div className="text-gray-400 text-6xl mb-4">📭</div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              No jobs found
+              {jobs.length === 0 ? "No jobs posted yet" : "No jobs found"}
             </h3>
             <p className="text-gray-600 mb-6">
-              Try adjusting your search criteria or filters
+              {jobs.length === 0 
+                ? "Start by posting your first job opportunity" 
+                : "Try adjusting your search criteria or filters"
+              }
             </p>
-            <button
-              onClick={handleClearFilters}
-              className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary transition-colors"
-            >
-              Clear Filters
-            </button>
+            {jobs.length === 0 && (
+              <Link href={'/pages/dashboard/employer/post/jobs'} className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block">
+                Post Your First Job
+              </Link>
+            )}
+            {jobs.length > 0 && (
+              <button
+                onClick={handleClearFilters}
+                className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+              >
+                Clear Filters
+              </button>
+            )}
           </div>
         ) : (
-          filteredJobs.map((job) => <JobCard key={job.id} job={job} />)
+          filteredJobs.map((job) => <JobCard key={job._id} job={job} />)
         )}
       </div>
 
-      {/* Load More */}
-      {filteredJobs.length > 0 && (
+      {/* Load More - You can implement pagination later */}
+      {filteredJobs.length > 0 && filteredJobs.length >= 10 && (
         <div className="mt-8 text-center">
           <button className="bg-white border border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:border-blue-500 hover:text-blue-500 transition-colors">
             Load More Jobs
