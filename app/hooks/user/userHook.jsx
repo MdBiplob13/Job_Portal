@@ -37,11 +37,9 @@ const useUser = () => {
         if (data.status === "success") {
           setUser(data.user);
         } else {
-          Cookies.remove("bidpoleToken");
-          router.push("/pages/auth/login");
+          // router.push("/pages/auth/login");
         }
       } catch (err) {
-        Cookies.remove("bidpoleToken");
         router.push("/pages/auth/login");
       } finally {
         setUserLoading(false);

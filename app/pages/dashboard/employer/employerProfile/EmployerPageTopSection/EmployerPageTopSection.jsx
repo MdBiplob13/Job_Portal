@@ -18,44 +18,9 @@ const EmployerPageTopSection = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
-    name: user?.name || "",
-    userName: user?.userName || "",
-    intro: user?.intro || "",
-    discretion: user?.discretion || "",
-    location: user?.location || "",
-    chargeParHour: user?.chargeParHour || 0,
-    phone: user?.phone || "",
-    currentJobStatus: user?.currentJobStatus || "Open to work",
-    social: {
-      facebook: user?.social?.facebook || "",
-      linkedin: user?.social?.linkedin || "",
-      instagram: user?.social?.instagram || "",
-      portfolio: user?.social?.portfolio || "",
-    },
-    Languages: user?.Languages || [],
-  });
-
   // Update form data when user changes
   useEffect(() => {
     if (user) {
-      setFormData({
-        name: user.name || "",
-        userName: user.userName || "",
-        intro: user.intro || "",
-        discretion: user.discretion || "",
-        location: user.location || "",
-        chargeParHour: user.chargeParHour || 0,
-        phone: user.phone || "",
-        currentJobStatus: user.currentJobStatus || "Open to work",
-        social: {
-          facebook: user.social?.facebook || "",
-          linkedin: user.social?.linkedin || "",
-          instagram: user.social?.instagram || "",
-          portfolio: user.social?.portfolio || "",
-        },
-        Languages: user.Languages || [],
-      });
       setBannerPreview(user.banner || "");
       setPhotoPreview(user.photo || "");
     }
@@ -103,32 +68,9 @@ const EmployerPageTopSection = () => {
     })}`;
   };
 
-  // Get current position title or default
-  const getCurrentPositionTitle = () => {
-    return user?.currentPosition?.title || "Professional";
-  };
-
   // Get hourly rate display
   const getHourlyRate = () => {
     return user?.chargeParHour ? `$${user.chargeParHour}/hour` : "Rate not set";
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSocialChange = (platform, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      social: {
-        ...prev.social,
-        [platform]: value,
-      },
-    }));
   };
 
   const handleFileChange = (field, file) => {
@@ -141,59 +83,6 @@ const EmployerPageTopSection = () => {
         setPhotoPreview(previewUrl);
         setSelectedPhoto(file);
       }
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const submitData = new FormData();
-
-      // Add email to identify the user
-      submitData.append("email", user.email);
-
-      // Append text fields
-      Object.keys(formData).forEach((key) => {
-        if (key === "social") {
-          Object.keys(formData.social).forEach((socialKey) => {
-            submitData.append(socialKey, formData.social[socialKey]);
-          });
-        } else if (key === "Languages") {
-          submitData.append("Languages", formData.Languages.join(","));
-        } else {
-          submitData.append(key, formData[key]);
-        }
-      });
-
-      // Append files
-      if (selectedBanner) submitData.append("banner", selectedBanner);
-      if (selectedPhoto) submitData.append("photo", selectedPhoto);
-
-      const response = await fetch("/api/dashboard/profile", {
-        method: "PUT",
-        body: submitData,
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Update local user state
-        if (updateUser) {
-          updateUser(result.user);
-        }
-        setIsEditing(false);
-        setSelectedBanner(null);
-        setSelectedPhoto(null);
-        setUserRefresh(userRefresh + 1);
-      } else {
-        console.error("Update failed:", result.error);
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -212,10 +101,7 @@ const EmployerPageTopSection = () => {
               Edit Profile
             </Dialog.Title>
 
-            <form
-              onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            >
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* LEFT SIDE */}
               <div className="flex flex-col gap-6">
                 {/* Banner Upload */}
@@ -275,37 +161,21 @@ const EmployerPageTopSection = () => {
                   <input
                     type="url"
                     placeholder="Facebook URL"
-                    value={formData.social.facebook}
-                    onChange={(e) =>
-                      handleSocialChange("facebook", e.target.value)
-                    }
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="LinkedIn URL"
-                    value={formData.social.linkedin}
-                    onChange={(e) =>
-                      handleSocialChange("linkedin", e.target.value)
-                    }
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="Instagram URL"
-                    value={formData.social.instagram}
-                    onChange={(e) =>
-                      handleSocialChange("instagram", e.target.value)
-                    }
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="Portfolio URL"
-                    value={formData.social.portfolio}
-                    onChange={(e) =>
-                      handleSocialChange("portfolio", e.target.value)
-                    }
                     className="w-full p-3 border rounded-xl"
                   />
                 </div>
@@ -317,8 +187,6 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Full Name *</label>
                   <input
                     name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
                     required
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
@@ -328,8 +196,6 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Username *</label>
                   <input
                     name="userName"
-                    value={formData.userName}
-                    onChange={handleInputChange}
                     required
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
@@ -339,8 +205,6 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Location</label>
                   <input
                     name="location"
-                    value={formData.location}
-                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
@@ -352,8 +216,6 @@ const EmployerPageTopSection = () => {
                   <input
                     type="number"
                     name="chargeParHour"
-                    value={formData.chargeParHour}
-                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
@@ -363,8 +225,6 @@ const EmployerPageTopSection = () => {
                   <input
                     type="tel"
                     name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
@@ -373,8 +233,6 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Job Status</label>
                   <select
                     name="currentJobStatus"
-                    value={formData.currentJobStatus}
-                    onChange={handleInputChange}
                     className="w-full mt-1 p-3 border rounded-xl"
                   >
                     <option value="Open to work">Open to work</option>
@@ -389,8 +247,6 @@ const EmployerPageTopSection = () => {
                 <label className="text-sm font-medium">Introduction</label>
                 <textarea
                   name="intro"
-                  value={formData.intro}
-                  onChange={handleInputChange}
                   className="w-full mt-1 p-3 border rounded-xl min-h-[100px]"
                   placeholder="Short introduction about yourself..."
                 />
@@ -400,8 +256,6 @@ const EmployerPageTopSection = () => {
                 <label className="text-sm font-medium">Description</label>
                 <textarea
                   name="discretion"
-                  value={formData.discretion}
-                  onChange={handleInputChange}
                   className="w-full mt-1 p-3 border rounded-xl min-h-[120px]"
                   placeholder="Detailed description about your skills and experience..."
                 />
@@ -441,7 +295,7 @@ const EmployerPageTopSection = () => {
             className="h-48 w-full object-cover"
           />
         ) : (
-          <div className="h-48 bg-gradient-to-r from-blue-500 to-primary"></div>
+          <div className="h-48 bg-linear-to-r from-blue-500 to-primary"></div>
         )}
 
         <div className="relative -top-16 px-6">

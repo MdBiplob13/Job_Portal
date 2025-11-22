@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  intro: {
+  headline: {
     type: String,
     default: null,
   },
-  discretion: {
+  bio: {
     type: String,
     default: null,
   },
@@ -125,6 +125,7 @@ const userSchema = new mongoose.Schema({
       default: false,
     },
   },
+
   paymentMethods: {
     type: [String],
     default: [],
