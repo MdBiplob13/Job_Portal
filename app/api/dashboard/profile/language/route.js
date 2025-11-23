@@ -71,9 +71,6 @@ export async function DELETE(req) {
       );
     }
 
-    console.log(user?.languages)
-    console.log("🚀 ~ DELETE ~ languageId:", languageId)
-
     // update language array
     user.languages = user.languages.filter(
       (lang) => lang._id.toString() !== languageId.toString()
