@@ -1,4 +1,5 @@
 import useUser from "@/app/hooks/user/userHook";
+import Link from "next/link";
 import React, { useState } from "react";
 import { FiGlobe, FiMail, FiPhone, FiUser, FiPlus } from "react-icons/fi";
 
@@ -6,10 +7,7 @@ const EmployerProfileTab = ({}) => {
   const [showLanguageForm, setShowLanguageForm] = useState(false);
   const { user } = useUser();
 
-  // Get current position title or default
-  const getCurrentPositionTitle = () => {
-    return user?.currentPosition?.title || "Professional";
-  };
+
 
   // Get hourly rate display
   const getHourlyRate = () => {
@@ -23,7 +21,7 @@ const EmployerProfileTab = ({}) => {
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       {/* LEFT SIDE - PERSONAL INFO */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 max-h-[500px]">
         <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
           <FiUser className="text-blue-500" /> Personal Information
         </h3>
@@ -40,10 +38,10 @@ const EmployerProfileTab = ({}) => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Professional Title
+                Current Job Status
               </label>
               <div className="w-full px-4 py-3 bg-gray-50 border rounded-xl">
-                {getCurrentPositionTitle()}
+                {user.currentJobStatus || "Not specified"}
               </div>
             </div>
           </div>
@@ -53,7 +51,7 @@ const EmployerProfileTab = ({}) => {
               Professional Summary
             </label>
             <div className="w-full px-4 py-3 bg-gray-50 border rounded-xl min-h-[120px]">
-              {user.discretion || user.intro || "No description provided."}
+              {user.bio || "No bio provided."}
             </div>
           </div>
 
@@ -76,22 +74,6 @@ const EmployerProfileTab = ({}) => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Current Status
-            </label>
-            <div
-              className={`px-4 py-2 rounded-full text-sm font-medium inline-block ${
-                user.currentJobStatus === "Open to work"
-                  ? "bg-green-100 text-green-800"
-                  : user.currentJobStatus === "Working"
-                  ? "bg-blue-100 text-blue-800"
-                  : "bg-gray-100 text-gray-800"
-              }`}
-            >
-              {user.currentJobStatus}
-            </div>
-          </div>
         </div>
       </div>
 
@@ -190,9 +172,9 @@ const EmployerProfileTab = ({}) => {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-800">Facebook</div>
-                  <div className="text-gray-600 text-sm truncate">
-                    {user.social.facebook}
-                  </div>
+                  <Link href={user.social?.facebook} className="text-gray-600 text-sm truncate">
+                    {user.social?.facebook}
+                  </Link>
                 </div>
               </div>
             )}
@@ -204,9 +186,9 @@ const EmployerProfileTab = ({}) => {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-800">LinkedIn</div>
-                  <div className="text-gray-600 text-sm truncate">
-                    {user.social.linkedin}
-                  </div>
+                  <Link href={user.social?.linkedin} className="text-gray-600 text-sm truncate">
+                    {user.social?.linkedin}
+                  </Link>
                 </div>
               </div>
             )}
@@ -218,9 +200,9 @@ const EmployerProfileTab = ({}) => {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-800">Instagram</div>
-                  <div className="text-gray-600 text-sm truncate">
-                    {user.social.instagram}
-                  </div>
+                  <Link href={user.social?.instagram} className="text-gray-600 text-sm truncate">
+                    {user.social?.instagram}
+                  </Link>
                 </div>
               </div>
             )}
@@ -232,9 +214,9 @@ const EmployerProfileTab = ({}) => {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-gray-800">Portfolio</div>
-                  <div className="text-gray-600 text-sm truncate">
-                    {user.social.portfolio}
-                  </div>
+                  <Link href={user.social.portfolio} className="text-gray-600 text-sm truncate">
+                    {user?.social?.portfolio}
+                  </Link>
                 </div>
               </div>
             )}

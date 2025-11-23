@@ -79,6 +79,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  language: {
+    type: Array,
+    default: [],
+  },
   email: {
     type: String,
     default: null,

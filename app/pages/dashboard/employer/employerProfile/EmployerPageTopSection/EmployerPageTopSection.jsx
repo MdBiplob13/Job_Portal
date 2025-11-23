@@ -128,12 +128,13 @@ const EmployerPageTopSection = () => {
       banner: bannerUrl,
       photo: photoUrl,
       social: {
-        facebookUrl,
-        linkedinUrl,
-        instagramUrl,
-        portfolioUrl,
+        facebook: facebookUrl,
+        linkedin: linkedinUrl,
+        instagram: instagramUrl,
+        portfolio: portfolioUrl,
       },
     };
+
 
     fetch("/api/dashboard/profile", {
       method: "PUT",

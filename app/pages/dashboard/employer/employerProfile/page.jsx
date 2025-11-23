@@ -114,7 +114,7 @@ export default function EmployerProfile() {
     </div>
   );
 
-  hostPhoto
+  
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
