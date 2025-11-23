@@ -62,10 +62,6 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  Languages: {
-    type: Array,
-    default: [],
-  },
   currentJobStatus: {
     type: String,
     default: "Open to work",
@@ -79,7 +75,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  language: {
+  languages: {
     type: Array,
     default: [],
   },
