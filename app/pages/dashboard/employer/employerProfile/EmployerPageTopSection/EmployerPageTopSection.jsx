@@ -8,6 +8,8 @@ import {
 } from "react-icons/fi";
 import * as Dialog from "@radix-ui/react-dialog";
 import useUser from "@/app/hooks/user/userHook";
+import hostPhoto from "@/utils/hostPhoto/hostPhoto";
+import toast from "react-hot-toast";
 
 const EmployerPageTopSection = () => {
   const { user, updateUser, setUserRefresh, userRefresh } = useUser();
@@ -86,6 +88,78 @@ const EmployerPageTopSection = () => {
     }
   };
 
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const form = e.target;
+    const facebookUrl = form.facebookUrl.value;
+    const linkedinUrl = form.linkedinUrl.value;
+    const instagramUrl = form.instagramUrl.value;
+    const portfolioUrl = form.portfolioUrl.value;
+    const name = form.name.value;
+    const headline = form.headline.value;
+    const bio = form.bio.value;
+    const chargeParHour = form.chargeParHour.value;
+    const phone = form.phone.value;
+    const currentJobStatus = form.currentJobStatus.value;
+
+    // charge par hour validation
+    if (chargeParHour < 0) {
+      toast.error("Charge per hour cannot be negative");
+      setIsLoading(false);
+      return;
+    }
+
+    // host photos
+    const banner = selectedBanner || user?.banner;
+    const photo = selectedPhoto || user?.photo;
+
+    const bannerUrl = await hostPhoto(banner);
+    const photoUrl = await hostPhoto(photo);
+
+    const userUpdatedData = {
+      name,
+      headline,
+      bio,
+      chargeParHour,
+      phone,
+      currentJobStatus,
+      banner: bannerUrl,
+      photo: photoUrl,
+      social: {
+        facebookUrl,
+        linkedinUrl,
+        instagramUrl,
+        portfolioUrl,
+      },
+    };
+
+    fetch("/api/dashboard/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user._id,
+        userData: userUpdatedData,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          toast.success("Profile updated successfully");
+          setUserRefresh(userRefresh + 1);
+          setIsEditing(false);
+        } else {
+          toast.error(data.message || "Failed to update profile");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -101,7 +175,10 @@ const EmployerPageTopSection = () => {
               Edit Profile
             </Dialog.Title>
 
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form
+              onSubmit={handleUpdateProfile}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            >
               {/* LEFT SIDE */}
               <div className="flex flex-col gap-6">
                 {/* Banner Upload */}
@@ -161,21 +238,25 @@ const EmployerPageTopSection = () => {
                   <input
                     type="url"
                     placeholder="Facebook URL"
+                    name="facebookUrl"
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="LinkedIn URL"
+                    name="linkedinUrl"
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="Instagram URL"
+                    name="instagramUrl"
                     className="w-full p-3 border rounded-xl"
                   />
                   <input
                     type="url"
                     placeholder="Portfolio URL"
+                    name="portfolioUrl"
                     className="w-full p-3 border rounded-xl"
                   />
                 </div>
@@ -187,24 +268,8 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Full Name *</label>
                   <input
                     name="name"
+                    defaultValue={user?.name}
                     required
-                    className="w-full mt-1 p-3 border rounded-xl"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Username *</label>
-                  <input
-                    name="userName"
-                    required
-                    className="w-full mt-1 p-3 border rounded-xl"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Location</label>
-                  <input
-                    name="location"
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
                 </div>
@@ -215,6 +280,7 @@ const EmployerPageTopSection = () => {
                   </label>
                   <input
                     type="number"
+                    defaultValue={user?.chargeParHour}
                     name="chargeParHour"
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
@@ -224,6 +290,7 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Phone</label>
                   <input
                     type="tel"
+                    defaultValue={user?.phone}
                     name="phone"
                     className="w-full mt-1 p-3 border rounded-xl"
                   />
@@ -233,6 +300,7 @@ const EmployerPageTopSection = () => {
                   <label className="text-sm font-medium">Job Status</label>
                   <select
                     name="currentJobStatus"
+                    defaultValue={user?.currentJobStatus}
                     className="w-full mt-1 p-3 border rounded-xl"
                   >
                     <option value="Open to work">Open to work</option>
@@ -244,20 +312,22 @@ const EmployerPageTopSection = () => {
 
               {/* FULL-WIDTH FIELDS */}
               <div className="md:col-span-2">
-                <label className="text-sm font-medium">Introduction</label>
+                <label className="text-sm font-medium">Headline</label>
                 <textarea
-                  name="intro"
+                  name="headline"
+                  defaultValue={user?.headline}
                   className="w-full mt-1 p-3 border rounded-xl min-h-[100px]"
-                  placeholder="Short introduction about yourself..."
+                  placeholder="Short description about yourself..."
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="text-sm font-medium">Description</label>
+                <label className="text-sm font-medium">Bio</label>
                 <textarea
-                  name="discretion"
+                  name="bio"
+                  defaultValue={user?.bio}
                   className="w-full mt-1 p-3 border rounded-xl min-h-[120px]"
-                  placeholder="Detailed description about your skills and experience..."
+                  placeholder="Your detailed bio..."
                 />
               </div>
 
@@ -382,7 +452,7 @@ const EmployerPageTopSection = () => {
                 </div>
 
                 <p className="text-gray-600 mt-4 leading-relaxed">
-                  {user.discretion || user.intro || "No description provided."}
+                  {user.headline || "No Headline provided."}
                 </p>
 
                 {/* Languages */}
