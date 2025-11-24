@@ -5,6 +5,7 @@ import { FiAward, FiBriefcase, FiCheck, FiPlus } from "react-icons/fi";
 import { FaTrash } from "react-icons/fa";
 import useUser from "@/app/hooks/user/userHook";
 import useGetUserExperience from "@/app/hooks/user/experienceHook";
+import useGetUserCertificates from "@/app/hooks/user/certificateHook";
 
 const EmployerExperienceTab = () => {
   const { user } = useUser();
@@ -13,8 +14,13 @@ const EmployerExperienceTab = () => {
   const { experiences, expLoading, expRefresh, setExpRefresh, setExperiences } =
     useGetUserExperience(user?._id);
 
-  // Controls which dialog is active: "experience" or "certificate"
-  const [dialogType, setDialogType] = useState(null);
+  const {
+    certificates,
+    certLoading,
+    certRefresh,
+    setCertRefresh,
+    setCertificates,
+  } = useGetUserCertificates(user?._id);
 
   // Controls the two dialogs
   const [expOpen, setExpOpen] = useState(false);
@@ -58,26 +64,25 @@ const EmployerExperienceTab = () => {
     e.preventDefault();
     const form = e.target;
 
-    const payload = {
+    const certificateData = {
       userId: user._id,
-      name: form.name.value,
-      issuer: form.issuer.value,
+      certificateName: form.certificateName.value,
+      institute: form.institute.value,
       date: form.date.value,
       description: form.description.value,
-      type: "certificate",
     };
 
-    const res = await fetch("/api/dashboard/profile/experience", {
+    const res = await fetch("/api/dashboard/profile/certificate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(certificateData),
     });
 
     const data = await res.json();
 
     if (data.status === "success") {
       setCertOpen(false);
-      setExperiences(data.data.experiences);
+      setCertificates(data.data);
     }
   };
 
@@ -102,6 +107,24 @@ const EmployerExperienceTab = () => {
         }
       });
   };
+  const handleDeleteCertificate = (certificateId) => {
+    fetch(`/api/dashboard/profile/certificate`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ certificateId }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          const newCertificates = certificates.filter(
+            (certificate) => certificate._id !== certificateId
+          );
+          setCertificates(newCertificates);
+        } else {
+          console.error("Delete experience failed:", data);
+        }
+      });
+  };
 
   // Separate items by type
 
@@ -119,7 +142,6 @@ const EmployerExperienceTab = () => {
 
           <button
             onClick={() => {
-              setDialogType("experience");
               setExpOpen(true);
             }}
             className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl cursor-pointer"
@@ -187,7 +209,6 @@ const EmployerExperienceTab = () => {
 
           <button
             onClick={() => {
-              setDialogType("certificate");
               setCertOpen(true);
             }}
             className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl cursor-pointer"
@@ -197,37 +218,47 @@ const EmployerExperienceTab = () => {
         </div>
 
         {/* Certificate Items */}
-        {/* <div className="grid md:grid-cols-2 gap-6">
-          {certItems.length > 0 ? (
-            certItems.map((cert) => (
-              <div key={cert._id} className="p-4 border rounded-xl group">
-                <div className="flex gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <FiCheck className="text-green-600" />
-                  </div>
-
-                  <div className="flex-1">
-                    <h4 className="font-semibold">{cert.name}</h4>
-                    <p className="text-gray-600 text-sm">{cert.issuer}</p>
-                    <p className="text-gray-500 text-xs">{cert.date}</p>
-                    <p className="text-gray-600 text-sm mt-2">
-                      {cert.description}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => handleDelete(cert._id)}
-                    className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 p-2"
-                  >
-                    <FaTrash />
-                  </button>
+        <div className="grid md:grid-cols-2 gap-6">
+          {certificates.length > 0 ? (
+            certificates.map((cert) => (
+              <div
+                key={cert._id}
+                className="flex gap-4 p-5 border border-gray-200 rounded-2xl hover:shadow-md transition group bg-white"
+              >
+                {/* Logo Box */}
+                <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center text-white text-xl font-semibold">
+                  {cert.institute?.charAt(0).toUpperCase()}
                 </div>
+
+                {/* Content */}
+                <div className="flex-1">
+                  <h4 className="font-bold text-lg text-gray-800">
+                    {cert.certificateName}
+                  </h4>
+                  <p className="text-gray-600 font-medium">{cert.institute}</p>
+
+                  <p className="text-gray-500 text-sm mt-1">
+                    {new Date(cert.date).toLocaleDateString()}
+                  </p>
+
+                  <p className="text-gray-700 text-sm mt-2 leading-relaxed">
+                    {cert.description}
+                  </p>
+                </div>
+
+                {/* Delete */}
+                <button
+                  onClick={() => handleDeleteCertificate(cert._id)}
+                  className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 p-2 transition cursor-pointer"
+                >
+                  <FaTrash />
+                </button>
               </div>
             ))
           ) : (
             <p className="text-gray-500 italic">No certificates added yet.</p>
           )}
-        </div> */}
+        </div>
       </div>
 
       {/* =============================================================
@@ -271,7 +302,7 @@ const EmployerExperienceTab = () => {
 
               <div className="flex justify-end gap-3 mt-4">
                 <Dialog.Close asChild>
-                  <button type="button" className="px-5 py-2 border rounded-xl">
+                  <button type="button" className="px-5 py-2 border rounded-xl cursor-pointer ">
                     Cancel
                   </button>
                 </Dialog.Close>
@@ -291,7 +322,7 @@ const EmployerExperienceTab = () => {
       {/* =============================================================
           CERTIFICATE DIALOG
       ============================================================= */}
-      <Dialog.Root open={certOpen} onOpenChange={setCertOpen}>
+      <Dialog.Root  open={certOpen} onOpenChange={setCertOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/40" />
           <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] bg-white p-8 rounded-2xl shadow-xl">
@@ -301,14 +332,14 @@ const EmployerExperienceTab = () => {
 
             <form onSubmit={handleAddCertificate} className="grid gap-5">
               <input
-                name="name"
+                name="certificateName"
                 className="p-3 border rounded-xl"
                 placeholder="Certificate Name"
               />
               <input
-                name="issuer"
+                name="institute"
                 className="p-3 border rounded-xl"
-                placeholder="Issuer"
+                placeholder="Institute"
               />
               <input
                 name="date"
@@ -324,14 +355,14 @@ const EmployerExperienceTab = () => {
 
               <div className="flex justify-end gap-3">
                 <Dialog.Close asChild>
-                  <button type="button" className="px-5 py-2 border rounded-xl">
+                  <button type="button" className="px-5 py-2 border rounded-xl cursor-pointer">
                     Cancel
                   </button>
                 </Dialog.Close>
 
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-xl"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-xl cursor-pointer"
                 >
                   Add
                 </button>
