@@ -1,18 +1,17 @@
-import DashboardNavbar from "@/app/components/Dashboard/DashboardNavbar/DashboardNavbar";
 import React from "react";
-import EmployerSideBar from "./Components/EmployerSideBar/EmployerSideBar";
-import EmployerNavbar from "./Components/EmployerNavbar/EmployerNavbar";
+import AdminNavbar from "./Components/AdminNavbar/AdminNavbar";
+import AdminSideBar from "./Components/AdminSideBar/AdminSideBar";
 
 const layout = ({ children }) => {
   return (
     <div>
       {/* Navbar */}
-      <EmployerNavbar />
+      <AdminNavbar />
 
       {/* Main Layout */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <EmployerSideBar />
+        <AdminSideBar />
 
         <div className="flex-1">{children}</div>
       </div>

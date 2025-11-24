@@ -1,7 +1,7 @@
 "use client";
 import DashboardNavbar from "@/app/components/Dashboard/DashboardNavbar/DashboardNavbar";
 import React, { useState } from "react";
-import EmployerSideBar from "../employer/EmployerSideBar/EmployerSideBar";
+import EmployerSideBar from "../employer/Components/EmployerSideBar/EmployerSideBar";
 import NotificationsPageDesign from "./NotificationPageDesign/NotificationPageDesign";
 
 
