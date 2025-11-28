@@ -93,6 +93,56 @@ export default function EmployerPost() {
       setResponsibilities(responsibilities.filter((x) => x !== item));
   };
 
+  // handle clear button
+  const handleClear = (e) => {
+    e.preventDefault();
+    // Clear form
+    setForm({
+      title: "",
+      companyName: "",
+      companyLocation: REGIONS[0],
+      jobType: JOB_TYPES[0],
+      workType: "On-site",
+      salary: "",
+      salaryType: SALARY_TYPES[0],
+      totalHiring: "1",
+      applicationLimitEnabled: false,
+      applicationLimit: "",
+      workTime: "",
+      workDays: WORK_DAYS[0],
+      deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10),
+      description: "",
+      contactEmail: "",
+      searchType: SEARCH_TYPE[0],
+    });
+
+    // Clear arrays
+    setSkills([]);
+    setLanguages([]);
+    setBenefits([]);
+    setRequirements([]);
+    setResponsibilities([]);
+  };
+
+  // handle job post submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("clicked");
+
+    const jobData = {
+      ...form,
+      skills,
+      languages,
+      benefits,
+      requirements,
+      responsibilities,
+    };
+
+    console.log(jobData);
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-100">
       <main className="max-w-5xl mx-auto px-4 py-12">
@@ -121,8 +171,8 @@ export default function EmployerPost() {
 
           {/* Row 2 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Select
-              label="Location *"
+            <Input
+              label="Company Location *"
               name="companyLocation"
               value={form.companyLocation}
               onChange={handleChange}
@@ -317,12 +367,14 @@ export default function EmployerPost() {
           <div className="flex items-center justify-end pr-5 gap-4 pt-6">
             <button
               type="button"
+              onClick={(e) => handleClear(e)}
               className="px-6 py-3 rounded-xl border cursor-pointer"
             >
               Clear
             </button>
             <button
               type="submit"
+              onClick={handleSubmit}
               className="px-6 py-3 bg-primary text-white rounded-xl cursor-pointer"
             >
               Publish Job
@@ -388,7 +440,7 @@ function Checkbox({ label, name, checked, onChange }) {
         name={name}
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 accent-primary"
+        className="h-4 w-4 accent-primary cursor-pointer"
       />
       <span>{label}</span>
     </div>
@@ -403,7 +455,7 @@ function TagInput({
   setInputs,
   addItem,
   removeItem,
-  placeholder
+  placeholder,
 }) {
   const key = field.slice(0, -1); // skill, language, benefit etc.
 
@@ -419,7 +471,9 @@ function TagInput({
             e.key === "Enter" &&
             (e.preventDefault(), addItem(field, inputs[key]))
           }
-          placeholder={placeholder || `e.g., ${key.charAt(0).toUpperCase() + key.slice(1)}`}
+          placeholder={
+            placeholder || `e.g., ${key.charAt(0).toUpperCase() + key.slice(1)}`
+          }
           className="flex-1 px-4 py-2.5 border rounded-xl bg-slate-50"
         />
 
@@ -439,7 +493,12 @@ function TagInput({
             className="px-3 py-1.5 bg-blue-50 rounded-full flex items-center gap-2 text-sm"
           >
             {i}
-            <button className="cursor-pointer" onClick={() => removeItem(field, i)}>✕</button>
+            <button
+              className="cursor-pointer"
+              onClick={() => removeItem(field, i)}
+            >
+              ✕
+            </button>
           </span>
         ))}
       </div>
