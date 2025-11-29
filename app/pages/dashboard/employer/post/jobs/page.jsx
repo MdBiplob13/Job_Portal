@@ -8,10 +8,23 @@ import { useRouter } from "next/navigation";
 import useUser from "@/app/hooks/user/userHook";
 
 const REGIONS = [
-  "Dhaka, Bangladesh",
-  "Chittagong, Bangladesh",
-  "Sylhet, Bangladesh",
-  "Remote",
+  "Antigua and Barbuda",
+  "Cameroon",
+  "Bahamas",
+  "Barbados",
+  "Belize",
+  "Cuba",
+  "Dominica",
+  "Dominican Republic",
+  "Grenada",
+  "Guyana",
+  "Haiti",
+  "Jamaica",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Suriname",
+  "Trinidad and Tobago",
 ];
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
