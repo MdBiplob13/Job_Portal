@@ -132,9 +132,8 @@ const jobSchema = new mongoose.Schema(
     },
 
     // Internal + System Fields
-    employer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+    employerEmail: {
+      type: String,
       required: true,
     },
 

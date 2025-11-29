@@ -19,10 +19,10 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import useUser from "@/app/hooks/user/userHook";
+import useGetEmployerAllJobs from "@/app/hooks/dashboard/employer/jobs/GetEmployerAllJobs";
 
 export default function EmployerJobs() {
   const { user } = useUser();
-  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,35 +33,8 @@ export default function EmployerJobs() {
     jobType: "all",
   });
 
-  // Fetch jobs from backend
-  const fetchJobs = async () => {
-    if (!user?.email) return;
-    
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await fetch(`/api/dashboard/employer/job/get?employerEmail=${user.email}`);
-      const result = await response.json();
-      
-      if (result.status === "success") {
-        setJobs(result.jobs || []);
-      } else {
-        setError(result.message || "Failed to fetch jobs");
-      }
-    } catch (err) {
-      setError("Failed to load jobs. Please try again.");
-      console.error("Error fetching jobs:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (user?.email) {
-      fetchJobs();
-    }
-  }, [user?.email]);
+  const {jobs, jobsLoading, setJobsLoading} = useGetEmployerAllJobs();
+  console.log("🚀 ~ EmployerJobs ~ jobs:", jobs)
 
   // Filter options based on real data
   const statusOptions = [
@@ -88,10 +61,12 @@ export default function EmployerJobs() {
 
   // Extract unique categories from jobs
   const categoryOptions = useMemo(() => {
-    const categories = [...new Set(jobs.map(job => job.category).filter(Boolean))];
+    const categories = [
+      ...new Set(jobs.map((job) => job.category).filter(Boolean)),
+    ];
     return [
       { value: "all", label: "All Categories" },
-      ...categories.map(cat => ({ value: cat, label: cat }))
+      ...categories.map((cat) => ({ value: cat, label: cat })),
     ];
   }, [jobs]);
 
@@ -193,10 +168,10 @@ export default function EmployerJobs() {
   const formatDate = (dateString) => {
     if (!dateString) return "No deadline";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -206,7 +181,7 @@ export default function EmployerJobs() {
     const now = new Date();
     const diffTime = Math.abs(now - date);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) return "1 day ago";
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
@@ -286,7 +261,7 @@ export default function EmployerJobs() {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center gap-2 text-gray-600">
             <FiMapPin className="text-gray-400" />
-            <span className="text-sm">{job.location}</span>
+            <span className="text-sm">{job.companyLocation}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <FiDollarSign className="text-gray-400" />
@@ -520,7 +495,7 @@ export default function EmployerJobs() {
   );
 
   // Loading State
-  if (loading) {
+  if (jobsLoading) {
     return (
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6 flex items-center justify-center">
         <div className="text-center">
@@ -537,7 +512,9 @@ export default function EmployerJobs() {
       <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6 flex items-center justify-center">
         <div className="text-center max-w-md">
           <FiAlertCircle className="text-4xl text-red-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Error Loading Jobs</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            Error Loading Jobs
+          </h3>
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={fetchJobs}
@@ -561,7 +538,10 @@ export default function EmployerJobs() {
               Manage and track all your job postings in one place
             </p>
           </div>
-          <Link href={'/pages/dashboard/employer/post/jobs'} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer">
+          <Link
+            href={"/pages/dashboard/employer/post/jobs"}
+            className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit cursor-pointer"
+          >
             <FiPlus className="text-lg" />
             Post New Job
           </Link>
@@ -657,13 +637,15 @@ export default function EmployerJobs() {
               {jobs.length === 0 ? "No jobs posted yet" : "No jobs found"}
             </h3>
             <p className="text-gray-600 mb-6">
-              {jobs.length === 0 
-                ? "Start by posting your first job opportunity" 
-                : "Try adjusting your search criteria or filters"
-              }
+              {jobs.length === 0
+                ? "Start by posting your first job opportunity"
+                : "Try adjusting your search criteria or filters"}
             </p>
             {jobs.length === 0 && (
-              <Link href={'/pages/dashboard/employer/post/jobs'} className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block">
+              <Link
+                href={"/pages/dashboard/employer/post/jobs"}
+                className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block"
+              >
                 Post Your First Job
               </Link>
             )}

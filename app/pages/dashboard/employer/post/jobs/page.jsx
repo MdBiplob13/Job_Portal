@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import useUser from "@/app/hooks/user/userHook";
 
 const REGIONS = [
   "Dhaka, Bangladesh",
@@ -16,6 +19,9 @@ const SALARY_TYPES = ["Monthly", "Hourly", "Fixed"];
 const SEARCH_TYPE = ["Individual", "Tender"];
 
 export default function EmployerPost() {
+  const router = useRouter();
+  const { user } = useUser();
+
   // 🔥 All form inputs using event target names
   const [form, setForm] = useState({
     title: "",
@@ -44,6 +50,8 @@ export default function EmployerPost() {
   const [benefits, setBenefits] = useState([]);
   const [requirements, setRequirements] = useState([]);
   const [responsibilities, setResponsibilities] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   // Temporary inputs for arrays
   const [inputs, setInputs] = useState({
@@ -129,7 +137,8 @@ export default function EmployerPost() {
   // handle job post submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked");
+    setError(null);
+    setSubmitting(true);
 
     const jobData = {
       ...form,
@@ -138,9 +147,25 @@ export default function EmployerPost() {
       benefits,
       requirements,
       responsibilities,
+      employerEmail: user?.email,
     };
-
-    console.log(jobData);
+    fetch("/api/dashboard/employer/job/post", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jobData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          toast.success("Job posted successfully!");
+          // Clear form after successful submission
+          handleClear(e);
+          router.push("/pages/dashboard/employer/employerJobs");
+        } else {
+          console.error("Job post failed:", data);
+        }
+      })
+      .finally(() => setSubmitting(false));
   };
 
   return (
@@ -257,7 +282,7 @@ export default function EmployerPost() {
             />
           </div>
 
-          {/* Work Days + Search type */}
+          {/* Work Days  */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Select
               label="Working Days *"
@@ -268,26 +293,17 @@ export default function EmployerPost() {
               required
               placeholder="Select working days"
             />
-            <Select
-              label="Search Type *"
-              name="searchType"
-              value={form.searchType}
+            <Input
+              label="Application Deadline *"
+              name="deadline"
+              type="date"
+              value={form.deadline}
               onChange={handleChange}
-              options={SEARCH_TYPE}
               required
-              placeholder="Select search type"
             />
           </div>
 
           {/* Deadline */}
-          <Input
-            label="Application Deadline *"
-            name="deadline"
-            type="date"
-            value={form.deadline}
-            onChange={handleChange}
-            required
-          />
 
           {/* Arrays */}
           <div className="flex justify-between gap-5">

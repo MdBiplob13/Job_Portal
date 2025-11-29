@@ -3,55 +3,64 @@ import mongoose from "mongoose";
 import Job from "@/app/models/jobModel";
 import User from "@/app/models/userModel";
 
-// Connect to MongoDB
+// ------------------------------
+// CONNECT TO MONGO (Optimized)
+// ------------------------------
 const connectMongoDb = async () => {
-  if (mongoose.connections[0].readyState) return;
+  if (mongoose.connection.readyState === 1) return;
   await mongoose.connect(process.env.MONGODB_URI);
 };
 
 export async function POST(req) {
   try {
     await connectMongoDb();
-    
-    const body = await req.json();
+
     const {
       title,
-      company,
-      location,
+      description,
+      requirements,
+      responsibilities,
+      skills,
       jobType,
+      workDays,
       workType,
+      languages,
+      companyName,
+      companyLocation,
       salary,
       salaryType,
       totalHiring,
       applicationLimitEnabled,
       applicationLimit,
       workTime,
-      workDays,
-      searchType,
-      postDeadline,
-      skills,
+      deadline,
       benefits,
-      languages,
-      description,
-      contactEmail,
-      employerEmail
-    } = body;
+      employerEmail,
+    } = await req.json();
+    console.log(employerEmail);
 
-    console.log("🚀 ~ POST ~ job data:", body);
-
-    // Validation
-    if (!title || !company || !location || !description || !employerEmail) {
+    // -----------------------------------
+    // BASIC VALIDATION
+    // -----------------------------------
+    if (!title || !description || !companyName || !companyLocation) {
       return NextResponse.json(
         {
           status: "fail",
-          message: "Title, company, location, description, and employer email are required",
+          message:
+            "Required fields missing: title, description, companyName, companyLocation",
         },
         { status: 400 }
       );
     }
 
-    // Check if employer exists
-    const employer = await User.findOne({ email: employerEmail, role: "employer" });
+    // -----------------------------------
+    // FIND EMPLOYER USER
+    // -----------------------------------
+    const employer = await User.findOne({
+      email: employerEmail,
+      role: "employer",
+    });
+
     if (!employer) {
       return NextResponse.json(
         {
@@ -62,48 +71,69 @@ export async function POST(req) {
       );
     }
 
-    // Create job
-    const job = await Job.create({
+    // -----------------------------------
+    // CREATE JOB IN DB
+    // -----------------------------------
+    const newJob = await Job.create({
       title: title.trim(),
-      company: company.trim(),
-      location,
-      jobType,
-      workType,
-      salary: parseFloat(salary) || 0,
-      salaryType,
-      totalHiring: parseInt(totalHiring) || 1,
-      applicationLimitEnabled: Boolean(applicationLimitEnabled),
-      applicationLimit: parseInt(applicationLimit) || 0,
-      workTime: workTime || "",
-      workDays: workDays || "Mon-Fri",
-      searchType: searchType || "Individual",
-      postDeadline: new Date(postDeadline),
-      skills: Array.isArray(skills) ? skills : [],
-      benefits: Array.isArray(benefits) ? benefits : [],
-      languages: Array.isArray(languages) ? languages : [],
       description: description.trim(),
-      contactEmail: contactEmail || employerEmail,
-      employer: employer._id,
-      employerEmail: employerEmail,
-      status: "active"
+
+      // Array fields
+      requirements: Array.isArray(requirements) ? requirements : [],
+      responsibilities: Array.isArray(responsibilities) ? responsibilities : [],
+      skills: Array.isArray(skills) ? skills : [],
+      languages: Array.isArray(languages) ? languages : [],
+      benefits: Array.isArray(benefits) ? benefits : [],
+
+      // Select fields
+      jobType,
+      workDays: workDays || "Mon-Fri",
+      workType,
+
+      // Company info
+      companyName: companyName.trim(),
+      companyLocation: companyLocation.trim(),
+
+      // Salary info
+      salary: Number(salary) || 0,
+      salaryType,
+
+      // Hiring info
+      totalHiring: Number(totalHiring) || 1,
+      applicationLimitEnabled: Boolean(applicationLimitEnabled),
+      applicationLimit: Number(applicationLimit) || 0,
+
+      // Work time
+      workTime: workTime || "",
+
+      // Deadline
+      deadline: deadline ? new Date(deadline) : new Date(),
+
+      // Employer reference
+      employerEmail,
+
+      // Default job status
+      status: "active",
     });
 
-    // Update employer's job count
+    // -----------------------------------
+    // UPDATE EMPLOYER JOB COUNT
+    // -----------------------------------
     await User.findByIdAndUpdate(employer._id, {
-      $inc: { "job.jobPosted": 1 }
+      $inc: { "job.jobPosted": 1 },
     });
 
     return NextResponse.json(
       {
         status: "success",
         message: "Job posted successfully",
-        job: job,
+        job: newJob,
       },
       { status: 201 }
     );
-
   } catch (error) {
-    console.error("Job post error:", error);
+    console.error(" JOB POST ERROR:", error);
+
     return NextResponse.json(
       {
         status: "fail",
