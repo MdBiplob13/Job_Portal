@@ -1,21 +1,28 @@
 import { NextResponse } from "next/server";
 import connectMongoDb from "@/lib/mongoose";
 import ProposeJob from "@/app/models/proposeJobModel";
+import Job from "@/app/models/jobModel";
 
 // Handle proposal submission for a job
 export async function POST(req) {
   try {
     await connectMongoDb();
-    const body = await req.json();
+    const { jobId, professionalId, resume, links, coverLetter } = await req.json();
+    console.log("🚀 ~ POST ~ jobId, professionalId, resume, links, coverLetter:", jobId, professionalId, resume, links, coverLetter)
 
-    const { jobId, professionalId, resume, links } = body;
 
     const newProposal = await ProposeJob.create({
       jobId,
       professionalId,
       resume,
       links,
+      coverLetter
     });
+
+    // update job proposal count
+    const job = await Job.findById(jobId);
+    job.applicationCount = job.applicationCount + 1;
+    await job.save();
 
     return NextResponse.json(
       { status: "success", data: newProposal },

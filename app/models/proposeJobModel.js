@@ -32,6 +32,11 @@ const proposeJobSchema = new mongoose.Schema(
         },
       },
     ],
+
+    coverLetter: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

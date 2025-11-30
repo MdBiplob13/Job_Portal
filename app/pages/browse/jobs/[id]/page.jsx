@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import useGetSingleJobWithId from "@/app/hooks/dashboard/admin/GetSingleJobWithId";
 import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
+import useGetAllProposeForSingleJob from "@/app/hooks/jobs/GetAllProposeForSingleJob";
+import JobPageProposeSection from "./JobPageProposeSection";
 
 export default function JobDetailPage() {
   const params = useParams();
@@ -15,8 +17,7 @@ export default function JobDetailPage() {
   const { singleUser, singleUserLoading } = useGetUserWithEmail(
     job?.employerEmail
   );
-
-  console.log(singleUser);
+  const { allProposals } = useGetAllProposeForSingleJob(job?._id);
 
   const [activeSection, setActiveSection] = useState("overview");
 
@@ -106,7 +107,7 @@ export default function JobDetailPage() {
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition cursor-pointer ${
                     activeSection === section.id
                       ? "bg-primary text-white"
                       : "text-slate-600 hover:text-primary hover:bg-blue-50"
@@ -307,12 +308,16 @@ export default function JobDetailPage() {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4 text-slate-500" />
-                        <span className="text-slate-600">{singleUser.name}</span>
+                        <span className="text-slate-600">
+                          {singleUser.name}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <span className="text-slate-500">📧</span>
-                        <span className="text-slate-600">{singleUser.email}</span>
+                        <span className="text-slate-600">
+                          {singleUser.email}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -386,84 +391,7 @@ export default function JobDetailPage() {
             {/* Current Bids Section */}
             {activeSection === "bids" && (
               <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-slate-800">
-                    Current Bids ({job.currentBids})
-                  </h2>
-                  <button className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-blue-700 transition">
-                    Propose Bid
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {Array.from({ length: Math.min(job.currentBids, 5) }).map(
-                    (_, index) => (
-                      <div
-                        key={index}
-                        className="bg-slate-50 rounded-xl p-6 border border-slate-200"
-                      >
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
-                              <User className="w-6 h-6 text-slate-600" />
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-slate-800">
-                                Bidder {index + 1}
-                              </h4>
-                              <p className="text-sm text-slate-600">
-                                Proposed: ${Math.floor(Math.random() * 50) + 30}
-                                /hr
-                              </p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="flex items-center gap-1 mb-1">
-                              <Star className="w-4 h-4 text-yellow-500" />
-                              <span className="text-sm font-medium">
-                                4.{Math.floor(Math.random() * 9) + 1}
-                              </span>
-                              <span className="text-sm text-slate-500">
-                                ({Math.floor(Math.random() * 50) + 20} reviews)
-                              </span>
-                            </div>
-                            <p className="text-sm text-slate-500">
-                              {Math.floor(Math.random() * 5) + 1} days ago
-                            </p>
-                          </div>
-                        </div>
-                        <p className="text-slate-700 text-sm">
-                          I have extensive experience in this field and can
-                          deliver high-quality results within your timeline. I'm
-                          available to start immediately and can work{" "}
-                          {job.workDays.toLowerCase()} from {job.workTime}.
-                        </p>
-                        <div className="flex items-center gap-4 mt-4">
-                          <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition text-sm">
-                            Accept Bid
-                          </button>
-                          <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition text-sm">
-                            View Profile
-                          </button>
-                          <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition text-sm">
-                            Message
-                          </button>
-                        </div>
-                      </div>
-                    )
-                  )}
-
-                  {job.currentBids > 5 && (
-                    <div className="text-center py-4">
-                      <p className="text-slate-500">
-                        +{job.currentBids - 5} more bids available
-                      </p>
-                      <button className="mt-2 text-primary hover:underline">
-                        View All Bids
-                      </button>
-                    </div>
-                  )}
-                </div>
+                <JobPageProposeSection job={job} jobId={job._id}/>
               </div>
             )}
           </div>
