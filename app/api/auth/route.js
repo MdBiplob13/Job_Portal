@@ -34,7 +34,7 @@ export async function GET(req) {
     // Find user
     const user = await User.findById(decoded.userId).select("-password");
 
-    if(user.status === "blocked"){
+    if (user.status === "blocked") {
       return NextResponse.json(
         { status: "fail", message: "User is blocked by admin" },
         { status: 403 }
@@ -57,7 +57,6 @@ export async function GET(req) {
       },
       { status: 200 }
     );
-
   } catch (error) {
     return NextResponse.json(
       {
@@ -69,3 +68,48 @@ export async function GET(req) {
   }
 }
 
+// get single user by email
+export async function PUT(req) {
+  try {
+    await connectMongoDb();
+    const { email } = await req.json();
+
+    if (!email) {
+      return NextResponse.json(
+        {
+          status: "fail",
+          message: "Email is required.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return NextResponse.json(
+        {
+          status: "fail",
+          message: "User not found.",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        status: "success",
+        data: user,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        status: "fail",
+        message: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
