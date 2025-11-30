@@ -23,12 +23,12 @@ const menuItems = [
     link: "/pages/dashboard/admin",
     icon: <FiHome />,
   },
-  // {
-  //   id: "jobs",
-  //   label: "My Jobs",
-  //   link: "/pages/dashboard/employer/employerJobs",
-  //   icon: <FiBriefcase />,
-  // },
+  {
+    id: "jobs",
+    label: "Posted Jobs",
+    link: "/pages/dashboard/admin/adminJobs",
+    icon: <FiBriefcase />,
+  },
   // {
   //   id: "bids",
   //   label: "My Bids",
