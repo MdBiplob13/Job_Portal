@@ -26,8 +26,8 @@ const REGIONS = [
   "Suriname",
   "Trinidad and Tobago",
 ];
-const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
-const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any"];
+const JOB_TYPES = ["Full-time", "Part-time", "Internship"];
+const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Flexible", "Any"];
 const SALARY_TYPES = ["Monthly", "Hourly", "Fixed"];
 const SEARCH_TYPE = ["Individual", "Tender"];
 
@@ -87,12 +87,16 @@ export default function EmployerPost() {
 
   // Add array item
   const addItem = (field, value) => {
-    const trimmed = value.trim();
+    const trimmed =
+      value.trim().charAt(0).toUpperCase() +
+      value.trim().slice(1).toLowerCase();
+
     if (!trimmed) return;
     if (eval(field).includes(trimmed)) return;
 
-    if (field === "skills") setSkills([...skills, trimmed]);
-    if (field === "languages") setLanguages([...languages, trimmed]);
+    if (field === "skills") setSkills([...skills, trimmed.toUpperCase()]);
+    if (field === "languages")
+      setLanguages([...languages, trimmed.toUpperCase()]);
     if (field === "benefits") setBenefits([...benefits, trimmed]);
     if (field === "requirements") setRequirements([...requirements, trimmed]);
     if (field === "responsibilities")
@@ -152,6 +156,36 @@ export default function EmployerPost() {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
+
+    // data verification
+    if (!form.title || !form.companyName || !form.description) {
+      setError("All fields are required!");
+      setSubmitting(false);
+      return;
+    }
+
+    // check if array is empty
+    if (
+      skills.length === 0 ||
+      languages.length === 0 ||
+      benefits.length === 0 ||
+      requirements.length === 0 ||
+      responsibilities.length === 0
+    ) {
+      setError(
+        "Add at least one skill, language, benefit, requirement, and responsibility each."
+      );
+      setSubmitting(false);
+      return;
+    }
+    // check deadline assigned or in future
+    const today = new Date();
+    const selectedDeadline = new Date(form.deadline);
+    if (selectedDeadline < today) {
+      setError("Deadline must be in the future.");
+      setSubmitting(false);
+      return;
+    }
 
     const jobData = {
       ...form,
@@ -392,6 +426,8 @@ export default function EmployerPost() {
             />
           </div>
 
+          <p className="text-red-600 text-center">{error}</p>
+
           {/* Buttons */}
           <div className="flex items-center justify-end pr-5 gap-4 pt-6">
             <button
@@ -401,12 +437,14 @@ export default function EmployerPost() {
             >
               Clear
             </button>
+
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="px-6 py-3 bg-primary text-white rounded-xl cursor-pointer"
+              onClick={(e) => handleSubmit(e)}
+              disabled={submitting}
+              className="px-6 py-3 rounded-xl bg-primary text-white cursor-pointer"
             >
-              Publish Job
+              {submitting ? "Publishing..." : "Publish Job"}
             </button>
           </div>
         </form>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import Job from "@/app/models/jobModel";
 import User from "@/app/models/userModel";
+import "@/utils/corn/jobCron";
 
 // ------------------------------
 // CONNECT TO MONGO (Optimized)
@@ -13,6 +14,7 @@ const connectMongoDb = async () => {
 
 export async function POST(req) {
   try {
+    
     await connectMongoDb();
 
     const {
