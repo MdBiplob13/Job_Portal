@@ -38,7 +38,7 @@ const jobSchema = new mongoose.Schema(
     jobType: {
       type: String,
       required: true,
-      enum: ["Full-time", "Part-time", "Contract", "Internship"],
+      enum: ["FullTime", "PartTime", "Remote"],
     },
 
     // 7. Work Days
