@@ -82,7 +82,7 @@ export default function AdminJobs() {
   const getActionButtons = (job) => {
     return (
       <Link
-        href={`/pages/dashboard/admin/jobs/${job._id}`}
+        href={`/pages/browse/jobs/${job._id}`}
         className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer"
       >
         <FiEye className="text-sm" />
@@ -167,7 +167,7 @@ export default function AdminJobs() {
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
               {job.applicationCount || 0} applications
             </span>
-            <span className="text-gray-400">{getTimeAgo(job.createdAt)}</span>
+            <span className="text-gray-400">Posted {getTimeAgo(job.createdAt)}</span>
           </div>
 
           <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">

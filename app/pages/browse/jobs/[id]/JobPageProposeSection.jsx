@@ -5,6 +5,7 @@ import { User, Star } from "lucide-react";
 import toast from "react-hot-toast";
 import useUser from "@/app/hooks/user/userHook";
 import useGetAllProposeForSingleJob from "@/app/hooks/jobs/GetAllProposeForSingleJob";
+import Link from "next/link";
 
 const shortenText = (text, limit = 150) => {
   if (!text) return "";
@@ -145,15 +146,12 @@ const JobPageProposeSection = ({ job, jobId }) => {
                 </div>
 
                 {/* View Full Button */}
-                <button
+                <Link href={`/pages/browse/jobs/propose/${p._id}`}
                   className="mt-3 text-primary text-sm underline cursor-pointer"
-                  onClick={() => {
-                    // Navigate to full profile (you will create page)
-                    window.location.href = `/dashboard/professional/${p.professionalId?._id}`;
-                  }}
+                  
                 >
                   View Full Profile →
-                </button>
+                </Link>
               </div>
             ))}
 

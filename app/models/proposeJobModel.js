@@ -4,7 +4,7 @@ const proposeJobSchema = new mongoose.Schema(
   {
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "jobs",
+      ref: "Job",
       required: true,
     },
 

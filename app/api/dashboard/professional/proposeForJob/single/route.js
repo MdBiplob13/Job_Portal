@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connectMongoDb from "@/lib/mongoose";
 import ProposeJob from "@/app/models/proposeJobModel";
+import User from "@/app/models/userModel";
+import Job from "@/app/models/jobModel";
 
 export async function GET(req) {
   try {
@@ -10,8 +12,14 @@ export async function GET(req) {
     const proposeId = searchParams.get("proposeId");
 
     const proposal = await ProposeJob.findById(proposeId)
-      .populate("jobId")
-      .populate("professionalId");
+      .populate({
+        path: "jobId",
+        model: Job,
+      })
+      .populate({
+        path: "professionalId",
+        model: User,
+      });
 
     if (!proposal)
       return NextResponse.json(
