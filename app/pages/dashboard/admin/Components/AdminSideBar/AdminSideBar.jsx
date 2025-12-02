@@ -29,6 +29,12 @@ const menuItems = [
     link: "/pages/dashboard/admin/adminJobs",
     icon: <FiBriefcase />,
   },
+  {
+    id: "users",
+    label: "Users",
+    link: "/pages/dashboard/admin/adminUsers",
+    icon: <FiUser />,
+  },
   // {
   //   id: "bids",
   //   label: "My Bids",

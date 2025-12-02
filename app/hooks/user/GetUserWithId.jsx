@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-const useGetUserWithEmail = (email) => {
+const useGetUserWithId = (id) => {
   const [singleUser, setSingleUser] = useState(null);
   const [singleUserLoading, setSingleUserLoading] = useState(false);
   const [singleUserRefresh, setSingleUserRefresh] = useState(1);
 
   useEffect(() => {
-    if (!email) {
+    if (!id) {
       setSingleUser(null);
       return;
     }
@@ -20,7 +20,7 @@ const useGetUserWithEmail = (email) => {
         const res = await fetch(`/api/auth/getUsers`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, method: "email" }),
+          body: JSON.stringify({ id, method: "id" }),
         });
         const data = await res.json();
         if (!mounted) return;
@@ -41,7 +41,7 @@ const useGetUserWithEmail = (email) => {
     return () => {
       mounted = false;
     };
-  }, [email, singleUserRefresh]);
+  }, [id, singleUserRefresh]);
 
   return {
     singleUser,
@@ -53,4 +53,4 @@ const useGetUserWithEmail = (email) => {
   };
 };
 
-export default useGetUserWithEmail;
+export default useGetUserWithId;
