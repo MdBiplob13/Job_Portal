@@ -15,12 +15,12 @@ import {
   FiUser,
   FiCheck,
 } from "react-icons/fi";
-import EmployerProfileTab from "./EmployerProfileTab/EmployerProfileTab";
-import EmployerSkillTab from "./EmployerSkillTab/EmployerSkillTab";
-import EmployerExperienceTab from "./EmployerExperienceTab/EmployerExperienceTab";
-import EmployerPasswordTab from "./EmployerPasswordTab/EmployerPasswordTab";
-import EmployerPageTopSection from "./EmployerPageTopSection/EmployerPageTopSection";
 import hostPhoto from "@/utils/hostPhoto/hostPhoto";
+import ProfessionalPageTopSection from "./ProfessionalPageTopSection/ProfessionalPageTopSection";
+import ProfessionalPasswordTab from "./ProfessionalPasswordTab/ProfessionalPasswordTab";
+import ProfessionalExperienceTab from "./ProfessionalExperienceTab/ProfessionalExperienceTab";
+import ProfessionalSkillTab from "./ProfessionalSkillTab/ProfessionalSkillTab";
+import ProfessionalProfileTab from "./ProfessionalProfileTab/ProfessionalProfileTab";
 
 export default function EmployerProfile() {
   const [activeTab, setActiveTab] = useState("personal");
@@ -105,7 +105,7 @@ export default function EmployerProfile() {
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
       {/* Top Banner Section */}
-      <EmployerPageTopSection profileData={profileData} stats={stats} />
+      <ProfessionalPageTopSection profileData={profileData} stats={stats} />
 
       {/* Navigation Tabs */}
       <div className="px-6 -mt-8 mb-8">
@@ -145,22 +145,22 @@ export default function EmployerProfile() {
       <div className="px-6 mb-8 mx-auto">
         {/* Personal Details */}
         {activeTab === "personal" && (
-          <EmployerProfileTab profileData={profileData} isEditing={isEditing} />
+          <ProfessionalProfileTab profileData={profileData} isEditing={isEditing} />
         )}
 
         {/* Skills */}
         {activeTab === "skills" && (
-          <EmployerSkillTab profileData={profileData} isEditing={isEditing}/>
+          <ProfessionalSkillTab profileData={profileData} isEditing={isEditing}/>
         )}
 
         {/* Experience & Certificates */}
         {activeTab === "experience" && (
-          <EmployerExperienceTab profileData={profileData} isEditing={isEditing} />
+          <ProfessionalExperienceTab profileData={profileData} isEditing={isEditing} />
         )}
 
         {/* Change Password */}
         {activeTab === "password" && (
-         <EmployerPasswordTab isEditing={isEditing} />
+         <ProfessionalPasswordTab isEditing={isEditing} />
         )}
       </div>
     </div>

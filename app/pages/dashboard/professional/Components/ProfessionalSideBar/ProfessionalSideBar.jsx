@@ -26,7 +26,7 @@ const menuItems = [
   {
     id: "jobs",
     label: "My Proposed Jobs",
-    link: "/pages/dashboard/professional/employerJobs",
+    link: "/pages/dashboard/professional/proposeJobs",
     icon: <FiBriefcase />,
   },
   // {

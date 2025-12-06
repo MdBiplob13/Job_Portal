@@ -38,8 +38,6 @@ export async function POST(req) {
 }
 
 // Get all proposals made for a specific job
-
-
 export async function GET(req) {
   try {
     await connectMongoDb();
@@ -66,5 +64,7 @@ export async function GET(req) {
     );
   }
 }
+
+
 
 
