@@ -53,8 +53,6 @@ export async function PUT(req) {
       );
     }
 
-    
-
     const proposals = await ProposeJob.find({ professionalId })
       .populate({
         path: "jobId",
@@ -63,7 +61,13 @@ export async function PUT(req) {
       .populate({
         path: "professionalId",
         model: User,
-      }); 
+      });
+
+    return NextResponse.json({
+      status: "success",
+      message: "professional all propose found successfully",
+      data: proposals,
+    });
   } catch (err) {
     return NextResponse.json(
       { status: "failed", message: "Failed to fetch proposal" },
