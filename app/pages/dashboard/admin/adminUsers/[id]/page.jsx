@@ -12,7 +12,6 @@ const AdminUserSinglePage = () => {
   const { singleUser } = useGetUserWithId(id);
   const [loading, setLoading] = useState(false);
   const { skills } = useGetUserSkills(singleUser?._id);
-  console.log("🚀 ~ AdminUserSinglePage ~ skills:", skills);
 
   const [languages, setLanguages] = useState(singleUser?.languages || []);
   const [certificates, setCertificates] = useState(

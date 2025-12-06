@@ -77,14 +77,16 @@ export async function PATCH(req) {
 export async function PUT(req) {
   try {
     await connectMongoDb();
-    const { id, email, method } = await req.json();
+    const { id, email, username, method } = await req.json();
 
     let user = {};
 
     if (method === "id") {
       user = await User.findById(id);
-    } else {
+    } else if (method === "email") {
       user = await User.findOne({ email });
+    } else {
+      user = await User.findOne({ userName: username });
     }
 
     if (!user) {

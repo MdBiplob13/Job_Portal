@@ -170,9 +170,8 @@ const EmployerExperienceTab = () => {
                   </h4>
                   <p className="text-gray-600 font-medium">{exp.company}</p>
 
-                  <p className="text-gray-500 text-sm mt-1">
-                    {new Date(exp.startDate).toLocaleDateString()} →{" "}
-                    {new Date(exp.endDate).toLocaleDateString()}
+                  <p className="text-gray-500 text-sm mt-1 flex items-center gap-1">
+                    <h1>{exp.startDate}</h1> → <h1>{exp.endDate}</h1>
                   </p>
 
                   <p className="text-gray-700 text-sm mt-2 leading-relaxed">
@@ -276,22 +275,22 @@ const EmployerExperienceTab = () => {
               <input
                 name="position"
                 className="p-3 border rounded-xl"
-                placeholder="Position"
+                placeholder="e.g. Software Engineer"
               />
               <input
                 name="company"
                 className="p-3 border rounded-xl"
-                placeholder="Company"
+                placeholder="e.g. Google LLC"
               />
               <input
                 name="startDate"
                 className="p-3 border rounded-xl"
-                placeholder="Starting Date"
+                placeholder="e.g. 9 Jan 2020"
               />
               <input
                 name="endDate"
                 className="p-3 border rounded-xl"
-                placeholder="Ending Date/Present"
+                placeholder="e.g. 9 Jan 2020/Present"
               />
               <textarea
                 name="description"
@@ -302,7 +301,10 @@ const EmployerExperienceTab = () => {
 
               <div className="flex justify-end gap-3 mt-4">
                 <Dialog.Close asChild>
-                  <button type="button" className="px-5 py-2 border rounded-xl cursor-pointer ">
+                  <button
+                    type="button"
+                    className="px-5 py-2 border rounded-xl cursor-pointer "
+                  >
                     Cancel
                   </button>
                 </Dialog.Close>
@@ -322,7 +324,7 @@ const EmployerExperienceTab = () => {
       {/* =============================================================
           CERTIFICATE DIALOG
       ============================================================= */}
-      <Dialog.Root  open={certOpen} onOpenChange={setCertOpen}>
+      <Dialog.Root open={certOpen} onOpenChange={setCertOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/40" />
           <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] bg-white p-8 rounded-2xl shadow-xl">
@@ -355,7 +357,10 @@ const EmployerExperienceTab = () => {
 
               <div className="flex justify-end gap-3">
                 <Dialog.Close asChild>
-                  <button type="button" className="px-5 py-2 border rounded-xl cursor-pointer">
+                  <button
+                    type="button"
+                    className="px-5 py-2 border rounded-xl cursor-pointer"
+                  >
                     Cancel
                   </button>
                 </Dialog.Close>
