@@ -10,12 +10,35 @@ import {
   FiTrash2,
   FiMail,
   FiMailOpen,
+  FiMapPin,
 } from "react-icons/fi";
 
 const ProfessionalNavbar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState("Cameroon");
   const [notifications, setNotifications] = useState([]);
+  const [locations] = useState([
+    "Antigua and Barbuda",
+    "Bahamas",
+    "Barbados",
+    "Belize",
+    "Cuba",
+    "Cameroon",
+    "Dominica",
+    "Dominican Republic",
+    "Grenada",
+    "Guyana",
+    "Haiti",
+    "Jamaica",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Suriname",
+    "Trinidad and Tobago"
+  ]);
   const dropdownRef = useRef(null);
+  const locationRef = useRef(null);
 
   // Mock notifications data
   useEffect(() => {
@@ -65,11 +88,14 @@ const ProfessionalNavbar = () => {
     ]);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsNotificationOpen(false);
+      }
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setIsLocationOpen(false);
       }
     };
 
@@ -114,6 +140,11 @@ const ProfessionalNavbar = () => {
     }
   };
 
+  const handleLocationSelect = (location) => {
+    setCurrentLocation(location);
+    setIsLocationOpen(false);
+  };
+
   return (
     <header className="w-full bg-white shadow-sm border-b border-gray-200">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -134,11 +165,55 @@ const ProfessionalNavbar = () => {
               </div>
             </div>
 
+            {/* Location Dropdown */}
+            <div className="relative" ref={locationRef}>
+              <button
+                onClick={() => setIsLocationOpen(!isLocationOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 hover:border-primary hover:bg-blue-50 transition cursor-pointer"
+              >
+                <FiMapPin size={18} className="text-primary" />
+                <span className="text-sm font-medium text-gray-700">
+                  {currentLocation}
+                </span>
+              </button>
+
+              {/* Location Dropdown Menu */}
+              {isLocationOpen && (
+                <div className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+                  <div className="p-4 border-b border-gray-200">
+                    <h3 className="font-semibold text-gray-800">
+                      Select Location
+                    </h3>
+                  </div>
+                  
+                  <div className="max-h-80 overflow-y-auto">
+                    {locations.map((location, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleLocationSelect(location)}
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
+                          currentLocation === location ? "bg-blue-50 text-primary" : "text-gray-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <FiMapPin 
+                            size={16} 
+                            className={currentLocation === location ? "text-primary" : "text-gray-400"} 
+                          />
+                          <span className="text-sm font-medium">{location}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link
               href="/pages/dashboard/employer"
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-primary bg-white text-primary font-medium hover:bg-blue-50 transition"
             >
-              <span className="text-sm">Switch to Employer</span>
+              <span className="text-sm">Switch To Employer</span>
             </Link>
 
             {/* Notification Dropdown */}
