@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import useUser from "@/app/hooks/user/userHook";
+import useUserRole from "@/app/hooks/role/userRole";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +12,7 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
 
   const { user, userLoading } = useUser();
+  const {currentRole} = useUserRole(user?.role || "professional");
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -145,13 +147,13 @@ const Navbar = () => {
 
             {/* User logged in: Show ONLY avatar */}
             {!userLoading && user && (
-              <Link href={`/pages/dashboard/${user.role}`}>
+              <Link href={`/pages/dashboard/${currentRole}`}>
                 <Image
-                  src={user?.profileImage || "/user1.jpeg"}
+                  src={user?.photo || "/defaultProfilePic.jpg"}
                   alt="user"
-                  width={60}
-                  height={60}
-                  className="rounded-lg cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
+                  width={80}
+                  height={80}
+                  className="rounded-full cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
                 />
               </Link>
             )}

@@ -12,8 +12,14 @@ import {
   FiMailOpen,
   FiMapPin,
 } from "react-icons/fi";
+import useUser from "@/app/hooks/user/userHook";
+import useUserRole from "@/app/hooks/role/userRole";
 
 const ProfessionalNavbar = () => {
+  // All hooks
+  const { user } = useUser();
+  const { currentRole, switchRole } = useUserRole();
+
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [currentLocation, setCurrentLocation] = useState("Cameroon");
@@ -35,7 +41,7 @@ const ProfessionalNavbar = () => {
     "Saint Lucia",
     "Saint Vincent and the Grenadines",
     "Suriname",
-    "Trinidad and Tobago"
+    "Trinidad and Tobago",
   ]);
   const dropdownRef = useRef(null);
   const locationRef = useRef(null);
@@ -160,9 +166,7 @@ const ProfessionalNavbar = () => {
           <div className="flex items-center gap-4">
             {/* Post a Job & Credit Points */}
             <div className="flex items-center gap-3">
-              <div className="text-primary font-bold mr-5">
-                5 CREDIT POINTS
-              </div>
+              <div className="text-primary font-bold mr-5">5 CREDIT POINTS</div>
             </div>
 
             {/* Location Dropdown */}
@@ -185,22 +189,30 @@ const ProfessionalNavbar = () => {
                       Select Location
                     </h3>
                   </div>
-                  
+
                   <div className="max-h-80 overflow-y-auto">
                     {locations.map((location, index) => (
                       <button
                         key={index}
                         onClick={() => handleLocationSelect(location)}
                         className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
-                          currentLocation === location ? "bg-blue-50 text-primary" : "text-gray-700"
+                          currentLocation === location
+                            ? "bg-blue-50 text-primary"
+                            : "text-gray-700"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <FiMapPin 
-                            size={16} 
-                            className={currentLocation === location ? "text-primary" : "text-gray-400"} 
+                          <FiMapPin
+                            size={16}
+                            className={
+                              currentLocation === location
+                                ? "text-primary"
+                                : "text-gray-400"
+                            }
                           />
-                          <span className="text-sm font-medium">{location}</span>
+                          <span className="text-sm font-medium">
+                            {location}
+                          </span>
                         </div>
                       </button>
                     ))}
@@ -211,6 +223,9 @@ const ProfessionalNavbar = () => {
 
             <Link
               href="/pages/dashboard/employer"
+              onClick={() => {
+                switchRole(currentRole);
+              }}
               className="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-full border border-primary bg-white text-primary font-medium hover:bg-blue-50 transition"
             >
               <span className="text-sm">Switch To Employer</span>
@@ -326,7 +341,7 @@ const ProfessionalNavbar = () => {
             <div className="flex items-center gap-2">
               <div className="rounded-lg overflow-hidden border border-gray-200">
                 <Image
-                  src="/user2.jpg"
+                  src={user?.photo || "/defaultProfilePic.jpg"}
                   alt="User avatar"
                   width={50}
                   height={50}
