@@ -1,43 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
 import toast from "react-hot-toast";
+import useUser from "@/app/hooks/user/userHook";
 
-const REGIONS = ["Dhaka, Bangladesh", "Chittagong, Bangladesh", "Sylhet, Bangladesh", "Remote"];
-const PROJECT_TYPES = ["Construction", "Electrical", "Environmental", "Renovation", "Landscaping", "IT Services", "Consulting"];
-const WORK_DAYS = ["Mon-Fri", "Mon-Sat", "Any", "Flexible"];
-const BUDGET_TYPES = ["Fixed Price", "Hourly Rate", "Monthly", "Project-based"];
-const BID_CATEGORIES = ["Construction", "Electrical", "Environmental", "Renovation", "Landscaping", "IT", "Consulting", "Other"];
+const JOB_TYPES = ["remote", "onsite", "hybrid"];
+const BUDGET_TYPES = ["fixed", "hourly", "weekly", "monthly", "project-based"];
 
 export default function EmployerPost() {
+  const { user } = useUser();
+  console.log("🚀 ~ EmployerPost ~ user:", user)
   const [form, setForm] = useState({
     title: "",
-    client: "",
-    location: REGIONS[0],
-    projectType: PROJECT_TYPES[0],
-    workType: "On-site",
-    budget: "",
-    budgetType: BUDGET_TYPES[0],
-    projectDuration: "",
-    bidDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-    skills: [],
-    requirements: [],
-    languages: [],
     description: "",
-    contactEmail: "",
-    bidCategory: BID_CATEGORIES[0],
-    milestones: "1",
-    maxBidders: "",
+    requirements: [],
+    responsibilities: [],
+    skills: [],
+    jobType: "remote",
+    companyName: "",
+    companyLocation: "",
+    budget: "",
+    BudgetType: BUDGET_TYPES[0],
+    ProjectDuration: "",
+    applicationLimitEnabled: false,
+    applicationLimit: "",
+    workTime: "",
+    deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10),
+    employerEmail: user?.email || "",
   });
 
+  const [reqInput, setReqInput] = useState("");
   const [skillInput, setSkillInput] = useState("");
-  const [languageInput, setLanguageInput] = useState("");
-  const [requirementInput, setRequirementInput] = useState("");
+  const [respInput, setRespInput] = useState("");
 
-  function update(field, value) {
-    setForm((f) => ({ ...f, [field]: value }));
-  }
+  const update = (field, value) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
 
   const addItem = (field, value, setValue) => {
     const trimmed = value.trim();
@@ -47,248 +47,212 @@ export default function EmployerPost() {
     setValue("");
   };
 
-  const removeItem = (field, value) => {
-    update(field, form[field].filter((v) => v !== value));
-  };
+  const removeItem = (field, value) =>
+    update(
+      field,
+      form[field].filter((item) => item !== value)
+    );
 
-  const onSubmit = (e) => {
+  // ---------------------------
+  // 🔥 POST FUNCTION
+  // ---------------------------
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (!form.title.trim()) return toast.error("Project title is required");
-    if (!form.client.trim()) return toast.error("Client name is required");
-    if (!form.description.trim()) return toast.error("Project description is required");
-    if (!form.budget) return toast.error("Budget is required");
 
-    toast.success("Bid posted successfully!");
+    if (!form.title.trim()) return toast.error("Title required");
+    if (!form.description.trim()) return toast.error("Description required");
+    if (!form.companyName.trim()) return toast.error("Company name required");
+    if (!form.companyLocation.trim())
+      return toast.error("Company location required");
+    if (!form.budget) return toast.error("Budget required");
+
+
+    try {
+      const res = await fetch("/api/dashboard/employer/bid", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          employerEmail: user?.email || "",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.status === "success") {
+        toast.success("Bid Posted Successfully!");
+        window.location.reload();
+      } else {
+        toast.error(data.message || "Error posting bid");
+      }
+    } catch (err) {
+      toast.error("Server error");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 via-white to-blue-100">
+    <div className="min-h-screen bg-blue-50">
       <Navbar />
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-linear-to-r from-primary to-blue-800 bg-clip-text text-transparent">
-            Post a Tender / Bid Opportunity
-          </h1>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Create a new bidding opportunity for service employers. Provide clear project details 
-            and requirements to attract qualified bidders.
-          </p>
-        </div>
 
-        {/* Form Container */}
+      <main className="max-w-5xl mx-auto px-6 py-12">
+        <h1 className="text-3xl font-bold mb-8 text-center">
+          Post a Bid Opportunity
+        </h1>
+
         <form
           onSubmit={onSubmit}
-          className="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl border border-blue-100 px-6 sm:px-10 py-10 space-y-8"
+          className="bg-white p-8 rounded-2xl shadow-lg space-y-8"
         >
-          {/* === Project Basic Info === */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input 
-              label="Project Title *" 
-              value={form.title} 
-              onChange={(v) => update("title", v)} 
-              placeholder="e.g. Port Shed Repair Project" 
+          {/* TITLE + COMPANY */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <Input
+              label="Project Title *"
+              value={form.title}
+              onChange={(v) => update("title", v)}
             />
-            <Input 
-              label="Client/Organization *" 
-              value={form.client} 
-              onChange={(v) => update("client", v)} 
-              placeholder="e.g. Port Authority Department" 
+            <Input
+              label="Company Name *"
+              value={form.companyName}
+              onChange={(v) => update("companyName", v)}
             />
           </div>
 
-          {/* === Project Details === */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Select label="Location" options={REGIONS} value={form.location} onChange={(v) => update("location", v)} />
-            <Select label="Project Type" options={PROJECT_TYPES} value={form.projectType} onChange={(v) => update("projectType", v)} />
-            <Select label="Work Type" options={["On-site", "Remote", "Hybrid"]} value={form.workType} onChange={(v) => update("workType", v)} />
-          </div>
-
-          {/* === Budget & Timeline === */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Input 
-              label="Project Budget *" 
-              type="number" 
-              value={form.budget} 
-              onChange={(v) => update("budget", v)} 
-              placeholder="e.g. 15000" 
-            />
-            <Select 
-              label="Budget Type" 
-              options={BUDGET_TYPES} 
-              value={form.budgetType} 
-              onChange={(v) => update("budgetType", v)} 
-            />
-            <Input 
-              label="Project Duration" 
-              value={form.projectDuration} 
-              onChange={(v) => update("projectDuration", v)} 
-              placeholder="e.g. 3 months" 
-            />
-          </div>
-
-          {/* === Bid Management === */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Input 
-              label="Maximum Bidders" 
-              type="number" 
-              value={form.maxBidders} 
-              onChange={(v) => update("maxBidders", v)} 
-              placeholder="e.g. 20" 
-            />
-            <Input 
-              label="Number of Milestones" 
-              type="number" 
-              value={form.milestones} 
-              onChange={(v) => update("milestones", v)} 
-              placeholder="e.g. 3" 
-            />
-            <Select 
-              label="Bid Category" 
-              options={BID_CATEGORIES} 
-              value={form.bidCategory} 
-              onChange={(v) => update("bidCategory", v)} 
-            />
-          </div>
-
-          {/* === Work Conditions === */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input 
-              label="Work Time" 
-              value={form.workTime} 
-              onChange={(v) => update("workTime", v)} 
-              placeholder="e.g. 9:00 - 17:00 or Flexible" 
-            />
-            <Select 
-              label="Working Days" 
-              options={WORK_DAYS} 
-              value={form.workDays} 
-              onChange={(v) => update("workDays", v)} 
-            />
-          </div>
-
-          {/* === Bid Deadline === */}
-          <Input 
-            label="Bid Submission Deadline *" 
-            type="date" 
-            value={form.bidDeadline} 
-            onChange={(v) => update("bidDeadline", v)} 
+          {/* LOCATION */}
+          <Input
+            label="Company Location *"
+            value={form.companyLocation}
+            onChange={(v) => update("companyLocation", v)}
           />
 
-          {/* === Skills, Requirements, Languages === */}
+          {/* DESCRIPTION */}
+          <div>
+            <label className="block font-medium mb-2">Description *</label>
+            <textarea
+              rows={5}
+              value={form.description}
+              onChange={(e) => update("description", e.target.value)}
+              className="w-full border px-4 py-3 rounded-xl"
+              placeholder="Project details, objectives, deliverables..."
+            />
+          </div>
+
+          {/* JOB TYPE + BUDGET + PRICE */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <Select
+              label="Job Type"
+              value={form.jobType}
+              onChange={(v) => update("jobType", v)}
+              options={JOB_TYPES}
+            />
+            <Input
+              label="Budget *"
+              type="number"
+              value={form.budget}
+              onChange={(v) => update("budget", v)}
+            />
+          </div>
+
+          {/* BUDGET TYPE + DURATION */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <Select
+              label="Budget Type"
+              options={BUDGET_TYPES}
+              value={form.BudgetType}
+              onChange={(v) => update("BudgetType", v)}
+            />
+            <Input
+              label="Project Duration"
+              value={form.ProjectDuration}
+              onChange={(v) => update("ProjectDuration", v)}
+              placeholder="e.g. 3 months"
+            />
+          </div>
+
+          {/* LIMIT */}
+          <Checkbox
+            label="Enable Bid Limit"
+            checked={form.applicationLimitEnabled}
+            onChange={(v) => update("applicationLimitEnabled", v)}
+          />
+
+          {form.applicationLimitEnabled && (
+            <Input
+              label="Application Limit"
+              type="number"
+              value={form.applicationLimit}
+              onChange={(v) => update("applicationLimit", v)}
+            />
+          )}
+
+          {/* WORK TIME */}
+          <Input
+            label="Work Time"
+            value={form.workTime}
+            onChange={(v) => update("workTime", v)}
+            placeholder="e.g. 9AM - 5PM or Flexible"
+          />
+
+          {/* DEADLINE */}
+          <Input
+            label="Bid Deadline"
+            type="date"
+            value={form.deadline}
+            onChange={(v) => update("deadline", v)}
+          />
+
+          {/* TAG INPUTS */}
           <TagInput
-            label="Required Skills"
+            label="Skills"
             value={skillInput}
             setValue={setSkillInput}
             items={form.skills}
             addItem={(v) => addItem("skills", v, setSkillInput)}
             removeItem={(v) => removeItem("skills", v)}
-            placeholder="e.g. Construction, Project Management"
           />
-          
+
           <TagInput
-            label="Project Requirements"
-            value={requirementInput}
-            setValue={setRequirementInput}
+            label="Requirements"
+            value={reqInput}
+            setValue={setReqInput}
             items={form.requirements}
-            addItem={(v) => addItem("requirements", v, setRequirementInput)}
+            addItem={(v) => addItem("requirements", v, setReqInput)}
             removeItem={(v) => removeItem("requirements", v)}
-            placeholder="e.g. 5+ years experience, Licensed contractor"
           />
-          
+
           <TagInput
-            label="Required Languages"
-            value={languageInput}
-            setValue={setLanguageInput}
-            items={form.languages}
-            addItem={(v) => addItem("languages", v, setLanguageInput)}
-            removeItem={(v) => removeItem("languages", v)}
-            placeholder="e.g. English, Bangla"
+            label="Responsibilities"
+            value={respInput}
+            setValue={setRespInput}
+            items={form.responsibilities}
+            addItem={(v) => addItem("responsibilities", v, setRespInput)}
+            removeItem={(v) => removeItem("responsibilities", v)}
           />
 
-          {/* === Project Description === */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Project Description & Scope *
-            </label>
-            <textarea
-              rows={6}
-              value={form.description}
-              onChange={(e) => update("description", e.target.value)}
-              placeholder="Describe the project scope, objectives, deliverables, timeline, and any specific requirements..."
-              className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3 focus:border-blue-500 outline-none transition"
-            />
-          </div>
-
-          {/* === Contact & Actions === */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100">
-            <input
-              type="email"
-              placeholder="Contact Email for Bidders *"
-              value={form.contactEmail}
-              onChange={(e) => update("contactEmail", e.target.value)}
-              className="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-200 bg-slate-50 focus:border-blue-500 outline-none transition"
-              required
-            />
-            <div className="flex gap-3 w-full md:w-auto">
-              <button
-                type="button"
-                onClick={() => {
-                  setForm({
-                    title: "",
-                    client: "",
-                    location: REGIONS[0],
-                    projectType: PROJECT_TYPES[0],
-                    workType: "On-site",
-                    budget: "",
-                    budgetType: BUDGET_TYPES[0],
-                    projectDuration: "",
-                    bidDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-                    skills: [],
-                    requirements: [],
-                    languages: [],
-                    description: "",
-                    contactEmail: "",
-                    bidCategory: BID_CATEGORIES[0],
-                    milestones: "1",
-                    maxBidders: "",
-                  });
-                  toast.success("Form cleared");
-                }}
-                className="flex-1 md:flex-none px-6 py-3 border border-blue-200 text-primary font-medium rounded-xl hover:bg-blue-50 transition"
-              >
-                Clear Form
-              </button>
-              <button
-                type="submit"
-                className="flex-1 md:flex-none px-6 py-3 bg-primary hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition"
-              >
-                Publish Bid Opportunity
-              </button>
-            </div>
-          </div>
+          {/* BUTTON */}
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 cursor-pointer"
+          >
+            Publish Bid
+          </button>
         </form>
       </main>
+
       <Footer />
     </div>
   );
 }
 
-/* ==== Sub Components ==== */
-
-function Input({ label, value, onChange, placeholder, type = "text", disabled }) {
+function Input({ label, value, onChange, placeholder, type = "text" }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+      <label className="block mb-1 font-medium">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        disabled={disabled}
-        className={`w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-2.5 focus:border-blue-500 outline-none transition ${
-          disabled ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        className="w-full border px-4 py-2 rounded-xl"
       />
     </div>
   );
@@ -297,16 +261,14 @@ function Input({ label, value, onChange, placeholder, type = "text", disabled })
 function Select({ label, options, value, onChange }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+      <label className="block mb-1 font-medium">{label}</label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-2.5 focus:border-blue-500 outline-none transition"
+        className="w-full border px-4 py-2 rounded-xl"
       >
         {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
+          <option key={o}>{o}</option>
         ))}
       </select>
     </div>
@@ -315,42 +277,54 @@ function Select({ label, options, value, onChange }) {
 
 function Checkbox({ label, checked, onChange }) {
   return (
-    <div className="flex items-center gap-3 mt-5">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-primary" />
-      <label className="text-sm text-gray-700">{label}</label>
-    </div>
+    <label className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4"
+      />
+      {label}
+    </label>
   );
 }
 
-function TagInput({ label, value, setValue, addItem, removeItem, items, placeholder }) {
+function TagInput({ label, value, setValue, addItem, removeItem, items }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>
+      <label className="block font-medium mb-2">{label}</label>
       <div className="flex gap-2">
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addItem(value))}
-          placeholder={placeholder || `Add ${label.toLowerCase()}`}
-          className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl bg-slate-50 focus:border-blue-500 outline-none transition"
+          onKeyDown={(e) =>
+            e.key === "Enter" && (e.preventDefault(), addItem(value))
+          }
+          className="flex-1 border px-4 py-2 rounded-xl"
         />
         <button
           type="button"
           onClick={() => addItem(value)}
-          className="px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-blue-700 transition"
+          className="px-4 py-2 bg-blue-600 text-white rounded-xl cursor-pointer"
         >
           Add
         </button>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        {items.map((i) => (
+      <div className="flex flex-wrap gap-2 mt-2">
+        {items.map((item) => (
           <span
-            key={i}
-            className="inline-flex items-center gap-2 bg-blue-50 text-secondary px-3 py-1.5 rounded-full text-sm"
+            key={item}
+            className="px-3 py-1 bg-blue-100 rounded-full flex items-center gap-2"
           >
-            {i}
-            <button type="button" onClick={() => removeItem(i)} className="hover:text-blue-900">✕</button>
+            {item}
+            <button
+              type="button"
+              onClick={() => removeItem(item)}
+              className="text-red-600 cursor-pointer"
+            >
+              ✕
+            </button>
           </span>
         ))}
       </div>

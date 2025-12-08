@@ -60,7 +60,6 @@ export async function POST(req) {
     // -----------------------------------
     const employer = await User.findOne({
       email: employerEmail,
-      role: "employer",
     });
 
     if (!employer) {

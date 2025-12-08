@@ -1,102 +1,64 @@
 import mongoose from "mongoose";
 
-const jobSchema = new mongoose.Schema(
+const bidSchema = new mongoose.Schema(
   {
-    // 1. Job Title
     title: {
       type: String,
       required: true,
       trim: true,
     },
-
-    // 2. Description
     description: {
       type: String,
       required: true,
       trim: true,
     },
 
-    // 3. Requirements
     requirements: {
       type: Array,
       default: [],
     },
 
-    // 4. Responsibilities
     responsibilities: {
       type: Array,
       default: [],
     },
-
-    // 5. Skills
+    jobType: {
+      type: String,
+      enum: ["remote", "onsite", "hybrid"],
+      default: "remote",
+    },
     skills: {
       type: Array,
       default: [],
     },
-
-    // 6. Job Type
-    jobType: {
-      type: String,
-      required: true,
-      enum: ["Full-time", "Part-time", "Internship"],
-    },
-
-    // 7. Work Days
-    workDays: {
-      type: String,
-      required: true,
-      enum: ["Mon-Fri", "Mon-Sat", "Flexible", "Any"],
-      default: "Mon-Fri",
-    },
-
-    // 8. Work Type
-    workType: {
-      type: String,
-      required: true,
-      enum: ["On-site", "Remote", "Hybrid"],
-    },
-
-    // 9. Languages
-    languages: {
-      type: Array,
-      default: [],
-    },
-
-    // 10. Company Name
     companyName: {
       type: String,
       required: true,
       trim: true,
     },
-
-    // 11. Company Location
     companyLocation: {
       type: String,
       required: true,
       trim: true,
     },
-
-    // 12. Salary
-    salary: {
+    budget: {
       type: Number,
       required: true,
     },
-
-    // 13. Salary Type
-    salaryType: {
+    BudgetType: {
       type: String,
-      required: true,
-      enum: ["Monthly", "Hourly", "Fixed"],
+      enum: ["fixed", "hourly", "weekly", "monthly", "project-based"],
     },
-
-    // 14. Total Hiring
-    totalHiring: {
+    price: {
       type: Number,
       required: true,
-      default: 1,
+      default: 0,
     },
-
-    // 15. Application Limit
+    ProjectDuration: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     applicationLimitEnabled: {
       type: Boolean,
       default: false,
@@ -107,31 +69,20 @@ const jobSchema = new mongoose.Schema(
       default: 0,
     },
 
-    // 16. Total Applicants
     applicationCount: {
       type: Number,
       default: 0,
     },
 
-    // 17. Work Time
     workTime: {
       type: String,
       trim: true,
     },
 
-    // 18. Deadline
     deadline: {
       type: Date,
       required: true,
     },
-
-    // 19. Benefits
-    benefits: {
-      type: Array,
-      default: [],
-    },
-
-    // Internal + System Fields
     employerEmail: {
       type: String,
       required: true,
@@ -139,8 +90,8 @@ const jobSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "finished"],
-      default: "active",
+      enum: ["pending", "accepted", "in progress", "completed", "rejected"],
+      default: "pending",
     },
     createdAt: {
       type: Date,
@@ -150,5 +101,5 @@ const jobSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Job = mongoose.models.Job || mongoose.model("Job", jobSchema);
-export default Job;
+const Bid = mongoose.models.Bid || mongoose.model("Bid", bidSchema);
+export default Bid;
