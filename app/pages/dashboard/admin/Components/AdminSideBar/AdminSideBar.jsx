@@ -30,17 +30,18 @@ const menuItems = [
     icon: <FiBriefcase />,
   },
   {
+    id: "bids",
+    label: "My Bids",
+    link: "/pages/dashboard/admin/adminBids",
+    icon: <TbHammer />,
+  },
+  {
     id: "users",
     label: "Users",
     link: "/pages/dashboard/admin/adminUsers",
     icon: <FiUser />,
   },
-  // {
-  //   id: "bids",
-  //   label: "My Bids",
-  //   link: "/pages/dashboard/employer/employerBids",
-  //   icon: <TbHammer />,
-  // },
+  
   // {
   //   id: "messages",
   //   label: "Messages",

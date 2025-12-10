@@ -12,7 +12,7 @@ const useGetAllBids = () => {
       try {
         setAllBidsLoading(true);
 
-        const res = await fetch(`/api/dashboard/employer/bid`);
+        const res = await fetch(`/api/dashboard/employer/bid/get`);
         const data = await res.json();
 
         if (!mounted) return;
