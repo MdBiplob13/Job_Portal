@@ -361,14 +361,11 @@ export default function EmployerBids() {
       <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">My Bids & Tenders</h1>
-            <p className="text-gray-600 mt-2">Track and manage all your submitted bids and tender applications</p>
+            <h1 className="text-3xl font-bold text-gray-800">My Applied Bids & Tenders</h1>
+            <p className="text-gray-600 mt-2">Track and manage all your applied bids and tender applications</p>
           </div>
 
-          <Link href={"/pages/dashboard/employer/post/bids"} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit">
-            <FiPlus className="text-lg" />
-            Post New Bid
-          </Link>
+          
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">

@@ -24,17 +24,17 @@ const menuItems = [
     icon: <FiHome />,
   },
   {
+    id: "bids",
+    label: "My Applied Bids",
+    link: "/pages/dashboard/professional/professionalBids",
+    icon: <TbHammer />,
+  },
+  {
     id: "jobs",
     label: "My Proposed Jobs",
     link: "/pages/dashboard/professional/proposeJobs",
     icon: <FiBriefcase />,
   },
-  // {
-  //   id: "bids",
-  //   label: "My Bids",
-  //   link: "/pages/dashboard/employer/employerBids",
-  //   icon: <TbHammer />,
-  // },
   // {
   //   id: "messages",
   //   label: "Messages",

@@ -187,7 +187,7 @@ export default function EmployerBids() {
         return (
           <>
             <Link
-              href={`/pages/dashboard/employer/bids/${b._id}`}
+              href={`/pages/browse/bids/${b._id}`}
               className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               <FiEye className="text-sm" /> View
