@@ -41,6 +41,12 @@ const menuItems = [
     link: "/pages/dashboard/admin/adminUsers",
     icon: <FiUser />,
   },
+  {
+    id: "subscribers",
+    label: "Subscribers",
+    link: "/pages/dashboard/admin/adminSubscribers",
+    icon: <FiStar />,
+  },
   
   // {
   //   id: "messages",
