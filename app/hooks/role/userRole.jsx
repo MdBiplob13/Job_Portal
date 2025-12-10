@@ -10,7 +10,8 @@ const useUserRole = (role) => {
   function switchRole(role) {
     if (role === "employer") {
       Cookies.set("userRole", "professional", { expires: 7 });
-    } else {
+    }
+     else {
       Cookies.set("userRole", "employer", { expires: 7 });
     }
   }

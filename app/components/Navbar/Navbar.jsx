@@ -151,8 +151,8 @@ const Navbar = () => {
                 <Image
                   src={user?.photo || "/defaultProfilePic.jpg"}
                   alt="user"
-                  width={80}
-                  height={80}
+                  width={50}
+                  height={50}
                   className="rounded-full cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
                 />
               </Link>

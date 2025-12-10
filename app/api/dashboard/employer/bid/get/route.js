@@ -20,11 +20,12 @@ export async function GET() {
   }
 }
 
-export async function PUT(req, { params }) {
+export async function PUT(req) {
   try {
     await connectMongoDb();
 
-    const bid = await Bid.findById(params.id);
+    const { bidId } = await req.json();
+    const bid = await Bid.findById(bidId);
 
     if (!bid) {
       return NextResponse.json(
@@ -50,7 +51,7 @@ export async function PATCH(req) {
     await connectMongoDb();
 
     const { email } = await req.json();
-    console.log("🚀 ~ PATCH ~ email:", email)
+    console.log("🚀 ~ PATCH ~ email:", email);
 
     const bids = await Bid.find({ employerEmail: email }).sort({
       createdAt: -1,

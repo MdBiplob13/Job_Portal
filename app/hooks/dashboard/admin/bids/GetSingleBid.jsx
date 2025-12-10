@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-const useGetSingleBid = (id) => {
+const useGetSingleBid = (bidId) => {
   const [singleBid, setSingleBid] = useState(null);
   const [singleBidLoading, setSingleBidLoading] = useState(false);
   const [singleBidRefresh, setSingleBidRefresh] = useState(1);
 
   useEffect(() => {
-    if (!id) {
+    if (!bidId) {
       setSingleBid(null);
       return;
     }
@@ -17,10 +17,10 @@ const useGetSingleBid = (id) => {
       try {
         setSingleBidLoading(true);
 
-        const res = await fetch(`/api/dashboard/employer/bid`, {
+        const res = await fetch(`/api/dashboard/employer/bid/get/filter`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id }),
+          body: JSON.stringify({ bidId }),
         });
 
         const data = await res.json();
@@ -43,7 +43,7 @@ const useGetSingleBid = (id) => {
     return () => {
       mounted = false;
     };
-  }, [id, singleBidRefresh]);
+  }, [bidId, singleBidRefresh]);
 
   return {
     singleBid,

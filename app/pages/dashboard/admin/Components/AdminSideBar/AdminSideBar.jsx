@@ -84,6 +84,7 @@ const AdminSideBar = () => {
   // logout function
   const handleLogout = () => {
     Cookies.remove("bidpoleToken");
+    Cookies.remove("userRole");
     setUser(null);
     setUserRefresh(userRefresh + 1);
     router.push("/pages/auth/login");
