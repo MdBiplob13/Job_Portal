@@ -4,12 +4,14 @@ import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
 import toast from "react-hot-toast";
 import useUser from "@/app/hooks/user/userHook";
+import { useRouter } from "next/navigation";
 
 const JOB_TYPES = ["remote", "onsite", "hybrid"];
 const BUDGET_TYPES = ["fixed", "hourly", "weekly", "monthly", "project-based"];
 
 export default function EmployerPost() {
   const { user } = useUser();
+  const router = useRouter();
   console.log("🚀 ~ EmployerPost ~ user:", user)
   const [form, setForm] = useState({
     title: "",
@@ -68,7 +70,7 @@ export default function EmployerPost() {
 
 
     try {
-      const res = await fetch("/api/dashboard/employer/bid", {
+      const res = await fetch("/api/dashboard/employer/bid/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,7 +83,29 @@ export default function EmployerPost() {
 
       if (data.status === "success") {
         toast.success("Bid Posted Successfully!");
-        window.location.reload();
+        router.push("/pages/dashboard/employer/employerBids");
+
+        // clear from
+        setForm({
+          title: "",
+          description: "",
+          requirements: [],
+          responsibilities: [],
+          skills: [],
+          jobType: "remote",
+          companyName: "",
+          companyLocation: "",
+          budget: "",
+          BudgetType: BUDGET_TYPES[0],
+          ProjectDuration: "",
+          applicationLimitEnabled: false,
+          applicationLimit: "",
+          workTime: "",
+          deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .slice(0, 10),
+          employerEmail: user?.email || "",
+        })
       } else {
         toast.error(data.message || "Error posting bid");
       }

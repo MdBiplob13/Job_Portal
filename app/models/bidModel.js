@@ -54,6 +54,7 @@ const bidSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    
     ProjectDuration: {
       type: String,
       trim: true,
