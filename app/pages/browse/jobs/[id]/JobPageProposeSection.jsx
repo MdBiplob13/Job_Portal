@@ -170,13 +170,13 @@ const JobPageProposeSection = ({ job, jobId }) => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Resume - NOW USER HEADLINE */}
               <div>
-                <label className="block mb-1 font-medium">Resume (Headline)</label>
+                <label className="block mb-1 font-medium">Resume (Link)</label>
                 <input
                   type="text"
                   value={resume}
                   onChange={(e) => setResume(e.target.value)}
                   className="w-full border rounded-lg px-3 py-2"
-                  placeholder="Your headline"
+                  placeholder="Your resume link"
                 />
               </div>
 

@@ -14,7 +14,9 @@ import {
   FiLogOut,
   FiStar,
 } from "react-icons/fi";
+import { Coins, Gem, Wallet, DollarSign } from "lucide-react";
 import { TbHammer } from "react-icons/tb";
+import { FaBoxes, FaCoins } from "react-icons/fa";
 
 const menuItems = [
   {
@@ -46,6 +48,18 @@ const menuItems = [
     label: "Subscribers",
     link: "/pages/dashboard/admin/adminSubscribers",
     icon: <FiStar />,
+  },
+  {
+    id: "creditManagement",
+    label: "Credit Management",
+    link: "/pages/dashboard/admin/adminCreditManagement",
+    icon: <FaCoins />,
+  },
+  {
+    id: "packageManagement",
+    label: "Package Management",
+    link: "/pages/dashboard/admin/adminPackageManagement",
+    icon: <FaBoxes />,
   },
   
   // {
