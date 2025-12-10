@@ -17,7 +17,7 @@ const useGetSingleBid = (bidId) => {
       try {
         setSingleBidLoading(true);
 
-        const res = await fetch(`/api/dashboard/employer/bid/get/filter`, {
+        const res = await fetch(`/api/dashboard/employer/bid/get`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ bidId }),

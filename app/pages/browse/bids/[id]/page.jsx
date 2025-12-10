@@ -1,146 +1,38 @@
 "use client";
 import Navbar from "@/app/components/Navbar/Navbar";
 import React, { useState } from "react";
-import { MapPin, Clock, DollarSign, Users, Star, User, ArrowLeft } from "lucide-react";
+import { MapPin, Clock, Users, Star, User, ArrowLeft, Calendar, Briefcase, DollarSign } from "lucide-react";
 import Footer from "@/app/components/Footer/Footer";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import useGetSingleBid from "@/app/hooks/dashboard/admin/bids/GetSingleBid";
+import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
 
-const MOCK_JOBS = [
-  {
-    id: 1,
-    title: "Frontend Engineer",
-    subtitle: "React & Next.js Development",
-    company: "Pixel Web Makers",
-    location: "Dhaka, Bangladesh",
-    proposedPrice: 120000,
-    priceType: "monthly",
-    currentBids: 8,
-    maxBids: 15,
-    skills: ["React", "Tailwind", "Next.js"],
-    language: ["English", "Bangla"],
-    jobType: "full-time",
-    postDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    applyDeadline: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
-    totalApplications: 24,
-    totalHiring: 2,
-    posterName: "A. Rahman",
-    posterAvatar: "https://xsgames.co/randomusers/assets/avatars/male/5.jpg",
-    description: "We are looking for a passionate Frontend Engineer who loves building UIs with React and Next.js. You will be responsible for creating responsive, user-friendly web applications and collaborating with our design team to implement pixel-perfect interfaces.",
-    workTime: "9:00 - 17:00",
-    workDays: "Mon-Fri",
-    requirements: [
-      "3+ years of experience with React and Next.js",
-      "Strong understanding of JavaScript ES6+",
-      "Experience with Tailwind CSS or similar CSS frameworks",
-      "Knowledge of responsive web design",
-      "Experience with version control (Git)",
-      "Good communication skills in English"
-    ],
-    responsibilities: [
-      "Develop and maintain web applications using React and Next.js",
-      "Collaborate with designers to implement UI/UX designs",
-      "Write clean, maintainable, and efficient code",
-      "Participate in code reviews and team meetings",
-      "Optimize applications for maximum speed and scalability",
-      "Stay up-to-date with emerging technologies"
-    ]
-  },
-  {
-    id: 2,
-    title: "Backend Engineer (Node.js)",
-    subtitle: "API Development & Database Management",
-    company: "Hirely",
-    location: "Remote",
-    proposedPrice: 40,
-    priceType: "hourly",
-    currentBids: 12,
-    maxBids: 20,
-    skills: ["Node.js", "MongoDB", "Express"],
-    language: ["English"],
-    jobType: "remote",
-    postDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-    applyDeadline: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-    totalApplications: 56,
-    totalHiring: 1,
-    posterName: "S. Karim",
-    posterAvatar: "https://xsgames.co/randomusers/assets/avatars/male/5.jpg",
-    description: "Experienced Node.js developer needed to build scalable APIs and services. You will work on our core backend infrastructure and help scale our platform to serve millions of users.",
-    workTime: "Flexible",
-    workDays: "Any",
-    requirements: [
-      "5+ years of Node.js development experience",
-      "Strong knowledge of MongoDB and database design",
-      "Experience with Express.js framework",
-      "Understanding of RESTful API design",
-      "Experience with cloud platforms (AWS/GCP)",
-      "Knowledge of microservices architecture"
-    ],
-    responsibilities: [
-      "Design and develop scalable backend APIs",
-      "Optimize database queries and performance",
-      "Implement security best practices",
-      "Collaborate with frontend teams",
-      "Write comprehensive tests",
-      "Monitor and maintain production systems"
-    ]
-  },
-  {
-    id: 3,
-    title: "Junior QA Tester",
-    subtitle: "Web Application Testing",
-    company: "Startup X",
-    location: "Chittagong, Bangladesh",
-    proposedPrice: 20000,
-    priceType: "monthly",
-    currentBids: 5,
-    maxBids: 10,
-    skills: ["Testing", "Attention to detail"],
-    language: ["Bangla"],
-    jobType: "part-time",
-    postDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    applyDeadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
-    totalApplications: 8,
-    totalHiring: 1,
-    posterName: "M. Noor",
-    posterAvatar: "https://xsgames.co/randomusers/assets/avatars/male/5.jpg",
-    description: "Entry-level QA tester position for web applications. Perfect opportunity for someone looking to start their career in software testing.",
-    workTime: "10:00 - 18:00",
-    workDays: "Mon-Sat",
-    requirements: [
-      "Basic understanding of software testing concepts",
-      "Attention to detail and analytical thinking",
-      "Good communication skills",
-      "Basic knowledge of web technologies",
-      "Ability to work in a team environment",
-      "Willingness to learn and grow"
-    ],
-    responsibilities: [
-      "Execute test cases and report bugs",
-      "Perform manual testing of web applications",
-      "Document test results and findings",
-      "Collaborate with development team",
-      "Participate in test planning meetings",
-      "Learn and apply testing methodologies"
-    ]
-  },
-];
-
-export default function JobDetailPage() {
+export default function BidDetailPage() {
   const params = useParams();
-  const [activeSection, setActiveSection] = useState("overview");
-  
-  const job = MOCK_JOBS.find(j => j.id === parseInt(params.id));
+  const bidId = params.id;
 
-  if (!job) {
+  const { singleBid, singleBidLoading } = useGetSingleBid(bidId);
+  const { singleUser, singleUserLoading } = useGetUserWithEmail(
+    singleBid?.employerEmail
+  );
+
+  const [activeSection, setActiveSection] = useState("overview");
+
+  if (!singleBid) {
     return (
-      <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
         <Navbar />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-slate-800 mb-4">Job Not Found</h1>
-            <Link href="/pages/searchAJob" className="text-primary hover:underline">
-              ← Back to Job Listings
+            <h1 className="text-2xl font-bold text-slate-800 mb-4">
+              Bid Not Found
+            </h1>
+            <Link
+              href="/pages/browse/bids"
+              className="text-blue-500 hover:underline"
+            >
+              ← Back to Bids Listings
             </Link>
           </div>
         </div>
@@ -148,6 +40,16 @@ export default function JobDetailPage() {
       </div>
     );
   }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "No deadline";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
 
   const timeLeft = (deadline) => {
     const ms = new Date(deadline).getTime() - Date.now();
@@ -157,50 +59,58 @@ export default function JobDetailPage() {
     return `${days}d ${hours}h`;
   };
 
+  const getBudgetTypeText = (type) => {
+    switch(type?.toLowerCase()) {
+      case 'monthly': return '/month';
+      case 'hourly': return '/hour';
+      case 'fixed': return ' fixed';
+      default: return '';
+    }
+  };
+
   const sections = [
     { id: "overview", label: "Overview", icon: "📋" },
-    { id: "employer", label: "Employer Info", icon: "👤" },
-    { id: "bids", label: "Current Bids", icon: "💰" }
+    { id: "company", label: "Company Info", icon: "🏢" },
+    { id: "applications", label: "Applications", icon: "📄" },
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
       <Navbar />
 
       {/* Header */}
       <div className="bg-white border-b border-slate-200">
         <div className="px-6 md:px-8 py-6">
           <div className="flex items-center gap-4 mb-4">
-            <Link 
-              href="/pages/searchAJob" 
-              className="flex items-center gap-2 text-slate-600 hover:text-primary transition"
+            <Link
+              href="/pages/browse/bids"
+              className="flex items-center gap-2 text-slate-600 hover:text-blue-500 transition"
             >
               <ArrowLeft className="w-5 h-5" />
-              Back to Jobs
+              Back to Bids
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-slate-800">{job.title}</h1>
-          <p className="text-xl text-slate-600 mt-2">{job.subtitle}</p>
-          <div className="flex items-center gap-4 mt-4 text-slate-500">
+          <h1 className="text-3xl font-bold text-slate-800">{singleBid.title}</h1>
+          <div className="flex flex-wrap items-center gap-4 mt-4 text-slate-500">
             <div className="flex items-center gap-1">
               <MapPin className="w-4 h-4" />
-              {job.location}
+              {singleBid.companyLocation || "Location not specified"}
             </div>
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              {job.workTime}
+              {singleBid.workTime || "Flexible hours"}
             </div>
             <div className="flex items-center gap-1">
               <DollarSign className="w-4 h-4" />
-              {job.priceType === "hourly"
-                ? `$${job.proposedPrice}/hr`
-                : job.priceType === "monthly"
-                ? `৳${job.proposedPrice}/mo`
-                : `৳${job.proposedPrice}`}
+              ${singleBid.budget}{getBudgetTypeText(singleBid.BudgetType)}
             </div>
             <div className="flex items-center gap-1">
               <Users className="w-4 h-4" />
-              {job.currentBids}/{job.maxBids} bids
+              {singleBid.applicationCount || 0}/{singleBid.applicationLimit || 50} applications
+            </div>
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4" />
+              {timeLeft(singleBid.deadline)} left
             </div>
           </div>
         </div>
@@ -215,10 +125,10 @@ export default function JobDetailPage() {
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition cursor-pointer ${
                     activeSection === section.id
-                      ? "bg-primary text-white"
-                      : "text-slate-600 hover:text-primary hover:bg-blue-50"
+                      ? "bg-blue-500 text-white"
+                      : "text-slate-600 hover:text-blue-500 hover:bg-blue-50"
                   }`}
                 >
                   <span className="text-lg">{section.icon}</span>
@@ -234,208 +144,390 @@ export default function JobDetailPage() {
             {activeSection === "overview" && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-800 mb-4">Job Description</h2>
-                  <p className="text-slate-700 leading-relaxed">{job.description}</p>
+                  <h2 className="text-2xl font-bold text-slate-800 mb-4">
+                    Bid Description
+                  </h2>
+                  <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                    {singleBid.description}
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-800 mb-4">Requirements</h3>
+                    <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                      Requirements
+                    </h3>
                     <ul className="space-y-2">
-                      {job.requirements.map((req, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-primary mt-1">•</span>
-                          <span className="text-slate-700">{req}</span>
-                        </li>
-                      ))}
+                      {singleBid.requirements && singleBid.requirements.length > 0 ? (
+                        singleBid.requirements.map((req, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-blue-500 mt-1">•</span>
+                            <span className="text-slate-700">{req}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-slate-500">No specific requirements</li>
+                      )}
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-800 mb-4">Responsibilities</h3>
+                    <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                      Responsibilities
+                    </h3>
                     <ul className="space-y-2">
-                      {job.responsibilities.map((resp, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-primary mt-1">•</span>
-                          <span className="text-slate-700">{resp}</span>
-                        </li>
-                      ))}
+                      {singleBid.responsibilities && singleBid.responsibilities.length > 0 ? (
+                        singleBid.responsibilities.map((resp, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-blue-500 mt-1">•</span>
+                            <span className="text-slate-700">{resp}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-slate-500">No specific responsibilities</li>
+                      )}
                     </ul>
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">Skills Required</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {job.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-4 py-2 bg-blue-100 text-secondary rounded-full text-sm font-medium"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                {singleBid.skills && singleBid.skills.length > 0 && (
+                  <div>
+                    <h3 className="text-xl font-semibold text-slate-800 mb-4">
+                      Required Skills
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {singleBid.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="bg-slate-50 rounded-xl p-4">
-                    <h4 className="font-semibold text-slate-800 mb-2">Job Type</h4>
-                    <p className="text-slate-600 capitalize">{job.jobType}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-xl p-4">
-                    <h4 className="font-semibold text-slate-800 mb-2">Work Days</h4>
-                    <p className="text-slate-600">{job.workDays}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-xl p-4">
-                    <h4 className="font-semibold text-slate-800 mb-2">Languages</h4>
-                    <p className="text-slate-600">{job.language.join(", ")}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* employer Info Section */}
-            {activeSection === "employer" && (
-              <div className="space-y-8">
-                <div className="flex items-center gap-6">
-                  <img 
-                    src={job.posterAvatar} 
-                    alt={job.posterName}
-                    className="w-20 h-20 rounded-full object-cover"
-                  />
-                  <div>
-                    <h2 className="text-2xl font-bold text-slate-800">{job.posterName}</h2>
-                    <p className="text-xl text-slate-600">{job.company}</p>
-                    <div className="flex items-center gap-4 mt-2 text-slate-500">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {job.location}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-500" />
-                        4.8 (127 reviews)
-                      </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Briefcase className="w-5 h-5 text-slate-500" />
+                      <h4 className="font-semibold text-slate-800">
+                        Job Type
+                      </h4>
                     </div>
+                    <p className="text-slate-600 capitalize">
+                      {singleBid.jobType || "Not specified"}
+                    </p>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-800 mb-4">Company Information</h3>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="font-medium text-slate-700">Company:</span>
-                        <span className="ml-2 text-slate-600">{job.company}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-slate-700">Location:</span>
-                        <span className="ml-2 text-slate-600">{job.location}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-slate-700">Posted:</span>
-                        <span className="ml-2 text-slate-600">{new Date(job.postDate).toLocaleDateString()}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-slate-700">Deadline:</span>
-                        <span className="ml-2 text-slate-600">{timeLeft(job.applyDeadline)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold text-slate-800 mb-4">Contact Information</h3>
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-slate-500" />
-                        <span className="text-slate-600">{job.posterName}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-500">📧</span>
-                        <span className="text-slate-600">contact@{job.company.toLowerCase().replace(/\s+/g, '')}.com</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-500">📱</span>
-                        <span className="text-slate-600">+1 (555) 123-4567</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">About the Company</h3>
-                  <p className="text-slate-700 leading-relaxed">
-                    {job.company} is a leading technology company specializing in innovative solutions. 
-                    We are committed to creating exceptional products and providing outstanding service to our clients. 
-                    Our team consists of talented professionals who are passionate about technology and dedicated to excellence.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Current Bids Section */}
-            {activeSection === "bids" && (
-              <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-slate-800">Current Bids ({job.currentBids})</h2>
-                  <button className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-blue-700 transition">
-                    Propose Bid
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {Array.from({ length: Math.min(job.currentBids, 5) }).map((_, index) => (
-                    <div key={index} className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
-                            <User className="w-6 h-6 text-slate-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-slate-800">Bidder {index + 1}</h4>
-                            <p className="text-sm text-slate-600">Proposed: ${Math.floor(Math.random() * 50) + 30}/hr</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="flex items-center gap-1 mb-1">
-                            <Star className="w-4 h-4 text-yellow-500" />
-                            <span className="text-sm font-medium">4.{Math.floor(Math.random() * 9) + 1}</span>
-                            <span className="text-sm text-slate-500">({Math.floor(Math.random() * 50) + 20} reviews)</span>
-                          </div>
-                          <p className="text-sm text-slate-500">{Math.floor(Math.random() * 5) + 1} days ago</p>
-                        </div>
-                      </div>
-                      <p className="text-slate-700 text-sm">
-                        I have extensive experience in this field and can deliver high-quality results within your timeline. 
-                        I'm available to start immediately and can work {job.workDays.toLowerCase()} from {job.workTime}.
-                      </p>
-                      <div className="flex items-center gap-4 mt-4">
-                        <button className="px-4 py-2 bg-primary   text-white rounded-lg hover:bg-secondary transition text-sm">
-                          Accept Bid
-                        </button>
-                        <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition text-sm">
-                          View Profile
-                        </button>
-                        <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition text-sm">
-                          Message
-                        </button>
-                      </div>
-                    </div>
-                  ))}
                   
-                  {job.currentBids > 5 && (
-                    <div className="text-center py-4">
-                      <p className="text-slate-500">
-                        +{job.currentBids - 5} more bids available
-                      </p>
-                      <button className="mt-2 text-primary hover:underline">
-                        View All Bids
-                      </button>
+                  <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Clock className="w-5 h-5 text-slate-500" />
+                      <h4 className="font-semibold text-slate-800">
+                        Project Duration
+                      </h4>
                     </div>
-                  )}
+                    <p className="text-slate-600">
+                      {singleBid.ProjectDuration || "Not specified"}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <DollarSign className="w-5 h-5 text-slate-500" />
+                      <h4 className="font-semibold text-slate-800">
+                        Budget Type
+                      </h4>
+                    </div>
+                    <p className="text-slate-600 capitalize">
+                      {singleBid.BudgetType || "Fixed"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Calendar className="w-5 h-5 text-blue-500" />
+                      <h4 className="font-semibold text-slate-800">
+                        Application Deadline
+                      </h4>
+                    </div>
+                    <p className="text-slate-600 font-medium">
+                      {formatDate(singleBid.deadline)}
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      {timeLeft(singleBid.deadline)} remaining
+                    </p>
+                  </div>
+                  
+                  <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users className="w-5 h-5 text-blue-500" />
+                      <h4 className="font-semibold text-slate-800">
+                        Application Status
+                      </h4>
+                    </div>
+                    <p className="text-slate-600 font-medium">
+                      {singleBid.applicationCount || 0} out of {singleBid.applicationLimit || 50} spots filled
+                    </p>
+                    <div className="mt-2">
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-500 h-2 rounded-full" 
+                          style={{ 
+                            width: `${Math.min(100, ((singleBid.applicationCount || 0) / (singleBid.applicationLimit || 50)) * 100)}%` 
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="text-yellow-500 text-xl">ℹ️</div>
+                    <div>
+                      <h4 className="font-semibold text-yellow-800 mb-1">
+                        Important Information
+                      </h4>
+                      <p className="text-yellow-700 text-sm">
+                        {singleBid.applicationLimitEnabled 
+                          ? `This bid has an application limit of ${singleBid.applicationLimit} submissions. ${singleBid.applicationCount || 0} applications have been received so far.`
+                          : "This bid accepts unlimited applications."}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Company Info Section */}
+            {activeSection === "company" && (
+              <div className="space-y-8">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+                  <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                    {singleBid.companyName}
+                  </h2>
+                  <p className="text-slate-600 mb-4">
+                    {singleBid.companyLocation || "Company location not specified"}
+                  </p>
+                  
+                  <div className="flex items-center gap-4">
+                    <div className="bg-white rounded-full p-3 shadow-sm">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                        {singleBid.companyName?.charAt(0) || "C"}
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <h4 className="font-semibold text-slate-700 mb-1">
+                            Company Name
+                          </h4>
+                          <p className="text-slate-600">{singleBid.companyName}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-slate-700 mb-1">
+                            Location
+                          </h4>
+                          <p className="text-slate-600">{singleBid.companyLocation || "Not specified"}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {singleUser && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-semibold text-slate-800">
+                      Contact Person
+                    </h3>
+                    
+                    <div className="flex items-center gap-6 p-4 bg-slate-50 rounded-xl">
+                      {singleUser.photo ? (
+                        <img
+                          src={singleUser.photo}
+                          alt={singleUser.name}
+                          className="w-16 h-16 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                          {singleUser.name?.charAt(0) || "U"}
+                        </div>
+                      )}
+                      
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold text-slate-800">
+                          {singleUser.name}
+                        </h4>
+                        <p className="text-slate-600 mb-2">
+                          {singleUser.headline || "Contact Person"}
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-4 text-sm text-slate-500">
+                          {singleUser.location && (
+                            <div className="flex items-center gap-1">
+                              <MapPin className="w-4 h-4" />
+                              {singleUser.location}
+                            </div>
+                          )}
+                          {singleUser.review?.rating && (
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 text-yellow-500" />
+                              {singleUser.review.rating} ({singleUser.review.totalRatings || 0} reviews)
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <h4 className="font-semibold text-slate-700">Contact Information</h4>
+                        <div className="space-y-3">
+                          {singleUser.email && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-slate-500">📧</span>
+                              <span className="text-slate-600">{singleUser.email}</span>
+                            </div>
+                          )}
+                          {singleUser.phone && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-slate-500">📱</span>
+                              <span className="text-slate-600">{singleUser.phone}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {singleUser.social && (
+                        <div className="space-y-4">
+                          <h4 className="font-semibold text-slate-700">Social Links</h4>
+                          <div className="space-y-2">
+                            {singleUser.social.facebook && (
+                              <a
+                                href={singleUser.social.facebook}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition"
+                              >
+                                Facebook
+                              </a>
+                            )}
+                            {singleUser.social.instagram && (
+                              <a
+                                href={singleUser.social.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-pink-600 hover:text-pink-800 transition"
+                              >
+                                Instagram
+                              </a>
+                            )}
+                            {singleUser.social.linkedin && (
+                              <a
+                                href={singleUser.social.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-blue-700 hover:text-blue-900 transition"
+                              >
+                                LinkedIn
+                              </a>
+                            )}
+                            {singleUser.social.portfolio && (
+                              <a
+                                href={singleUser.social.portfolio}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-purple-600 hover:text-purple-800 transition"
+                              >
+                                Portfolio
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {!singleUser && (
+                  <div className="text-center py-8">
+                    <div className="text-6xl mb-4">👤</div>
+                    <h3 className="text-xl font-semibold text-slate-800 mb-2">
+                      Contact Information Not Available
+                    </h3>
+                    <p className="text-slate-600">
+                      The contact details for this bid are not currently available.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Applications Section */}
+            {activeSection === "applications" && (
+              <div className="space-y-8">
+                <div className="text-center py-8">
+                  <div className="text-6xl mb-4">📊</div>
+                  <h3 className="text-2xl font-semibold text-slate-800 mb-2">
+                    Application Status
+                  </h3>
+                  <p className="text-slate-600 mb-6 max-w-md mx-auto">
+                    {singleBid.applicationCount || 0} applications received out of {singleBid.applicationLimit || 50} maximum
+                  </p>
+                  
+                  <div className="max-w-md mx-auto">
+                    <div className="flex justify-between text-sm text-slate-500 mb-1">
+                      <span>0%</span>
+                      <span>50%</span>
+                      <span>100%</span>
+                    </div>
+                    <div className="w-full bg-slate-200 rounded-full h-4">
+                      <div 
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 h-4 rounded-full transition-all duration-500" 
+                        style={{ 
+                          width: `${Math.min(100, ((singleBid.applicationCount || 0) / (singleBid.applicationLimit || 50)) * 100)}%` 
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8">
+                    <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition shadow-sm">
+                      Submit Your Application
+                    </button>
+                    <p className="text-sm text-slate-500 mt-3">
+                      Applications will be reviewed after the deadline
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-800 mb-1">
+                  Interested in this bid?
+                </h3>
+                <p className="text-slate-600 text-sm">
+                  Submit your proposal before the deadline
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <button className="px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-xl font-semibold hover:border-slate-400 transition">
+                  Save Bid
+                </button>
+                <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition shadow-sm">
+                  Apply Now
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
