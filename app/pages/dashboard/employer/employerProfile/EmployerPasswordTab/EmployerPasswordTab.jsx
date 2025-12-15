@@ -38,7 +38,6 @@ const EmployerPasswordTab = () => {
           form.reset();
         } else {
           toast.error(data.message || "Failed to change password.");
-          console.log(data);
         }
       });
   };

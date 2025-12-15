@@ -51,7 +51,6 @@ export async function PATCH(req) {
     await connectMongoDb();
 
     const { email } = await req.json();
-    console.log("🚀 ~ PATCH ~ email:", email);
 
     const bids = await Bid.find({ employerEmail: email }).sort({
       createdAt: -1,

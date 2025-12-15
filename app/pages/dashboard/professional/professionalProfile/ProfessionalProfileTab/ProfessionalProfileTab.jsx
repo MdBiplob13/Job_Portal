@@ -23,8 +23,6 @@ const ProfessionalProfileTab = ({}) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("clicked");
-
     const form = e.target;
     const language = form.language.value.trim();
     const proficiency = form.proficiency.value;
@@ -48,7 +46,6 @@ const ProfessionalProfileTab = ({}) => {
           form.reset();
         } else {
           toast.error(data.message || "Failed to add language.");
-          console.log(data);
         }
       })
       .finally(() => setLoading(false));
@@ -78,7 +75,6 @@ const ProfessionalProfileTab = ({}) => {
           toast.success("Language deleted successfully!");
         } else {
           toast.error(data.message || "Failed to delete language.");
-          console.log(data);
         }
       })
       .finally(() => setLoading(false));

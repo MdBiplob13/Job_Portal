@@ -8,7 +8,6 @@ export async function POST(req) {
   try {
     await connectMongoDb(); // Ensure the database is connected
     const { email, password } = await req.json();
-    console.log("🚀 ~ POST ~ password:", password);
 
     // check for required fields
     if (!email || !password) {

@@ -23,7 +23,6 @@ const AdminProfileTab = ({}) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("clicked");
 
     const form = e.target;
     const language = form.language.value.trim();
@@ -48,7 +47,6 @@ const AdminProfileTab = ({}) => {
           form.reset();
         } else {
           toast.error(data.message || "Failed to add language.");
-          console.log(data);
         }
       })
       .finally(() => setLoading(false));
@@ -78,7 +76,6 @@ const AdminProfileTab = ({}) => {
           toast.success("Language deleted successfully!");
         } else {
           toast.error(data.message || "Failed to delete language.");
-          console.log(data);
         }
       })
       .finally(() => setLoading(false));

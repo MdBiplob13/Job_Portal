@@ -39,7 +39,6 @@ export async function POST(req) {
       benefits,
       employerEmail,
     } = await req.json();
-    console.log(employerEmail);
 
     // -----------------------------------
     // BASIC VALIDATION

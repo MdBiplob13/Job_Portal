@@ -53,7 +53,6 @@ export default function EmployerBids() {
     allBidsLoading,
     setAllBidsRefresh,
   } = useGetAllBids();
-    console.log("🚀 ~ EmployerBids ~ allBids:", allBids)
 
   // filters
   const [searchQuery, setSearchQuery] = useState("");

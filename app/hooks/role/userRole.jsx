@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 const useUserRole = (role) => {
-  console.log("🚀 ~ useUserRole ~ role:", role)
   let currentRole = Cookies.get("userRole");
 
   if (!currentRole) {

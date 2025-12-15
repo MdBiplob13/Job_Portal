@@ -14,7 +14,6 @@ const EmployerSkillTab = ({}) => {
   const { skills, skillsRefresh, setSkillsRefresh } = useGetUserSkills(
     user?._id
   );
-  console.log("🚀 ~ EmployerSkillTab ~ skills:", skills);
 
   const [showSkillForm, setShowSkillForm] = useState(false);
 

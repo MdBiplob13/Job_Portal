@@ -75,7 +75,6 @@ export async function DELETE(req) {
     user.languages = user.languages.filter(
       (lang) => lang._id.toString() !== languageId.toString()
     );
-    console.log("🚀 ~ DELETE ~ user.languages:", user.languages)
 
     
     await user.save();

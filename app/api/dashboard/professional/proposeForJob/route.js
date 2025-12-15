@@ -8,7 +8,7 @@ export async function POST(req) {
   try {
     await connectMongoDb();
     const { jobId, professionalId, resume, links, coverLetter } = await req.json();
-    console.log("🚀 ~ POST ~ jobId, professionalId, resume, links, coverLetter:", jobId, professionalId, resume, links, coverLetter)
+    
 
 
     const newProposal = await ProposeJob.create({

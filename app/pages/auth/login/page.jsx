@@ -44,7 +44,6 @@ const LoginPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("🚀 ~ handleSubmit ~ data:", data)
         if (data.status === "success") {
           toast.success(
             `${
@@ -68,7 +67,6 @@ const LoginPage = () => {
           setUserRefresh(userRefresh + 1);
         } else {
           setError(data.message);
-          console.log(data);
         }
       });
   };

@@ -12,7 +12,6 @@ const BUDGET_TYPES = ["fixed", "hourly", "weekly", "monthly", "project-based"];
 export default function EmployerPost() {
   const { user } = useUser();
   const router = useRouter();
-  console.log("🚀 ~ EmployerPost ~ user:", user)
   const [form, setForm] = useState({
     title: "",
     description: "",
