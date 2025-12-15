@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/app/components/Navbar/Navbar";
+import useUserRole from "@/app/hooks/role/userRole";
 import useUser from "@/app/hooks/user/userHook";
 import Cookies from "js-cookie";
 import Link from "next/link";
@@ -43,6 +44,7 @@ const LoginPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("🚀 ~ handleSubmit ~ data:", data)
         if (data.status === "success") {
           toast.success(
             `${
@@ -51,6 +53,12 @@ const LoginPage = () => {
           );
           // Save token in cookie
           Cookies.set("bidpoleToken", data.token, {
+            expires: 7, // 7 days
+            secure: true, // HTTPS only
+            sameSite: "strict",
+            path: "/",
+          });
+          Cookies.set("userRole", data.role, {
             expires: 7, // 7 days
             secure: true, // HTTPS only
             sameSite: "strict",
