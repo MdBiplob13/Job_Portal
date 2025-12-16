@@ -34,7 +34,7 @@ const Navbar = () => {
       dropdown: [
         { name: "Browse Jobs", path: "/pages/browse/jobs" },
         { name: "Browse Bids", path: "/pages/browse/bids" },
-        { name: "Browse Freelancers", path: "/pages/browse/freelancers" },
+        { name: "Browse Freelancers", path: "/pages/browse/professional" },
       ],
     },
     {

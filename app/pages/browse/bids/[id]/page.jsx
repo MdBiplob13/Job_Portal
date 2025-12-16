@@ -311,26 +311,6 @@ export default function BidDetailPage() {
                     </div>
                   </div>
                 </div>
-
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="text-yellow-500 text-xl">ℹ️</div>
-                    <div>
-                      <h4 className="font-semibold text-yellow-800 mb-1">
-                        Important Information
-                      </h4>
-                      <p className="text-yellow-700 text-sm">
-                        {singleBid.applicationLimitEnabled
-                          ? `This bid has an application limit of ${
-                              singleBid.applicationLimit
-                            } submissions. ${
-                              singleBid.applicationCount || 0
-                            } applications have been received so far.`
-                          : "This bid accepts unlimited applications."}
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
             {/* Company Info Section */}
@@ -512,8 +492,7 @@ export default function BidDetailPage() {
               </div>
             )}
             {/* Applications Section */}
-            // Update just the "Applications" section in your BidDetailPage
-            component:
+
             {activeSection === "applications" && (
               <div className="space-y-8">
                 {/* Application Statistics */}
@@ -662,54 +641,12 @@ export default function BidDetailPage() {
                       </p>
                     </div>
 
-                    {/* Attachments */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Supporting Documents (Optional)
-                      </label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-blue-500 transition cursor-pointer">
-                        <div className="text-3xl mb-2">📎</div>
-                        <p className="text-gray-600 mb-1">
-                          Drop files here or click to upload
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          Portfolio, references, certifications (Max 10MB)
-                        </p>
-                        <input
-                          type="file"
-                          multiple
-                          className="hidden"
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Terms and Conditions */}
-                    <div className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        required
-                        id="terms"
-                        className="h-4 w-4 text-blue-500 mt-1 rounded focus:ring-blue-500"
-                      />
-                      <label htmlFor="terms" className="text-sm text-gray-700">
-                        I agree to the terms and conditions. I understand that
-                        this proposal is binding and I'll be expected to deliver
-                        the project as described if selected.
-                      </label>
-                    </div>
-
                     {/* Submit Button */}
                     <div className="flex gap-3 pt-4 border-t border-gray-200">
-                      <button
-                        type="button"
-                        className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-gray-400 transition"
-                      >
-                        Save Draft
-                      </button>
+                      
                       <button
                         type="submit"
-                        className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition shadow-sm"
+                        className="flex-1 px-6 py-3 bg-linear-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition shadow-sm cursor-pointer"
                       >
                         Submit Proposal
                       </button>
@@ -734,7 +671,7 @@ export default function BidDetailPage() {
                       <div className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 transition">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                            <div className="w-10 h-10 bg-linear-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-600 font-bold">
                               JS
                             </div>
                             <div>
@@ -768,7 +705,7 @@ export default function BidDetailPage() {
                       <div className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 transition">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center text-green-600 font-bold">
+                            <div className="w-10 h-10 bg-linear-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center text-green-600 font-bold">
                               MK
                             </div>
                             <div>
