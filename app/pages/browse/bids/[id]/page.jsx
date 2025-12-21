@@ -18,6 +18,7 @@ import { useParams } from "next/navigation";
 import useGetSingleBid from "@/app/hooks/dashboard/admin/bids/GetSingleBid";
 import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
 import ProposeBidSection from "./ProposeBidSection";
+import ManageBidSection from "./ManageBidSection";
 
 export default function BidDetailPage() {
   const params = useParams();
@@ -32,7 +33,7 @@ export default function BidDetailPage() {
 
   if (!singleBid) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
+      <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
         <Navbar />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
@@ -87,10 +88,11 @@ export default function BidDetailPage() {
     { id: "overview", label: "Overview", icon: "📋" },
     { id: "company", label: "Company Info", icon: "🏢" },
     { id: "applications", label: "Applications", icon: "📄" },
+    { id: "management", label: "Management", icon: "🚀" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
       <Navbar />
 
       {/* Header */}
@@ -317,7 +319,7 @@ export default function BidDetailPage() {
             {/* Company Info Section */}
             {activeSection === "company" && (
               <div className="space-y-8">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+                <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
                   <h2 className="text-2xl font-bold text-slate-800 mb-2">
                     {singleBid.companyName}
                   </h2>
@@ -328,7 +330,7 @@ export default function BidDetailPage() {
 
                   <div className="flex items-center gap-4">
                     <div className="bg-white rounded-full p-3 shadow-sm">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                      <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                         {singleBid.companyName?.charAt(0) || "C"}
                       </div>
                     </div>
@@ -369,7 +371,7 @@ export default function BidDetailPage() {
                           className="w-16 h-16 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                        <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
                           {singleUser.name?.charAt(0) || "U"}
                         </div>
                       )}
@@ -496,6 +498,16 @@ export default function BidDetailPage() {
 
             {activeSection === "applications" && (
               <ProposeBidSection
+                singleBid={singleBid}
+                timeLeft={timeLeft}
+                getBudgetTypeText={getBudgetTypeText}
+                formatDate={formatDate}
+              />
+            )}
+            {/* Management Section */}
+
+            {activeSection === "management" && (
+              <ManageBidSection
                 singleBid={singleBid}
                 timeLeft={timeLeft}
                 getBudgetTypeText={getBudgetTypeText}

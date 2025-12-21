@@ -9,6 +9,7 @@ import useGetSingleJobWithId from "@/app/hooks/dashboard/admin/GetSingleJobWithI
 import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
 import useGetAllProposeForSingleJob from "@/app/hooks/jobs/GetAllProposeForSingleJob";
 import JobPageProposeSection from "./JobPageProposeSection";
+import ManageJobSection from "./ManageJobSection";
 
 export default function JobDetailPage() {
   const params = useParams();
@@ -54,7 +55,8 @@ export default function JobDetailPage() {
   const sections = [
     { id: "overview", label: "Overview", icon: "📋" },
     { id: "employer", label: "Employer Info", icon: "👤" },
-    { id: "bids", label: "Current Bids", icon: "💰" },
+    { id: "bids", label: "Current Applications", icon: "💰" },
+    { id: "management", label: "Management", icon: "🚀" },
   ];
 
   return (
@@ -392,6 +394,12 @@ export default function JobDetailPage() {
             {activeSection === "bids" && (
               <div className="space-y-8">
                 <JobPageProposeSection job={job} jobId={job._id}/>
+              </div>
+            )}
+            {/* Manage Bids Section */}
+            {activeSection === "management" && (
+              <div className="space-y-8">
+                <ManageJobSection job={job} jobId={job._id}/>
               </div>
             )}
           </div>
