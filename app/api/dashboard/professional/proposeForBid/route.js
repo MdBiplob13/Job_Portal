@@ -64,6 +64,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       status: "success",
+      message: "Bid proposal created successfully",
       data: newProposal,
     }, { status: 201 });
   } catch (err) {

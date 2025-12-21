@@ -1,5 +1,6 @@
 import useUser from "@/app/hooks/user/userHook";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FiHelpCircle, FiX } from "react-icons/fi";
 
 const ProposeBidSection = ({
@@ -19,7 +20,7 @@ const ProposeBidSection = ({
     const deadline = form.deadline.value;
     const budgetType = form.budgetType.value;
     const coverLetter = form.coverLetter.value;
-    const resume = form.resume.value;
+    const resume = form.resumeLink.value;
 
     const payload = {
       budget,
@@ -28,10 +29,28 @@ const ProposeBidSection = ({
       coverLetter,
       bidId: singleBid._id,
       professionalId: user._id,
-      resume
+      resume,
     };
 
-    
+    fetch("/api/dashboard/professional/proposeForBid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          toast.success('Proposal submitted successfully!');
+          form.reset();
+        } else {
+          toast.error(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
