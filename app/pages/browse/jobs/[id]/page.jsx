@@ -50,16 +50,19 @@ export default function JobDetailPage() {
     const baseSections = [
       { id: "overview", label: "Overview", icon: "📋" },
       { id: "employer", label: "Employer Info", icon: "👤" },
+      {
+        id: "bids",
+        label: "Current Applications",
+        icon: "💰",
+      },
     ];
 
     // Only add management section if user is employer/admin
     if (user?.role === "employer" && user?.email === job?.employerEmail) {
-      baseSections.push({ id: "management", label: "Application Management", icon: "🚀" });
-    } else {
       baseSections.push({
-        id: "bids",
-        label: "Current Applications",
-        icon: "💰",
+        id: "management",
+        label: "Application Management",
+        icon: "🚀",
       });
     }
 

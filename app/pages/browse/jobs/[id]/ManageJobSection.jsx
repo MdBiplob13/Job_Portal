@@ -16,12 +16,13 @@ import {
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { CheckCircle } from "lucide-react";
 
 const ManageJobSection = ({ job, jobId }) => {
-  const { allProposals, refresh } = useGetAllProposeForSingleJob(jobId);
+  const { allProposals, refresh, setRefresh } = useGetAllProposeForSingleJob(jobId);
 
   // States
-  const [activeTab, setActiveTab] = useState("all"); 
+  const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProposal, setSelectedProposal] = useState(null);
   const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
@@ -32,6 +33,7 @@ const ManageJobSection = ({ job, jobId }) => {
   const isJobDeadlineOver = job?.deadline
     ? new Date() > new Date(job.deadline)
     : false;
+  console.log("🚀 ~ ManageJobSection ~ isJobDeadlineOver:", isJobDeadlineOver);
 
   // Filter and search proposals
   const filteredProposals = useMemo(() => {
@@ -62,7 +64,7 @@ const ManageJobSection = ({ job, jobId }) => {
   const stats = useMemo(() => {
     const total = allProposals.length;
     const pending = allProposals.filter(
-      (p) => !p.status || p.status === "pending"
+      (p) => !p.status || p.status === "applied"
     ).length;
     const accepted = allProposals.filter((p) => p.status === "accepted").length;
     const rejected = allProposals.filter((p) => p.status === "rejected").length;
@@ -94,10 +96,8 @@ const ManageJobSection = ({ job, jobId }) => {
       const data = await response.json();
 
       if (data.status === "success") {
-        toast.success(
-          "Proposal accepted!"
-        );
-        refresh();
+        toast.success("Proposal accepted!");
+        setRefresh(refresh + 1);
         setIsAcceptModalOpen(false);
       } else {
         toast.error(data.message || "Failed to accept proposal");
@@ -115,15 +115,15 @@ const ManageJobSection = ({ job, jobId }) => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "/api/dashboard/employer/rejectJobProposal",
+        "/api/browse/jobs/single",
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-          jobId: jobId,
-          jobProposeId: proposalId,
-          status: "rejected",
-        }),
+            jobId: jobId,
+            jobProposeId: proposalId,
+            status: "rejected",
+          }),
         }
       );
 
@@ -131,7 +131,7 @@ const ManageJobSection = ({ job, jobId }) => {
 
       if (data.status === "success") {
         toast.success("Proposal rejected successfully!");
-        refresh();
+        setRefresh(refresh + 1); 
         setIsRejectModalOpen(false);
       } else {
         toast.error(data.message || "Failed to reject proposal");
@@ -182,7 +182,7 @@ const ManageJobSection = ({ job, jobId }) => {
       proposal.professionalId?.headline || "N/A",
       `"${proposal.coverLetter?.replace(/"/g, '""')}"`,
       proposal.resume || "N/A",
-      proposal.status || "pending",
+      proposal.status || "applied",
       new Date(proposal.createdAt).toLocaleDateString(),
       proposal.links?.map((l) => `${l.linkName}: ${l.linkURL}`).join("; ") ||
         "N/A",
@@ -248,7 +248,7 @@ const ManageJobSection = ({ job, jobId }) => {
         <div className="bg-white rounded-xl border border-slate-200 p-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-500">Pending Review</p>
+              <p className="text-sm text-slate-500">Applied Review</p>
               <p className="text-2xl font-bold text-amber-600 mt-1">
                 {stats.pending}
               </p>
@@ -304,14 +304,14 @@ const ManageJobSection = ({ job, jobId }) => {
               All ({stats.total})
             </button>
             <button
-              onClick={() => setActiveTab("pending")}
+              onClick={() => setActiveTab("applied")}
               className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
-                activeTab === "pending"
+                activeTab === "applied"
                   ? "bg-amber-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
-              Pending ({stats.pending})
+              Applied ({stats.pending})
             </button>
             <button
               onClick={() => setActiveTab("accepted")}
@@ -377,7 +377,11 @@ const ManageJobSection = ({ job, jobId }) => {
             const successRate = professional?.job?.jobSuccessRate || 0;
             const rating = professional?.review?.rating || 0;
             const totalRatings = professional?.review?.totalRatings || 0;
-            const proposalStatus = proposal.status || "pending";
+            const proposalStatus = proposal.status || "applied";
+            console.log(
+              "🚀 ~ ManageJobSection ~ proposalStatus:",
+              proposalStatus
+            );
 
             return (
               <div
@@ -390,7 +394,7 @@ const ManageJobSection = ({ job, jobId }) => {
                     : "border-slate-200"
                 } p-6 hover:shadow-md transition-shadow`}
               >
-                <Link href={`/pages/browse/jobs/propose/${proposal._id}`} className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                   {/* Professional Info */}
                   <div className="flex items-start gap-4">
                     <div className="relative">
@@ -420,7 +424,7 @@ const ManageJobSection = ({ job, jobId }) => {
                         <div className="flex items-center gap-2">
                           <span
                             className={`px-3 py-1 rounded-full text-xs font-medium ${
-                              proposalStatus === "pending"
+                              proposalStatus === "applied"
                                 ? "bg-amber-100 text-amber-800"
                                 : proposalStatus === "accepted"
                                 ? "bg-green-100 text-green-800"
@@ -493,7 +497,7 @@ const ManageJobSection = ({ job, jobId }) => {
 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row lg:flex-col gap-2 min-w-[200px]">
-                    {proposalStatus === "pending" && isJobDeadlineOver && (
+                    {proposalStatus === "applied" && isJobDeadlineOver && (
                       <>
                         <button
                           onClick={() => {
@@ -520,7 +524,7 @@ const ManageJobSection = ({ job, jobId }) => {
                       </>
                     )}
 
-                    {proposalStatus === "pending" &&
+                    {proposalStatus === "applied" &&
                       !isJobDeadlineOver &&
                       job?.deadline && (
                         <button
@@ -532,7 +536,7 @@ const ManageJobSection = ({ job, jobId }) => {
                         </button>
                       )}
 
-                    {proposalStatus === "pending" && !job?.deadline && (
+                    {proposalStatus === "applied" && !job?.deadline && (
                       <>
                         <button
                           onClick={() => {
@@ -576,8 +580,15 @@ const ManageJobSection = ({ job, jobId }) => {
                         Rejected ✗
                       </button>
                     )}
+
+                    <Link
+                      href={`/pages/browse/jobs/propose/${proposal._id}`}
+                      className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      View Details
+                    </Link>
                   </div>
-                </Link>
+                </div>
 
                 {/* Additional Info */}
                 <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap gap-4">
@@ -602,50 +613,236 @@ const ManageJobSection = ({ job, jobId }) => {
         )}
       </div>
 
-      {/* Accept Confirmation Modal */}
+      {/* Accept Job Proposal Modal */}
       {isAcceptModalOpen && selectedProposal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl animate-in zoom-in duration-200">
             <div className="p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">
-                Accept Proposal
-              </h3>
-              <p className="text-slate-600 mb-6">
-                Are you sure you want to accept{" "}
-                <span className="font-semibold">
-                  {selectedProposal.professionalId?.name}'s
-                </span>{" "}
-                proposal for this job? This will automatically reject all other
-                proposals and cannot be undone.
-              </p>
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900">
+                      Accept Job Proposal
+                    </h3>
+                    <p className="text-sm text-slate-500">
+                      Review and confirm your decision
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsAcceptModalOpen(false)}
+                  className="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                  disabled={isLoading}
+                >
+                  <svg
+                    className="w-5 h-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
 
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                <h4 className="font-semibold text-amber-800 mb-2">
-                  Important:
-                </h4>
-                <ul className="text-amber-700 text-sm space-y-1">
-                  <li>• You can only accept one proposal per job position</li>
-                  <li>• This action cannot be reversed</li>
-                  <li>• The professional will be notified immediately</li>
-                  <li>• Other applicants will be automatically rejected</li>
+              {/* Selected Professional Info */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 border border-blue-200">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    {selectedProposal.professionalId?.photo ? (
+                      <img
+                        src={selectedProposal.professionalId.photo}
+                        alt={selectedProposal.professionalId.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-white shadow"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                        {selectedProposal.professionalId?.name?.charAt(0) ||
+                          "P"}
+                      </div>
+                    )}
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                      <CheckCircle className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900">
+                      {selectedProposal.professionalId?.name}
+                    </h4>
+                    <p className="text-sm text-slate-600">
+                      {selectedProposal.professionalId?.headline}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-slate-500">
+                        Submitted on
+                      </span>
+                      <span className="text-xs font-medium text-slate-700">
+                        {new Date(
+                          selectedProposal.createdAt
+                        ).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Confirmation Message */}
+              <div className="mb-6">
+                <p className="text-slate-700">
+                  You are about to accept{" "}
+                  <span className="font-semibold text-slate-900">
+                    {selectedProposal.professionalId?.name}
+                  </span>
+                  's proposal for the{" "}
+                  <span className="font-semibold text-slate-900">
+                    {job?.title}
+                  </span>{" "}
+                  position.
+                </p>
+                <p className="text-slate-600 mt-2">
+                  This professional will be hired for the job, and all other
+                  applicants will be automatically notified that the position
+                  has been filled.
+                </p>
+              </div>
+
+              {/* Important Information */}
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mb-6">
+                <div className="flex items-start gap-2 mb-3">
+                  <svg
+                    className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <h4 className="font-semibold text-amber-800">
+                    Important Considerations
+                  </h4>
+                </div>
+                <ul className="text-amber-700 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>
+                      You can hire only one professional for this job position
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>
+                      This decision is final and cannot be undone or reversed
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>
+                      The selected professional will be notified immediately via
+                      email
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>
+                      All other applicants will automatically receive rejection
+                      notifications
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-amber-600 mt-1">•</span>
+                    <span>
+                      Ensure you've reviewed their proposal and qualifications
+                      thoroughly
+                    </span>
+                  </li>
                 </ul>
               </div>
 
+              {/* Job Details Summary */}
+              <div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
+                <h4 className="font-medium text-slate-800 mb-2">
+                  Job Position Details
+                </h4>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <div className="text-slate-500">Job Title</div>
+                    <div className="font-medium text-slate-900 truncate">
+                      {job?.title}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-slate-500">Total Applicants</div>
+                    <div className="font-medium text-slate-900">
+                      {allProposals.length}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
               <div className="flex gap-3">
                 <button
                   onClick={() => setIsAcceptModalOpen(false)}
-                  className="flex-1 px-4 py-3 border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 cursor-pointer"
+                  className="flex-1 px-4 py-3.5 border-2 border-slate-300 text-slate-700 font-medium rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isLoading}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleAcceptProposal(selectedProposal._id)}
-                  className="flex-1 px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 px-4 py-3.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Processing..." : "Yes, Accept Proposal"}
+                  {isLoading ? (
+                    <>
+                      <svg
+                        className="w-5 h-5 animate-spin text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-5 h-5" />
+                      Confirm Hire
+                    </>
+                  )}
                 </button>
+              </div>
+
+              {/* Additional Note */}
+              <div className="mt-4 text-center">
+                <p className="text-xs text-slate-500">
+                  By clicking "Confirm Hire", you agree to hire this
+                  professional for the job
+                </p>
               </div>
             </div>
           </div>
