@@ -109,45 +109,7 @@ export default function EmployerJobs() {
     }
   };
 
-  const getActionButtons = (job) => {
-    switch (job.status) {
-      case "active":
-        return (
-          <>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiEdit className="text-sm" />
-              Edit
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
-              <FiEye className="text-sm" />
-              View Bids ({job.applicationCount || 0})
-            </button>
-          </>
-        );
-      case "draft":
-        return (
-          <>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiEdit className="text-sm" />
-              Edit
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-              <FiCheckCircle className="text-sm" />
-              Publish
-            </button>
-          </>
-        );
-      case "closed":
-        return (
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors w-full justify-center">
-            <FiEye className="text-sm" />
-            View Details
-          </button>
-        );
-      default:
-        return null;
-    }
-  };
+  
 
   // Job card component (inline, kept simple)
   const JobCard = ({ job }) => (
@@ -238,9 +200,12 @@ export default function EmployerJobs() {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
-          {getActionButtons(job)}
-        </div>
+        <Link href={`/pages/browse/jobs/${job._id}`} className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
+          <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
+            <FiEye className="text-sm" />
+            View Applications ({job.applicationCount || 0})
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -167,16 +167,12 @@ export default function EmployerBids() {
       case "pending":
         return (
           <>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiEdit className="text-sm" />
-              Edit
-            </button>
             <Link
               href={`/pages/browse/bids/${b._id}`}
               className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               <FiEye className="text-sm" />
-              View
+              View Bids ({b.applicationCount || 0})
             </Link>
           </>
         );

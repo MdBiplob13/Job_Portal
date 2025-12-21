@@ -16,7 +16,7 @@ const useGetEmployerAllJobs = () => {
         setJobsLoading(true);
 
         const res = await fetch(
-          `/api/dashboard/employer/job/get?employerEmail=${user.email}`,
+          `/api/dashboard/employer/job/get?employerEmail=${user?.email}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
