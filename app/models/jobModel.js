@@ -96,6 +96,13 @@ const jobSchema = new mongoose.Schema(
       default: 1,
     },
 
+    // 14.5 Total Hired
+    totalHired: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
+
     // 15. Application Limit
     applicationLimitEnabled: {
       type: Boolean,

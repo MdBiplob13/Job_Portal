@@ -162,6 +162,15 @@ const ProfessionalNavbar = () => {
             </Link>
           </div>
 
+          <div className="mr-[35%]">
+            {/* dashboard Name */}
+            <div className="">
+              <span className="font-bold text-2xl text-gray-600">
+                Professional Dashboard
+              </span>
+            </div>
+          </div>
+
           {/* Right: Actions */}
           <div className="flex items-center gap-4">
             {/* Post a Job & Credit Points */}

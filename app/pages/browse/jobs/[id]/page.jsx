@@ -10,9 +10,12 @@ import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
 import useGetAllProposeForSingleJob from "@/app/hooks/jobs/GetAllProposeForSingleJob";
 import JobPageProposeSection from "./JobPageProposeSection";
 import ManageJobSection from "./ManageJobSection";
+import useUser from "@/app/hooks/user/userHook";
 
 export default function JobDetailPage() {
   const params = useParams();
+  const { user } = useUser();
+  console.log("🚀 ~ JobDetailPage ~ user:", user)
 
   const { job, jobLoading } = useGetSingleJobWithId(params.id);
   const { singleUser, singleUserLoading } = useGetUserWithEmail(
@@ -52,12 +55,20 @@ export default function JobDetailPage() {
     return `${days}d ${hours}h`;
   };
 
-  const sections = [
-    { id: "overview", label: "Overview", icon: "📋" },
-    { id: "employer", label: "Employer Info", icon: "👤" },
-    { id: "bids", label: "Current Applications", icon: "💰" },
-    { id: "management", label: "Management", icon: "🚀" },
-  ];
+  const getSections = () => {
+    const baseSections = [
+      { id: "overview", label: "Overview", icon: "📋" },
+      { id: "employer", label: "Employer Info", icon: "👤" },
+      { id: "bids", label: "Current Applications", icon: "💰" },
+    ];
+
+    // Only add management section if user is employer/admin
+    if (user?.role === "employer" && user?.email === job?.employerEmail) {
+      baseSections.push({ id: "management", label: "Management", icon: "🚀" });
+    }
+
+    return baseSections;
+  };
 
   return (
     <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
@@ -105,7 +116,7 @@ export default function JobDetailPage() {
           {/* Navigation Tabs */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-8">
             <div className="flex flex-wrap gap-2">
-              {sections.map((section) => (
+              {getSections().map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
@@ -393,13 +404,13 @@ export default function JobDetailPage() {
             {/* Current Bids Section */}
             {activeSection === "bids" && (
               <div className="space-y-8">
-                <JobPageProposeSection job={job} jobId={job._id}/>
+                <JobPageProposeSection job={job} jobId={job._id} />
               </div>
             )}
             {/* Manage Bids Section */}
             {activeSection === "management" && (
               <div className="space-y-8">
-                <ManageJobSection job={job} jobId={job._id}/>
+                <ManageJobSection job={job} jobId={job._id} />
               </div>
             )}
           </div>

@@ -15,7 +15,7 @@ const useGetSingleJobWithId = (_id) => {
       try {
         setJobLoading(true);
 
-        const res = await fetch(`/api/dashboard/admin/jobs/single?jobId=${_id}`, {
+        const res = await fetch(`/api/browse/jobs/single?jobId=${_id}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });

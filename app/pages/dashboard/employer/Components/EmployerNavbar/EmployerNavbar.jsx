@@ -47,8 +47,6 @@ const EmployerNavbar = () => {
   const dropdownRef = useRef(null);
   const locationRef = useRef(null);
 
-  
-
   // Mock notifications data
   useEffect(() => {
     setNotifications([
@@ -163,6 +161,15 @@ const EmployerNavbar = () => {
             <Link href="/" className="flex items-center gap-3">
               <div className="text-xl font-bold text-primary">BidPole</div>
             </Link>
+          </div>
+
+          <div className="mr-[35%]">
+            {/* dashboard Name */}
+            <div className="">
+              <span className="font-bold text-2xl text-gray-600">
+                Employer Dashboard
+              </span>
+            </div>
           </div>
 
           {/* Right: Actions */}

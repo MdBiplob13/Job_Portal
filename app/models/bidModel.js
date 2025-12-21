@@ -54,7 +54,7 @@ const bidSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    
+
     ProjectDuration: {
       type: String,
       trim: true,
@@ -91,7 +91,14 @@ const bidSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "accepted", "in progress", "completed", "rejected"],
+      enum: [
+        "pending",
+        "accepted",
+        "in progress",
+        "completed",
+        "rejected",
+        "in review",
+      ],
       default: "pending",
     },
     createdAt: {

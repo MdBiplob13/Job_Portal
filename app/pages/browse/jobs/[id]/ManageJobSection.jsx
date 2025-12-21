@@ -167,7 +167,7 @@ const ManageJobSection = ({ job, jobId }) => {
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+      <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
             <h1 className="text-2xl font-bold text-slate-800">Manage Job Proposals</h1>
@@ -346,7 +346,7 @@ const ManageJobSection = ({ job, jobId }) => {
                           className="w-16 h-16 rounded-full object-cover border-2 border-white shadow"
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                           {professional?.name?.charAt(0) || "?"}
                         </div>
                       )}

@@ -1,6 +1,8 @@
 import Job from "@/app/models/jobModel";
 import connectMongoDb from "@/lib/mongoose";
 
+
+// get all jobs with filters
 export async function GET(req) {
   try {
     await connectMongoDb();

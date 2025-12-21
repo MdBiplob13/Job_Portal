@@ -77,7 +77,7 @@ const useGetAllJobs = (filters = {}, initialPage = 1, initialPageSize = 5) => {
         setError(null);
 
         const query = buildQuery(filters, page, pageSize);
-        const url = `/api/dashboard/admin/jobs${query ? `?${query}` : ""}`;
+        const url = `/api/browse/jobs${query ? `?${query}` : ""}`;
 
         const res = await fetch(url, {
           method: "GET",

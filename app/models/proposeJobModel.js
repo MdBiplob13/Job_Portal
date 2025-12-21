@@ -37,7 +37,11 @@ const proposeJobSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-
+    status: {
+      type: String,
+      enum: ["applied", "accepted", "rejected"],
+      default: "applied",
+    },
     createdAt: {
       type: Date,
       default: Date.now,
