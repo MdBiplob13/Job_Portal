@@ -1,3 +1,5 @@
+"use client";
+import useGetAllProposeForSingleBid from "@/app/hooks/jobs/bids/GetAllProposeForSingleBid";
 import useUser from "@/app/hooks/user/userHook";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -11,6 +13,10 @@ const ProposeBidSection = ({
 }) => {
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const { user } = useUser();
+
+  const bidId = singleBid._id;
+  const { allProposals, refreshProposals } =
+    useGetAllProposeForSingleBid(bidId);
 
   const handleSubmitProposal = (e) => {
     e.preventDefault();
@@ -42,7 +48,7 @@ const ProposeBidSection = ({
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          toast.success('Proposal submitted successfully!');
+          toast.success("Proposal submitted successfully!");
           form.reset();
         } else {
           toast.error(data.message);
@@ -238,80 +244,223 @@ const ProposeBidSection = ({
         </form>
       </div>
 
-      {/* Existing Applications Preview */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-slate-800">Recent Proposals</h3>
-          <button className="text-blue-500 hover:text-blue-700 text-sm font-medium cursor-pointer">
-            View All ({singleBid.applicationCount || 0})
-          </button>
-        </div>
+      {/* Existing Applications Preview - Updated Design */}
+<div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+  <div className="flex items-center justify-between mb-6">
+    <div>
+      <h3 className="text-xl font-bold text-slate-800">Recent Proposals</h3>
+      <p className="text-sm text-slate-500 mt-1">
+        {allProposals.length} proposal{allProposals.length !== 1 ? 's' : ''} submitted
+      </p>
+    </div>
+    <button 
+      onClick={refreshProposals}
+      className="text-blue-500 hover:text-blue-700 text-sm font-medium cursor-pointer flex items-center gap-1"
+    >
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+      Refresh
+    </button>
+  </div>
 
-        {singleBid.applicationCount > 0 ? (
-          <div className="space-y-4">
-            {/* Example proposal item - you would map through actual proposals */}
-            <div className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 transition">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-linear-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center text-blue-600 font-bold">
-                    JS
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">John Smith</h4>
-                    <p className="text-sm text-gray-500">
-                      Submitted 2 days ago
-                    </p>
+  {allProposals.length > 0 ? (
+    <div className="grid gap-4">
+      {allProposals.map((proposal) => {
+        // Calculate days until deadline
+        const deadlineDate = new Date(proposal.deadline);
+        const today = new Date();
+        const daysLeft = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+        
+        // Professional name with fallback
+        const professionalName = proposal.professionalId?.name || 'Unknown Professional';
+        const professionalInitials = professionalName
+          .split(' ')
+          .map(n => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2);
+        
+        // Format submission date
+        const submittedDate = new Date(proposal.createdAt);
+        const timeAgo = Math.floor((new Date() - submittedDate) / (1000 * 60 * 60 * 24));
+        const timeAgoText = timeAgo === 0 ? 'Today' : 
+                           timeAgo === 1 ? 'Yesterday' : 
+                           `${timeAgo} days ago`;
+
+        return (
+          <div 
+            key={proposal._id} 
+            className="border border-slate-100 rounded-xl p-5 hover:border-blue-200 hover:shadow-sm transition-all duration-200 bg-gradient-to-r from-white to-slate-50/50"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+              {/* Professional Info */}
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  {proposal.professionalId?.photo ? (
+                    <img 
+                      src={proposal.professionalId.photo} 
+                      alt={professionalName}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-white shadow"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                      {professionalInitials}
+                    </div>
+                  )}
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-bold text-gray-900">$5,500</div>
-                  <div className="text-sm text-gray-500">Proposed</div>
+                <div>
+                  <h4 className="font-semibold text-slate-800">{professionalName}</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-slate-500">
+                      Submitted {timeAgoText}
+                    </span>
+                    <span className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full">
+                      {proposal.professionalId?.currentJobStatus || 'Available'}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Timeline: 3 months</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                  Under Review
-                </span>
+
+              {/* Budget */}
+              <div className="text-right">
+                <div className="text-xl font-bold text-slate-800">
+                  ${proposal.budget}
+                  <span className="text-sm font-normal text-slate-500 ml-1">
+                    /{proposal.budgetType === 'fixed' ? 'project' : proposal.budgetType}
+                  </span>
+                </div>
+                <div className="text-xs text-slate-500 mt-1">
+                  {proposal.budgetType === 'fixed' ? 'Fixed price' : 
+                   proposal.budgetType === 'hourly' ? 'Hourly rate' : 'Monthly rate'}
+                </div>
               </div>
             </div>
 
-            <div className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 transition">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-linear-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center text-green-600 font-bold">
-                    MK
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Maria Khan</h4>
-                    <p className="text-sm text-gray-500">Submitted 1 day ago</p>
-                  </div>
+            {/* Cover Letter Preview */}
+            <div className="mb-4">
+              <p className="text-sm text-slate-600 line-clamp-2">
+                {proposal.coverLetter}
+              </p>
+            </div>
+
+            {/* Details Row */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-100">
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Deadline */}
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-sm text-slate-600">
+                    Deadline: <span className="font-medium">{formatDate(proposal.deadline)}</span>
+                  </span>
+                  {daysLeft >= 0 && (
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      daysLeft <= 3 ? 'bg-red-100 text-red-800' :
+                      daysLeft <= 7 ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-green-100 text-green-800'
+                    }`}>
+                      {daysLeft} day{daysLeft !== 1 ? 's' : ''} left
+                    </span>
+                  )}
                 </div>
-                <div className="text-right">
-                  <div className="font-bold text-gray-900">$4,800</div>
-                  <div className="text-sm text-gray-500">Proposed</div>
-                </div>
+
+                {/* Resume Link */}
+                {proposal.resume && (
+                  <div className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <a 
+                      href={proposal.resume} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-500 hover:text-blue-700 hover:underline"
+                    >
+                      View Resume
+                    </a>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Timeline: 2.5 months</span>
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
-                  New
+
+              {/* Status Badge */}
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  proposal.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                  proposal.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                  proposal.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                  'bg-slate-100 text-slate-800'
+                }`}>
+                  {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
                 </span>
+                <button className="text-blue-500 hover:text-blue-700 text-sm font-medium cursor-pointer">
+                  View Details
+                </button>
               </div>
             </div>
+
+            {/* Ratings (if available) */}
+            {proposal.professionalId?.review && (
+              <div className="mt-3 flex items-center gap-2">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <svg 
+                      key={i}
+                      className={`w-4 h-4 ${
+                        i < Math.floor(proposal.professionalId.review.rating || 0)
+                          ? 'text-yellow-400'
+                          : 'text-slate-300'
+                      }`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-sm text-slate-600">
+                  {proposal.professionalId.review.rating?.toFixed(1) || '0.0'} 
+                  <span className="text-slate-400 ml-1">
+                    ({proposal.professionalId.review.totalRatings || 0} reviews)
+                  </span>
+                </span>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="text-center py-8">
-            <div className="text-4xl mb-4">📝</div>
-            <h4 className="text-lg font-semibold text-gray-800 mb-2">
-              No Proposals Yet
-            </h4>
-            <p className="text-gray-600">
-              Be the first to submit a proposal for this bid!
-            </p>
-          </div>
-        )}
+        );
+      })}
+    </div>
+  ) : (
+    <div className="text-center py-12">
+      <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4">
+        <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
       </div>
+      <h4 className="text-lg font-semibold text-gray-800 mb-2">No Proposals Yet</h4>
+      <p className="text-gray-600 max-w-md mx-auto">
+        Be the first professional to submit a proposal for this bid. 
+        Share your expertise and stand out from the competition!
+      </p>
+      <div className="mt-4 flex justify-center gap-2 text-sm text-slate-500">
+        <span className="flex items-center gap-1">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+          </svg>
+          {timeLeft(singleBid.deadline)} left to apply
+        </span>
+        <span>•</span>
+        <span>{singleBid.applicationLimit || 50} spots available</span>
+      </div>
+    </div>
+  )}
+</div>
 
       {/* Help Modal */}
       {isHelpModalOpen && (
