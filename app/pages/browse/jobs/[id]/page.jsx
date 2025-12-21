@@ -15,7 +15,6 @@ import useUser from "@/app/hooks/user/userHook";
 export default function JobDetailPage() {
   const params = useParams();
   const { user } = useUser();
-  console.log("🚀 ~ JobDetailPage ~ user:", user)
 
   const { job, jobLoading } = useGetSingleJobWithId(params.id);
   const { singleUser, singleUserLoading } = useGetUserWithEmail(
@@ -47,24 +46,21 @@ export default function JobDetailPage() {
     );
   }
 
-  const timeLeft = (deadline) => {
-    const ms = new Date(deadline).getTime() - Date.now();
-    if (ms <= 0) return "Closed";
-    const days = Math.floor(ms / (24 * 60 * 60 * 1000));
-    const hours = Math.floor((ms % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-    return `${days}d ${hours}h`;
-  };
-
   const getSections = () => {
     const baseSections = [
       { id: "overview", label: "Overview", icon: "📋" },
       { id: "employer", label: "Employer Info", icon: "👤" },
-      { id: "bids", label: "Current Applications", icon: "💰" },
     ];
 
     // Only add management section if user is employer/admin
     if (user?.role === "employer" && user?.email === job?.employerEmail) {
-      baseSections.push({ id: "management", label: "Management", icon: "🚀" });
+      baseSections.push({ id: "management", label: "Application Management", icon: "🚀" });
+    } else {
+      baseSections.push({
+        id: "bids",
+        label: "Current Applications",
+        icon: "💰",
+      });
     }
 
     return baseSections;

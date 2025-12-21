@@ -80,12 +80,23 @@ const JobPageProposeSection = ({ job, jobId }) => {
     }
   };
 
+  const deadline = job?.deadline;
+  const timeLeft = (deadline) => {
+    const ms = new Date(deadline).getTime() - Date.now();
+    if (ms <= 0) return "Closed";
+    const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+    const hours = Math.floor((ms % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+    return `${days}d ${hours}h`;
+  };
+
+
+
   return (
     <div className="space-y-8">
       {/* Header Section */}
       <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
         <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-6">
+          <div className={`flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-6 ${timeLeft(deadline) === "Closed" ? "hidden" : ""} ${user?.email === job?.employerEmail ? "hidden" : ""}`}>
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2 bg-blue-50 rounded-lg">
@@ -283,7 +294,7 @@ const JobPageProposeSection = ({ job, jobId }) => {
                           className="w-16 h-16 rounded-full object-cover border-2 border-white shadow"
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                        <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                           <User className="w-8 h-8 text-white" />
                         </div>
                       )}
@@ -347,7 +358,7 @@ const JobPageProposeSection = ({ job, jobId }) => {
                       <div className="flex items-center gap-2 mb-2">
                         <LinkIcon className="w-4 h-4 text-slate-400" />
                         <span className="text-sm font-medium text-slate-700">
-                          Portfolio Links
+                          Additional Links
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -382,7 +393,7 @@ const JobPageProposeSection = ({ job, jobId }) => {
                         className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
                       >
                         <FileText className="w-4 h-4" />
-                        View Resume
+                        View Resume/Portfolio
                       </a>
                     </div>
                   )}
@@ -391,7 +402,7 @@ const JobPageProposeSection = ({ job, jobId }) => {
                   <div className="mt-6 pt-4 border-t border-slate-100">
                     <Link
                       href={`/pages/browse/jobs/propose/${proposal._id}`}
-                      className="w-full px-4 py-2.5 bg-gradient-to-r from-slate-50 to-white border border-slate-200 text-slate-700 rounded-xl hover:from-blue-50 hover:to-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all flex items-center justify-center gap-2 group-hover:from-blue-50 group-hover:to-blue-50 group-hover:border-blue-300 group-hover:text-blue-700"
+                      className="w-full px-4 py-2.5 bg-linear-to-r from-slate-50 to-white border border-slate-200 text-slate-700 rounded-xl hover:from-blue-50 hover:to-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all flex items-center justify-center gap-2 group-hover:from-blue-50 group-hover:to-blue-50 group-hover:border-blue-300 group-hover:text-blue-700"
                     >
                       View Full Profile
                       <svg

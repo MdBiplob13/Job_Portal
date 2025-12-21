@@ -1,15 +1,27 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import useGetAllProposeForSingleJob from '@/app/hooks/jobs/GetAllProposeForSingleJob';
-import { FiSearch, FiCheck, FiX, FiClock, FiFilter, FiDownload, FiMail, FiUser, FiBriefcase, FiFileText } from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import { useState, useMemo } from "react";
+import useGetAllProposeForSingleJob from "@/app/hooks/jobs/GetAllProposeForSingleJob";
+import {
+  FiSearch,
+  FiCheck,
+  FiX,
+  FiClock,
+  FiFilter,
+  FiDownload,
+  FiMail,
+  FiUser,
+  FiBriefcase,
+  FiFileText,
+} from "react-icons/fi";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 const ManageJobSection = ({ job, jobId }) => {
   const { allProposals, refresh } = useGetAllProposeForSingleJob(jobId);
-  
+
   // States
-  const [activeTab, setActiveTab] = useState("all"); // "all", "pending", "accepted", "rejected"
+  const [activeTab, setActiveTab] = useState("all"); 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProposal, setSelectedProposal] = useState(null);
   const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
@@ -17,7 +29,9 @@ const ManageJobSection = ({ job, jobId }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Check if job deadline is over (assuming job has a deadline field)
-  const isJobDeadlineOver = job?.deadline ? new Date() > new Date(job.deadline) : false;
+  const isJobDeadlineOver = job?.deadline
+    ? new Date() > new Date(job.deadline)
+    : false;
 
   // Filter and search proposals
   const filteredProposals = useMemo(() => {
@@ -26,17 +40,18 @@ const ManageJobSection = ({ job, jobId }) => {
     // Filter by status tab (note: job proposals might not have status field yet)
     // We'll assume they have a status field or default to "pending"
     if (activeTab !== "all") {
-      filtered = filtered.filter(proposal => proposal.status === activeTab);
+      filtered = filtered.filter((proposal) => proposal.status === activeTab);
     }
 
     // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(proposal =>
-        proposal.professionalId?.name?.toLowerCase().includes(query) ||
-        proposal.professionalId?.email?.toLowerCase().includes(query) ||
-        proposal.coverLetter?.toLowerCase().includes(query) ||
-        proposal.professionalId?.headline?.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (proposal) =>
+          proposal.professionalId?.name?.toLowerCase().includes(query) ||
+          proposal.professionalId?.email?.toLowerCase().includes(query) ||
+          proposal.coverLetter?.toLowerCase().includes(query) ||
+          proposal.professionalId?.headline?.toLowerCase().includes(query)
       );
     }
 
@@ -46,9 +61,11 @@ const ManageJobSection = ({ job, jobId }) => {
   // Statistics - assuming job proposals have status field
   const stats = useMemo(() => {
     const total = allProposals.length;
-    const pending = allProposals.filter(p => !p.status || p.status === "pending").length;
-    const accepted = allProposals.filter(p => p.status === "accepted").length;
-    const rejected = allProposals.filter(p => p.status === "rejected").length;
+    const pending = allProposals.filter(
+      (p) => !p.status || p.status === "pending"
+    ).length;
+    const accepted = allProposals.filter((p) => p.status === "accepted").length;
+    const rejected = allProposals.filter((p) => p.status === "rejected").length;
 
     return { total, pending, accepted, rejected };
   }, [allProposals]);
@@ -56,26 +73,30 @@ const ManageJobSection = ({ job, jobId }) => {
   // Handle accept proposal
   const handleAcceptProposal = async (proposalId) => {
     if (!isJobDeadlineOver && job?.deadline) {
-      toast.error("You can only accept proposals after the job application deadline.");
+      toast.error(
+        "You can only accept proposals after the job application deadline."
+      );
       return;
     }
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/dashboard/employer/acceptJobProposal", {
+      const response = await fetch("/api/browse/jobs/single", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          proposalId,
-          jobId,
-          // This will automatically reject all other proposals in the backend
+          jobId: jobId,
+          jobProposeId: proposalId,
+          status: "accepted",
         }),
       });
 
       const data = await response.json();
 
       if (data.status === "success") {
-        toast.success("Proposal accepted! All other proposals have been rejected.");
+        toast.success(
+          "Proposal accepted!"
+        );
         refresh();
         setIsAcceptModalOpen(false);
       } else {
@@ -93,11 +114,18 @@ const ManageJobSection = ({ job, jobId }) => {
   const handleRejectProposal = async (proposalId) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/dashboard/employer/rejectJobProposal", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ proposalId }),
-      });
+      const response = await fetch(
+        "/api/dashboard/employer/rejectJobProposal",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+          jobId: jobId,
+          jobProposeId: proposalId,
+          status: "rejected",
+        }),
+        }
+      );
 
       const data = await response.json();
 
@@ -119,10 +147,10 @@ const ManageJobSection = ({ job, jobId }) => {
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -138,8 +166,17 @@ const ManageJobSection = ({ job, jobId }) => {
 
   // Download proposals as CSV
   const downloadProposalsCSV = () => {
-    const headers = ["Name", "Email", "Headline", "Cover Letter", "Resume", "Status", "Submitted Date", "Links"];
-    const csvData = allProposals.map(proposal => [
+    const headers = [
+      "Name",
+      "Email",
+      "Headline",
+      "Cover Letter",
+      "Resume",
+      "Status",
+      "Submitted Date",
+      "Links",
+    ];
+    const csvData = allProposals.map((proposal) => [
       proposal.professionalId?.name || "N/A",
       proposal.professionalId?.email || "N/A",
       proposal.professionalId?.headline || "N/A",
@@ -147,12 +184,13 @@ const ManageJobSection = ({ job, jobId }) => {
       proposal.resume || "N/A",
       proposal.status || "pending",
       new Date(proposal.createdAt).toLocaleDateString(),
-      proposal.links?.map(l => `${l.linkName}: ${l.linkURL}`).join("; ") || "N/A"
+      proposal.links?.map((l) => `${l.linkName}: ${l.linkURL}`).join("; ") ||
+        "N/A",
     ]);
 
     const csvContent = [
       headers.join(","),
-      ...csvData.map(row => row.join(","))
+      ...csvData.map((row) => row.join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
@@ -170,7 +208,9 @@ const ManageJobSection = ({ job, jobId }) => {
       <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Manage Job Proposals</h1>
+            <h1 className="text-2xl font-bold text-slate-800">
+              Manage Job Proposals
+            </h1>
             <p className="text-slate-600 mt-1">
               {job?.title} • {allProposals.length} total proposals
             </p>
@@ -195,7 +235,9 @@ const ManageJobSection = ({ job, jobId }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Total Proposals</p>
-              <p className="text-2xl font-bold text-slate-800 mt-1">{stats.total}</p>
+              <p className="text-2xl font-bold text-slate-800 mt-1">
+                {stats.total}
+              </p>
             </div>
             <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
               <span className="text-2xl">📋</span>
@@ -207,7 +249,9 @@ const ManageJobSection = ({ job, jobId }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Pending Review</p>
-              <p className="text-2xl font-bold text-amber-600 mt-1">{stats.pending}</p>
+              <p className="text-2xl font-bold text-amber-600 mt-1">
+                {stats.pending}
+              </p>
             </div>
             <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
               <FiClock className="text-2xl text-amber-500" />
@@ -219,7 +263,9 @@ const ManageJobSection = ({ job, jobId }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Accepted</p>
-              <p className="text-2xl font-bold text-green-600 mt-1">{stats.accepted}</p>
+              <p className="text-2xl font-bold text-green-600 mt-1">
+                {stats.accepted}
+              </p>
             </div>
             <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
               <FiCheck className="text-2xl text-green-500" />
@@ -231,7 +277,9 @@ const ManageJobSection = ({ job, jobId }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Rejected</p>
-              <p className="text-2xl font-bold text-red-600 mt-1">{stats.rejected}</p>
+              <p className="text-2xl font-bold text-red-600 mt-1">
+                {stats.rejected}
+              </p>
             </div>
             <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
               <FiX className="text-2xl text-red-500" />
@@ -247,37 +295,41 @@ const ManageJobSection = ({ job, jobId }) => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "all"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "all"
                   ? "bg-blue-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               All ({stats.total})
             </button>
             <button
               onClick={() => setActiveTab("pending")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "pending"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "pending"
                   ? "bg-amber-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Pending ({stats.pending})
             </button>
             <button
               onClick={() => setActiveTab("accepted")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "accepted"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "accepted"
                   ? "bg-green-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Accepted ({stats.accepted})
             </button>
             <button
               onClick={() => setActiveTab("rejected")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "rejected"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "rejected"
                   ? "bg-red-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Rejected ({stats.rejected})
             </button>
@@ -306,13 +358,15 @@ const ManageJobSection = ({ job, jobId }) => {
             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FiFilter className="text-3xl text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">No proposals found</h3>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">
+              No proposals found
+            </h3>
             <p className="text-slate-600 max-w-md mx-auto">
               {searchQuery
                 ? "No proposals match your search criteria. Try a different search term."
                 : activeTab !== "all"
-                  ? `There are no ${activeTab} proposals.`
-                  : "No proposals have been submitted yet."}
+                ? `There are no ${activeTab} proposals.`
+                : "No proposals have been submitted yet."}
             </p>
           </div>
         ) : (
@@ -328,14 +382,15 @@ const ManageJobSection = ({ job, jobId }) => {
             return (
               <div
                 key={proposal._id}
-                className={`bg-white rounded-2xl border ${proposalStatus === "accepted"
+                className={`bg-white rounded-2xl border ${
+                  proposalStatus === "accepted"
                     ? "border-green-200 bg-green-50/30"
                     : proposalStatus === "rejected"
-                      ? "border-red-200 bg-red-50/30"
-                      : "border-slate-200"
-                  } p-6 hover:shadow-md transition-shadow`}
+                    ? "border-red-200 bg-red-50/30"
+                    : "border-slate-200"
+                } p-6 hover:shadow-md transition-shadow`}
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <Link href={`/pages/browse/jobs/propose/${proposal._id}`} className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                   {/* Professional Info */}
                   <div className="flex items-start gap-4">
                     <div className="relative">
@@ -363,13 +418,17 @@ const ManageJobSection = ({ job, jobId }) => {
                           {professional?.name}
                         </h3>
                         <div className="flex items-center gap-2">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${proposalStatus === "pending"
-                              ? "bg-amber-100 text-amber-800"
-                              : proposalStatus === "accepted"
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              proposalStatus === "pending"
+                                ? "bg-amber-100 text-amber-800"
+                                : proposalStatus === "accepted"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
-                            }`}>
-                            {proposalStatus.charAt(0).toUpperCase() + proposalStatus.slice(1)}
+                            }`}
+                          >
+                            {proposalStatus.charAt(0).toUpperCase() +
+                              proposalStatus.slice(1)}
                           </span>
                           {proposalStatus === "accepted" && (
                             <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
@@ -396,7 +455,9 @@ const ManageJobSection = ({ job, jobId }) => {
                         {rating > 0 && (
                           <div className="flex items-center gap-1">
                             <span className="text-amber-500">★</span>
-                            <span>{rating.toFixed(1)} ({totalRatings})</span>
+                            <span>
+                              {rating.toFixed(1)} ({totalRatings})
+                            </span>
                           </div>
                         )}
                       </div>
@@ -459,15 +520,17 @@ const ManageJobSection = ({ job, jobId }) => {
                       </>
                     )}
 
-                    {proposalStatus === "pending" && !isJobDeadlineOver && job?.deadline && (
-                      <button
-                        disabled
-                        className="px-4 py-2 bg-slate-300 text-slate-600 rounded-lg cursor-not-allowed flex items-center justify-center gap-2"
-                      >
-                        <FiClock />
-                        Wait until deadline
-                      </button>
-                    )}
+                    {proposalStatus === "pending" &&
+                      !isJobDeadlineOver &&
+                      job?.deadline && (
+                        <button
+                          disabled
+                          className="px-4 py-2 bg-slate-300 text-slate-600 rounded-lg cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                          <FiClock />
+                          Wait until deadline
+                        </button>
+                      )}
 
                     {proposalStatus === "pending" && !job?.deadline && (
                       <>
@@ -514,7 +577,7 @@ const ManageJobSection = ({ job, jobId }) => {
                       </button>
                     )}
                   </div>
-                </div>
+                </Link>
 
                 {/* Additional Info */}
                 <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap gap-4">
@@ -544,15 +607,22 @@ const ManageJobSection = ({ job, jobId }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md">
             <div className="p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">Accept Proposal</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">
+                Accept Proposal
+              </h3>
               <p className="text-slate-600 mb-6">
                 Are you sure you want to accept{" "}
-                <span className="font-semibold">{selectedProposal.professionalId?.name}'s</span> proposal for this job?
-                This will automatically reject all other proposals and cannot be undone.
+                <span className="font-semibold">
+                  {selectedProposal.professionalId?.name}'s
+                </span>{" "}
+                proposal for this job? This will automatically reject all other
+                proposals and cannot be undone.
               </p>
 
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                <h4 className="font-semibold text-amber-800 mb-2">Important:</h4>
+                <h4 className="font-semibold text-amber-800 mb-2">
+                  Important:
+                </h4>
                 <ul className="text-amber-700 text-sm space-y-1">
                   <li>• You can only accept one proposal per job position</li>
                   <li>• This action cannot be reversed</li>
@@ -587,15 +657,21 @@ const ManageJobSection = ({ job, jobId }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md">
             <div className="p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">Reject Proposal</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">
+                Reject Proposal
+              </h3>
               <p className="text-slate-600 mb-6">
                 Are you sure you want to reject{" "}
-                <span className="font-semibold">{selectedProposal.professionalId?.name}'s</span> proposal?
+                <span className="font-semibold">
+                  {selectedProposal.professionalId?.name}'s
+                </span>{" "}
+                proposal?
               </p>
 
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
                 <p className="text-slate-700 text-sm">
-                  The professional will be notified that their proposal was not selected.
+                  The professional will be notified that their proposal was not
+                  selected.
                 </p>
               </div>
 

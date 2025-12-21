@@ -8,6 +8,26 @@ export async function POST(req) {
   try {
     await connectMongoDb();
     const { jobId, professionalId, resume, links, coverLetter } = await req.json();
+
+    // validate required fields
+    if (!jobId || !professionalId) {
+      return NextResponse.json(
+        { status: "error", message: "jobId and professionalId are required" },
+        { status: 400 }
+      );
+    }
+
+    // // check if proposal already exists
+    // const existingProposal = await ProposeJob.findOne({
+    //   jobId,
+    //   professionalId,
+    // });
+    // if (existingProposal) {
+    //   return NextResponse.json(
+    //     { status: "error", message: "Proposal already exists" },
+    //     { status: 400 }
+    //   );
+    // }
     
 
 
