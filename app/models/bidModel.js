@@ -95,11 +95,17 @@ const bidSchema = new mongoose.Schema(
         "pending",
         "accepted",
         "in progress",
+        "waiting for review",
+        "waiting for payment",
         "completed",
         "rejected",
         "in review",
       ],
       default: "pending",
+    },
+    bidder: {
+      type: Object,
+      default: null,
     },
     createdAt: {
       type: Date,

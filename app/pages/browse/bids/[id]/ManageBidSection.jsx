@@ -1,13 +1,26 @@
 import React, { useState, useMemo } from "react";
 import useGetAllProposeForSingleBid from "@/app/hooks/jobs/bids/GetAllProposeForSingleBid";
-import { FiSearch, FiCheck, FiX, FiClock, FiFilter, FiDownload, FiMail } from "react-icons/fi";
+import {
+  FiSearch,
+  FiCheck,
+  FiX,
+  FiClock,
+  FiFilter,
+  FiDownload,
+  FiMail,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 
-const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate }) => {
-    const bidId = singleBid._id;
-  const { allProposals, refreshProposals } = useGetAllProposeForSingleBid(bidId);
-  console.log("🚀 ~ ManageBidSection ~ allProposals:", allProposals)
-  
+const ManageBidSection = ({
+  singleBid,
+  timeLeft,
+  getBudgetTypeText,
+  formatDate,
+}) => {
+  const bidId = singleBid._id;
+  const { allProposals, refreshProposals } =
+    useGetAllProposeForSingleBid(bidId);
+
   // States
   const [activeTab, setActiveTab] = useState("all"); // "all", "pending", "accepted", "rejected"
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,17 +38,18 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
 
     // Filter by status tab
     if (activeTab !== "all") {
-      filtered = filtered.filter(proposal => proposal.status === activeTab);
+      filtered = filtered.filter((proposal) => proposal.status === activeTab);
     }
 
     // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(proposal =>
-        proposal.professionalId?.name?.toLowerCase().includes(query) ||
-        proposal.professionalId?.email?.toLowerCase().includes(query) ||
-        proposal.coverLetter?.toLowerCase().includes(query) ||
-        proposal.professionalId?.headline?.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (proposal) =>
+          proposal.professionalId?.name?.toLowerCase().includes(query) ||
+          proposal.professionalId?.email?.toLowerCase().includes(query) ||
+          proposal.coverLetter?.toLowerCase().includes(query) ||
+          proposal.professionalId?.headline?.toLowerCase().includes(query)
       );
     }
 
@@ -45,9 +59,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
   // Statistics
   const stats = useMemo(() => {
     const total = allProposals.length;
-    const pending = allProposals.filter(p => p.status === "pending").length;
-    const accepted = allProposals.filter(p => p.status === "accepted").length;
-    const rejected = allProposals.filter(p => p.status === "rejected").length;
+    const pending = allProposals.filter((p) => p.status === "pending").length;
+    const accepted = allProposals.filter((p) => p.status === "accepted").length;
+    const rejected = allProposals.filter((p) => p.status === "rejected").length;
 
     return { total, pending, accepted, rejected };
   }, [allProposals]);
@@ -61,20 +75,21 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/dashboard/employer/acceptProposal", {
+      const response = await fetch("/api/browse/bids", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          proposalId,
+          proposeId: proposalId,
           bidId,
-          // This will automatically reject all other proposals in the backend
         }),
       });
 
       const data = await response.json();
 
       if (data.status === "success") {
-        toast.success("Proposal accepted! All other proposals have been rejected.");
+        toast.success(
+          "Proposal accepted! All other proposals have been rejected."
+        );
         refreshProposals();
         setIsAcceptModalOpen(false);
       } else {
@@ -90,12 +105,13 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
 
   // Handle reject proposal
   const handleRejectProposal = async (proposalId) => {
+    console.log("🚀 ~ handleRejectProposal ~ proposalId:", proposalId);
     setIsLoading(true);
     try {
-      const response = await fetch("/api/dashboard/employer/rejectProposal", {
-        method: "PUT",
+      const response = await fetch("/api/browse/bids", {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ proposalId }),
+        body: JSON.stringify({ proposeId: proposalId }),
       });
 
       const data = await response.json();
@@ -117,9 +133,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
 
   // Format currency
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
     }).format(amount);
   };
@@ -135,8 +151,17 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
 
   // Download proposals as CSV
   const downloadProposalsCSV = () => {
-    const headers = ["Name", "Email", "Budget", "Budget Type", "Deadline", "Status", "Submitted Date", "Cover Letter"];
-    const csvData = allProposals.map(proposal => [
+    const headers = [
+      "Name",
+      "Email",
+      "Budget",
+      "Budget Type",
+      "Deadline",
+      "Status",
+      "Submitted Date",
+      "Cover Letter",
+    ];
+    const csvData = allProposals.map((proposal) => [
       proposal.professionalId?.name || "N/A",
       proposal.professionalId?.email || "N/A",
       proposal.budget,
@@ -144,12 +169,12 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
       new Date(proposal.deadline).toLocaleDateString(),
       proposal.status,
       new Date(proposal.createdAt).toLocaleDateString(),
-      `"${proposal.coverLetter?.replace(/"/g, '""')}"` // Escape quotes for CSV
+      `"${proposal.coverLetter?.replace(/"/g, '""')}"`, // Escape quotes for CSV
     ]);
 
     const csvContent = [
       headers.join(","),
-      ...csvData.map(row => row.join(","))
+      ...csvData.map((row) => row.join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
@@ -167,7 +192,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Manage Proposals</h1>
+            <h1 className="text-2xl font-bold text-slate-800">
+              Manage Proposals
+            </h1>
             <p className="text-slate-600 mt-1">
               {singleBid.title} • {allProposals.length} total proposals
             </p>
@@ -192,7 +219,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Total Proposals</p>
-              <p className="text-2xl font-bold text-slate-800 mt-1">{stats.total}</p>
+              <p className="text-2xl font-bold text-slate-800 mt-1">
+                {stats.total}
+              </p>
             </div>
             <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
               <span className="text-2xl">📋</span>
@@ -204,7 +233,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Pending</p>
-              <p className="text-2xl font-bold text-amber-600 mt-1">{stats.pending}</p>
+              <p className="text-2xl font-bold text-amber-600 mt-1">
+                {stats.pending}
+              </p>
             </div>
             <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
               <FiClock className="text-2xl text-amber-500" />
@@ -216,7 +247,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Accepted</p>
-              <p className="text-2xl font-bold text-green-600 mt-1">{stats.accepted}</p>
+              <p className="text-2xl font-bold text-green-600 mt-1">
+                {stats.accepted}
+              </p>
             </div>
             <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
               <FiCheck className="text-2xl text-green-500" />
@@ -228,7 +261,9 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-slate-500">Rejected</p>
-              <p className="text-2xl font-bold text-red-600 mt-1">{stats.rejected}</p>
+              <p className="text-2xl font-bold text-red-600 mt-1">
+                {stats.rejected}
+              </p>
             </div>
             <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
               <FiX className="text-2xl text-red-500" />
@@ -244,37 +279,41 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "all"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "all"
                   ? "bg-blue-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               All ({stats.total})
             </button>
             <button
               onClick={() => setActiveTab("pending")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "pending"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "pending"
                   ? "bg-amber-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Pending ({stats.pending})
             </button>
             <button
               onClick={() => setActiveTab("accepted")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "accepted"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "accepted"
                   ? "bg-green-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Accepted ({stats.accepted})
             </button>
             <button
               onClick={() => setActiveTab("rejected")}
-              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${activeTab === "rejected"
+              className={`px-4 py-2.5 rounded-lg font-medium transition-colors cursor-pointer ${
+                activeTab === "rejected"
                   ? "bg-red-500 text-white"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+              }`}
             >
               Rejected ({stats.rejected})
             </button>
@@ -303,25 +342,28 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FiFilter className="text-3xl text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">No proposals found</h3>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">
+              No proposals found
+            </h3>
             <p className="text-slate-600 max-w-md mx-auto">
               {searchQuery
                 ? "No proposals match your search criteria. Try a different search term."
                 : activeTab !== "all"
-                  ? `There are no ${activeTab} proposals.`
-                  : "No proposals have been submitted yet."}
+                ? `There are no ${activeTab} proposals.`
+                : "No proposals have been submitted yet."}
             </p>
           </div>
         ) : (
           filteredProposals.map((proposal) => (
             <div
               key={proposal._id}
-              className={`bg-white rounded-2xl border ${proposal.status === "accepted"
+              className={`bg-white rounded-2xl border ${
+                proposal.status === "accepted"
                   ? "border-green-200 bg-green-50/30"
                   : proposal.status === "rejected"
-                    ? "border-red-200 bg-red-50/30"
-                    : "border-slate-200"
-                } p-6 hover:shadow-md transition-shadow`}
+                  ? "border-red-200 bg-red-50/30"
+                  : "border-slate-200"
+              } p-6 hover:shadow-md transition-shadow`}
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 {/* Professional Info */}
@@ -351,13 +393,17 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
                         {proposal.professionalId?.name}
                       </h3>
                       <div className="flex items-center gap-2">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${proposal.status === "pending"
-                            ? "bg-amber-100 text-amber-800"
-                            : proposal.status === "accepted"
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            proposal.status === "pending"
+                              ? "bg-amber-100 text-amber-800"
+                              : proposal.status === "accepted"
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
-                          }`}>
-                          {proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
+                          }`}
+                        >
+                          {proposal.status.charAt(0).toUpperCase() +
+                            proposal.status.slice(1)}
                         </span>
                         {proposal.status === "accepted" && (
                           <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
@@ -375,7 +421,10 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
                       {proposal.professionalId?.phone && (
                         <span>• {proposal.professionalId.phone}</span>
                       )}
-                      <span>• Submitted on {new Date(proposal.createdAt).toLocaleDateString()}</span>
+                      <span>
+                        • Submitted on{" "}
+                        {new Date(proposal.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
 
                     {/* Cover Letter Preview */}
@@ -392,16 +441,23 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
                       {formatCurrency(proposal.budget)}
                     </div>
                     <div className="text-sm text-slate-500">
-                      {proposal.budgetType === "fixed" ? "Fixed Price" :
-                        proposal.budgetType === "hourly" ? "Per Hour" : "Per Month"}
+                      {proposal.budgetType === "fixed"
+                        ? "Fixed Price"
+                        : proposal.budgetType === "hourly"
+                        ? "Per Hour"
+                        : "Per Month"}
                     </div>
                     <div className="text-sm text-slate-500 mt-1">
-                      Deadline: {new Date(proposal.deadline).toLocaleDateString()}
+                      Deadline:{" "}
+                      {new Date(proposal.deadline).toLocaleDateString()}
                       {getDaysLeft(proposal.deadline) >= 0 && (
-                        <span className={`ml-2 px-2 py-0.5 rounded text-xs ${getDaysLeft(proposal.deadline) <= 7
-                            ? "bg-red-100 text-red-800"
-                            : "bg-slate-100 text-slate-800"
-                          }`}>
+                        <span
+                          className={`ml-2 px-2 py-0.5 rounded text-xs ${
+                            getDaysLeft(proposal.deadline) <= 7
+                              ? "bg-red-100 text-red-800"
+                              : "bg-slate-100 text-slate-800"
+                          }`}
+                        >
                           {getDaysLeft(proposal.deadline)} days
                         </span>
                       )}
@@ -492,15 +548,22 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md">
             <div className="p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">Accept Proposal</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">
+                Accept Proposal
+              </h3>
               <p className="text-slate-600 mb-6">
                 Are you sure you want to accept{" "}
-                <span className="font-semibold">{selectedProposal.professionalId?.name}'s</span> proposal?
-                This will automatically reject all other proposals and cannot be undone.
+                <span className="font-semibold">
+                  {selectedProposal.professionalId?.name}'s
+                </span>{" "}
+                proposal? This will automatically reject all other proposals and
+                cannot be undone.
               </p>
 
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                <h4 className="font-semibold text-amber-800 mb-2">Important:</h4>
+                <h4 className="font-semibold text-amber-800 mb-2">
+                  Important:
+                </h4>
                 <ul className="text-amber-700 text-sm space-y-1">
                   <li>• You can only accept one proposal per bid</li>
                   <li>• This action cannot be reversed</li>
@@ -534,15 +597,21 @@ const ManageBidSection = ({ singleBid, timeLeft, getBudgetTypeText,formatDate })
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-md">
             <div className="p-6">
-              <h3 className="text-xl font-bold text-slate-800 mb-2">Reject Proposal</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">
+                Reject Proposal
+              </h3>
               <p className="text-slate-600 mb-6">
                 Are you sure you want to reject{" "}
-                <span className="font-semibold">{selectedProposal.professionalId?.name}'s</span> proposal?
+                <span className="font-semibold">
+                  {selectedProposal.professionalId?.name}'s
+                </span>{" "}
+                proposal?
               </p>
 
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
                 <p className="text-slate-700 text-sm">
-                  The professional will be notified that their proposal was not selected.
+                  The professional will be notified that their proposal was not
+                  selected.
                 </p>
               </div>
 
