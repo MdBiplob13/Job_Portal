@@ -32,6 +32,8 @@ const ProposeBidSection = ({
   const bidId = singleBid._id;
   const { allProposals, refreshProposals } = useGetAllProposeForSingleBid(bidId);
 
+  
+
   const handleSubmitProposal = (e) => {
     e.preventDefault();
 
@@ -128,7 +130,7 @@ const ProposeBidSection = ({
         </div>
 
         {/* Post Bid Button */}
-        <div className="mt-6 flex justify-center">
+        <div className={`mt-6 flex justify-center ${timeLeft(singleBid.deadline) === 'Closed' ? 'hidden' : ''}`}>
           <button
             onClick={() => setIsPostBidModalOpen(true)}
             className="px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl flex items-center gap-3 cursor-pointer"
@@ -380,7 +382,7 @@ const ProposeBidSection = ({
             <div className="mt-4 flex justify-center gap-2 text-sm text-slate-500">
               <span className="flex items-center gap-1">
                 <FiClock className="w-4 h-4" />
-                {timeLeft(singleBid.deadline)} left to apply
+                {timeLeft(singleBid.deadline)} <p className={`text-slate-400 ${timeLeft(singleBid.deadline)=== 'Closed' ? 'hidden' : ''}`}>left to apply</p>
               </span>
               <span>•</span>
               <span>{singleBid.applicationLimit || 50} spots available</span>
