@@ -19,10 +19,12 @@ import useGetSingleBid from "@/app/hooks/dashboard/admin/bids/GetSingleBid";
 import useGetUserWithEmail from "@/app/hooks/user/GetUserWithEmail";
 import ProposeBidSection from "./ProposeBidSection";
 import ManageBidSection from "./ManageBidSection";
+import useUser from "@/app/hooks/user/userHook";
 
 export default function BidDetailPage() {
   const params = useParams();
   const bidId = params.id;
+  const { user } = useUser();
 
   const { singleBid, singleBidLoading } = useGetSingleBid(bidId);
   const { singleUser, singleUserLoading } = useGetUserWithEmail(
@@ -84,12 +86,19 @@ export default function BidDetailPage() {
     }
   };
 
-  const sections = [
-    { id: "overview", label: "Overview", icon: "📋" },
-    { id: "company", label: "Company Info", icon: "🏢" },
-    { id: "applications", label: "Applications", icon: "📄" },
-    { id: "management", label: "Management", icon: "🚀" },
-  ];
+  const getSection = () => {
+    const section = [
+      { id: "overview", label: "Overview", icon: "📋" },
+      { id: "company", label: "Company Info", icon: "🏢" },
+      { id: "applications", label: "Applications", icon: "📄" },
+    ];
+
+    if (user?.role === "employer" && user?.email === singleBid?.employerEmail) {
+      section.push({ id: "management", label: "Management", icon: "🚀" });
+    }
+
+    return section;
+  };
 
   return (
     <div className="min-h-screen bg-linear-to-b from-blue-50 via-slate-50 to-white">
@@ -141,7 +150,7 @@ export default function BidDetailPage() {
           {/* Navigation Tabs */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-1 mb-8">
             <div className="flex flex-wrap gap-2">
-              {sections.map((section) => (
+              {getSection().map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}

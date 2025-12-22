@@ -82,12 +82,12 @@ export async function GET(req) {
     await connectMongoDb();
     const { searchParams } = new URL(req.url);
     const bidId = searchParams.get("bidId");
-    const proposalId = searchParams.get("proposalId");
+    const proposeId = searchParams.get("proposeId");
     const professionalId = searchParams.get("professionalId");
 
     // Get single proposal by ID
-    if (proposalId) {
-      const proposal = await ProposeBid.findById(proposalId)
+    if (proposeId) {
+      const proposal = await ProposeBid.findById(proposeId)
         .populate({
           path: "bidId",
           model: Bid,
@@ -157,7 +157,7 @@ export async function GET(req) {
     return NextResponse.json(
       {
         status: "error",
-        message: "Please provide bidId, proposalId, or professionalId",
+        message: "Please provide bidId, proposeId, or professionalId",
       },
       { status: 400 }
     );
@@ -178,16 +178,16 @@ export async function PUT(req) {
   try {
     await connectMongoDb();
     const { searchParams } = new URL(req.url);
-    const proposalId = searchParams.get("proposalId");
+    const proposeId = searchParams.get("proposeId");
     
     const body = await req.json();
     const { status, budget, deadline, coverLetter } = body;
 
-    if (!proposalId) {
+    if (!proposeId) {
       return NextResponse.json(
         {
           status: "error",
-          message: "proposalId is required",
+          message: "proposeId is required",
         },
         { status: 400 }
       );
@@ -200,7 +200,7 @@ export async function PUT(req) {
     if (coverLetter) updateData.coverLetter = coverLetter;
 
     const proposal = await ProposeBid.findByIdAndUpdate(
-      proposalId,
+      proposeId,
       updateData,
       { new: true, runValidators: true }
     )
