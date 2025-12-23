@@ -5,6 +5,54 @@ import connectMongoDb from "@/lib/mongoose";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server"; // You need to import NextResponse
 
+// get single bid
+export async function GET(req) {
+  try {
+    await connectMongoDb();
+
+    const { searchParams } = new URL(req.url);
+    const bidId = searchParams.get("bidId");
+
+    if (!bidId) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "bidId is required",
+        },
+        { status: 400 }
+      );
+    }
+
+    const bid = await Bid.findById(bidId);
+
+    if (!bid) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Bid not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        status: "success",
+        data: bid,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error accepting bid:", error);
+    return NextResponse.json(
+      {
+        status: "error",
+        message: error.message || "Failed to accept bid",
+      },
+      { status: 500 }
+    );
+  }
+}
 // Accept bid
 export async function PUT(req) {
   try {
@@ -147,7 +195,7 @@ export async function PATCH(req) {
     await connectMongoDb();
 
     const { proposeId } = await req.json();
-    console.log("🚀 ~ PATCH ~ proposeId:", proposeId)
+    console.log("🚀 ~ PATCH ~ proposeId:", proposeId);
 
     // validate required fields
     if (!proposeId) {

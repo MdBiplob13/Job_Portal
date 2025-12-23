@@ -45,13 +45,12 @@ const useGetSingleBid = (bidId) => {
     };
   }, [bidId, singleBidRefresh]);
 
+  const refreshSingleBid = () => setSingleBidRefresh(singleBidRefresh + 1);
+
   return {
     singleBid,
-    setSingleBid,
     singleBidLoading,
-    setSingleBidLoading,
-    singleBidRefresh,
-    setSingleBidRefresh,
+    refreshSingleBid,
   };
 };
 

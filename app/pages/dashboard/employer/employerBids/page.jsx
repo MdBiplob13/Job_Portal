@@ -179,14 +179,15 @@ export default function EmployerBids() {
       case "accepted":
         return (
           <>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiMessageCircle className="text-sm" />
-              Contact
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+          <Link href={`/pages/browse/bids/${b._id}`} className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
               <FiAward className="text-sm" />
-              Manage
-            </button>
+              Manage Bids
+            </Link>
+            <Link href={`/pages/dashboard/employer/employerBids/single/${b._id}`} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
+              <FiEye className="text-sm" />
+              View Details
+            </Link>
+            
           </>
         );
       case "in progress":
