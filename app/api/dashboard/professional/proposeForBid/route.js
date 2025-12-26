@@ -16,6 +16,7 @@ export async function POST(req) {
       deadline,
       budgetType,
       coverLetter,
+      employerId
     } = await req.json(); // Changed from req.body to req.json()
 
     // Validate required fields
@@ -53,6 +54,7 @@ export async function POST(req) {
       budgetType: budgetType || "",
       deadline: deadline || "",
       coverLetter: coverLetter || "",
+      employerId
     });
 
     // Update bid proposal count

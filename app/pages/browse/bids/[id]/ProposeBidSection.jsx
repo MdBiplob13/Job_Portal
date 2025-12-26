@@ -51,6 +51,7 @@ const ProposeBidSection = ({
       coverLetter,
       bidId: singleBid._id,
       professionalId: user._id,
+      employerId: singleBid.employerId,
       resume,
     };
 

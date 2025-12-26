@@ -75,6 +75,7 @@ export default function EmployerPost() {
         body: JSON.stringify({
           ...form,
           employerEmail: user?.email || "",
+          employerId: user?._id,
         }),
       });
 

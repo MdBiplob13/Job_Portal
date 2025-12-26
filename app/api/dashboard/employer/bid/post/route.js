@@ -24,6 +24,7 @@ export async function POST(req) {
       workTime,
       deadline,
       employerEmail,
+      employerId,
     } = await req.json();
 
 
@@ -70,6 +71,7 @@ export async function POST(req) {
     // CREATE BID
     // -------------------------------
     const newBid = await Bid.create({
+      employerId,
       title: title.trim(),
       description: description.trim(),
 

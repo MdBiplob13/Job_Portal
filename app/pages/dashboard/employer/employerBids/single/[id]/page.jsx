@@ -216,7 +216,7 @@ const BidSinglePage = () => {
   // Loading state
   if (singleBidLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-white flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
           <p className="text-gray-600 text-lg">Loading bid details...</p>
@@ -228,7 +228,7 @@ const BidSinglePage = () => {
   // Error state
   if (singleBidError) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-white flex items-center justify-center">
         <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md border border-red-100">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">Error Loading Bid</h2>
@@ -255,7 +255,7 @@ const BidSinglePage = () => {
   // No data state
   if (!singleBid) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-50 to-white flex items-center justify-center">
         <div className="text-center">
           <Package className="w-20 h-20 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Bid Not Found</h2>
@@ -274,7 +274,7 @@ const BidSinglePage = () => {
   const availableActions = getAvailableActions();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -415,7 +415,7 @@ const BidSinglePage = () => {
                     <ul className="space-y-3">
                       {singleBid.requirements?.map((req, index) => (
                         <li key={index} className="flex items-start gap-3">
-                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                             <ChevronRight className="w-3 h-3 text-green-600" />
                           </div>
                           <span className="text-gray-700">{req}</span>
@@ -432,7 +432,7 @@ const BidSinglePage = () => {
                     <ul className="space-y-3">
                       {singleBid.responsibilities?.map((resp, index) => (
                         <li key={index} className="flex items-start gap-3">
-                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                             <ChevronRight className="w-3 h-3 text-blue-600" />
                           </div>
                           <span className="text-gray-700">{resp}</span>
@@ -450,7 +450,7 @@ const BidSinglePage = () => {
                   </h4>
                   <div className="flex flex-wrap gap-3">
                     {singleBid.skills?.map((skill, index) => (
-                      <span key={index} className="px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 rounded-xl font-medium">
+                      <span key={index} className="px-4 py-2 bg-linear-to-r from-blue-50 to-blue-100 text-blue-700 rounded-xl font-medium">
                         {skill}
                       </span>
                     ))}
@@ -466,7 +466,7 @@ const BidSinglePage = () => {
                 Employer Information
               </h2>
               
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6">
+              <div className="bg-linear-to-r from-green-50 to-emerald-50 rounded-xl p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
@@ -500,7 +500,7 @@ const BidSinglePage = () => {
                 </div>
                 
                 <div className="mt-6 pt-6 border-t border-green-200">
-                  <button className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 font-medium transition-all duration-200">
+                  <button className="w-full flex items-center justify-center gap-3 bg-linear-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 font-medium transition-all duration-200">
                     <MessageCircle className="w-5 h-5" />
                     Message Employer
                   </button>
@@ -516,13 +516,13 @@ const BidSinglePage = () => {
                   Assigned Professional
                 </h2>
                 
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+                <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
                   <div className="flex items-start gap-6">
-                    <div className="w-20 h-20 bg-white rounded-2xl border-4 border-white shadow-lg overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-20 bg-white rounded-2xl border-4 border-white shadow-lg overflow-hidden shrink-0">
                       {singleBid.bidder.photo ? (
                         <img src={singleBid.bidder.photo} alt={singleBid.bidder.name} className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
+                        <div className="w-full h-full bg-linear-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
                           <User className="w-10 h-10 text-blue-600" />
                         </div>
                       )}
@@ -570,7 +570,7 @@ const BidSinglePage = () => {
                   
                   <div className="mt-6 pt-6 border-t border-blue-200">
                     <div className="flex gap-3">
-                      <button className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 font-medium transition-all duration-200">
+                      <button className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 font-medium transition-all duration-200">
                         <MessageCircle className="w-5 h-5" />
                         Contact
                       </button>
@@ -592,7 +592,7 @@ const BidSinglePage = () => {
                   Work Submission
                 </h2>
                 
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
+                <div className="bg-linear-to-r from-purple-50 to-pink-50 rounded-xl p-6">
                   {currentStatus === 'in progress' && isProfessional && (
                     <div className="space-y-6">
                       <p className="text-gray-700">Upload your completed work files here. Make sure to include all required deliverables.</p>
@@ -600,7 +600,7 @@ const BidSinglePage = () => {
                         <Upload className="w-16 h-16 text-purple-400 mx-auto mb-4" />
                         <p className="text-gray-700 font-medium mb-2">Drag & drop your files here</p>
                         <p className="text-gray-500 text-sm mb-6">Supported formats: PDF, DOC, ZIP, Images</p>
-                        <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 font-medium shadow-lg hover:shadow-xl transition-all duration-200">
+                        <button className="bg-linear-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 font-medium shadow-lg hover:shadow-xl transition-all duration-200">
                           Browse Files
                         </button>
                       </div>
@@ -772,7 +772,7 @@ const BidSinglePage = () => {
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center shrink-0">
                     <CheckCircle className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
@@ -783,7 +783,7 @@ const BidSinglePage = () => {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
                     <User className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
@@ -794,7 +794,7 @@ const BidSinglePage = () => {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center shrink-0">
                     <Clock className="w-5 h-5 text-yellow-600" />
                   </div>
                   <div>
@@ -961,7 +961,7 @@ const BidSinglePage = () => {
 
               <div className="bg-gray-50 rounded-xl p-4">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                   <p className="text-sm text-gray-600">
                     Your report will be reviewed by our support team within 24 hours. We may contact you for additional information if needed.
                   </p>
@@ -979,7 +979,7 @@ const BidSinglePage = () => {
                 <button
                   type="submit"
                   disabled={isLoadingAction}
-                  className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50"
                 >
                   {isLoadingAction ? (
                     <Loader2 className="w-5 h-5 animate-spin" />

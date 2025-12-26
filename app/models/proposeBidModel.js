@@ -14,6 +14,12 @@ const proposeBidSchema = new mongoose.Schema(
       required: true,
     },
 
+    employerId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
+
     resume: {
       type: String,
       default: "",
@@ -41,7 +47,7 @@ const proposeBidSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected", "withdrawn"],
+      enum: ["pending", "accepted", "rejected"],
       default: "pending",
     },
 
