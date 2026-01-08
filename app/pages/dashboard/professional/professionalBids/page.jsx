@@ -251,6 +251,7 @@ export default function ProfessionalBids() {
 
   // Proposal card component
   const ProposalCard = ({ proposal }) => {
+    console.log("🚀 ~ ProposalCard ~ proposal:", proposal)
     const bid = proposal.bidId || {};
     const proposalStatus = (proposal.status || "").toLowerCase();
     const bidStatus = (bid.status || "").toLowerCase();
@@ -427,7 +428,7 @@ export default function ProfessionalBids() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-4 md:p-6">
       {/* Header */}
       <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">

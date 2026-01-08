@@ -37,6 +37,8 @@ export default function EmployerMessage() {
 
   const { user } = useUser();
 
+  
+
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
   const socketRef = useRef(null);
@@ -572,7 +574,7 @@ export default function EmployerMessage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
       <div className="flex h-screen">
         {/* Sidebar */}
         <div className="w-full lg:w-1/3 xl:w-1/4 bg-white border-r border-gray-200 flex flex-col">
