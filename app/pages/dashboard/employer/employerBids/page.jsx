@@ -80,7 +80,14 @@ export default function EmployerBids() {
 
   // derive stats from real data
   const stats = useMemo(() => {
-    const s = { total: 0, pending: 0, accepted: 0, inProgress: 0, completed: 0, rejected: 0 };
+    const s = {
+      total: 0,
+      pending: 0,
+      accepted: 0,
+      inProgress: 0,
+      completed: 0,
+      rejected: 0,
+    };
     const list = Array.isArray(employerBids) ? employerBids : [];
     s.total = list.length;
     list.forEach((b) => {
@@ -110,7 +117,9 @@ export default function EmployerBids() {
     }
 
     if (filters.status !== "all") {
-      out = out.filter((b) => (b.status || "").toLowerCase() === filters.status);
+      out = out.filter(
+        (b) => (b.status || "").toLowerCase() === filters.status
+      );
     }
 
     if (filters.urgency !== "all") {
@@ -118,7 +127,10 @@ export default function EmployerBids() {
     }
 
     // newest first
-    out.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    out.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     return out;
   }, [employerBids, searchQuery, filters]);
@@ -163,56 +175,37 @@ export default function EmployerBids() {
 
   const getActionButtons = (b) => {
     const status = (b.status || "").toLowerCase();
-    switch (status) {
-      case "pending":
-        return (
-          <>
-            <Link
-              href={`/pages/browse/bids/${b._id}`}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <FiEye className="text-sm" />
-              View Bids ({b.applicationCount || 0})
-            </Link>
-          </>
-        );
-      case "accepted":
-        return (
-          <>
-          <Link href={`/pages/browse/bids/${b._id}`} className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-              <FiAward className="text-sm" />
-              Manage Bids
-            </Link>
-            <Link href={`/pages/dashboard/employer/employerBids/single/${b._id}`} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors">
-              <FiEye className="text-sm" />
-              View Details
-            </Link>
-            
-          </>
-        );
-      case "in progress":
-        return (
-          <button className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors w-full justify-center">
-            <FiClock className="text-sm" />
-            In Progress
-          </button>
-        );
-      case "completed":
-        return (
-          <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg w-full justify-center">
-            <FiCheckCircle className="text-sm" />
-            Completed
-          </button>
-        );
-      case "rejected":
-        return (
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg w-full justify-center">
+    if (status === "pending") {
+      return (
+        <>
+          <Link
+            href={`/pages/browse/bids/${b._id}`}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
             <FiEye className="text-sm" />
-            View
-          </button>
-        );
-      default:
-        return null;
+            View Bids ({b.applicationCount || 0})
+          </Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Link
+            href={`/pages/browse/bids/${b._id}`}
+            className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+          >
+            <FiAward className="text-sm" />
+            Manage Bids
+          </Link>
+          <Link
+            href={`/pages/dashboard/employer/employerBids/single/${b._id}`}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors"
+          >
+            <FiEye className="text-sm" />
+            View Details
+          </Link>
+        </>
+      );
     }
   };
 
@@ -231,11 +224,19 @@ export default function EmployerBids() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${getStatusColor(bid.status)}`}>
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-semibold border ${getStatusColor(
+                  bid.status
+                )}`}
+              >
                 {capitalise(bid.status)}
               </span>
 
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(urgency)}`}>
+              <span
+                className={`px-2 py-1 rounded-full text-xs font-medium ${getUrgencyColor(
+                  urgency
+                )}`}
+              >
                 {urgency}
               </span>
             </div>
@@ -255,13 +256,19 @@ export default function EmployerBids() {
 
             <div className="flex items-center gap-2 text-gray-600">
               <FiUsers className="text-gray-400" />
-              <span className="text-sm">{bid.applicationCount ?? 0} applicants</span>
+              <span className="text-sm">
+                {bid.applicationCount ?? 0} applicants
+              </span>
             </div>
 
             <div className="flex items-center gap-2 text-gray-600">
               <FiDollarSign className="text-gray-400" />
               <span className="text-sm font-semibold">
-                {bid.price ?? 0} ({bid.BudgetType || bid.BudgetType === "" ? (bid.BudgetType || "—") : "—"})
+                {bid.price ?? 0} (
+                {bid.BudgetType || bid.BudgetType === ""
+                  ? bid.BudgetType || "—"
+                  : "—"}
+                )
               </span>
             </div>
 
@@ -273,10 +280,14 @@ export default function EmployerBids() {
 
           <div className="flex justify-between items-center pt-4 border-t border-gray-100">
             <div className="flex items-center gap-6 text-sm text-gray-600">
-              <span className="text-gray-400">Posted: {fmtDate(bid.createdAt)}</span>
+              <span className="text-gray-400">
+                Posted: {fmtDate(bid.createdAt)}
+              </span>
             </div>
 
-            <div className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">{bid.ProjectDuration || "—"}</div>
+            <div className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+              {bid.ProjectDuration || "—"}
+            </div>
           </div>
 
           <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
@@ -291,31 +302,58 @@ export default function EmployerBids() {
   const FilterDrawer = () => (
     <>
       {isFilterOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsFilterOpen(false)} />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsFilterOpen(false)}
+        />
       )}
 
-      <div className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform ${isFilterOpen ? "translate-x-0" : "translate-x-full"}`}>
+      <div
+        className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform ${
+          isFilterOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-bold text-gray-800">Filter Bids</h2>
-          <button onClick={() => setIsFilterOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg"><FiX className="text-xl text-gray-600" /></button>
+          <button
+            onClick={() => setIsFilterOpen(false)}
+            className="p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <FiX className="text-xl text-gray-600" />
+          </button>
         </div>
 
         <div className="p-6 space-y-8 overflow-y-auto h-[calc(100vh-140px)]">
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Bid Status</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Bid Status
+            </h3>
             <div className="space-y-3">
               {statusOptions.map((option) => (
-                <label key={option.value} className="flex items-center cursor-pointer group">
+                <label
+                  key={option.value}
+                  className="flex items-center cursor-pointer group"
+                >
                   <input
                     type="radio"
                     name="status"
                     value={option.value}
                     checked={filters.status === option.value}
-                    onChange={(e) => handleFilterChange("status", e.target.value)}
+                    onChange={(e) =>
+                      handleFilterChange("status", e.target.value)
+                    }
                     className="hidden"
                   />
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${filters.status === option.value ? "border-blue-500 bg-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}>
-                    {filters.status === option.value && <FiCheck className="text-white text-xs" />}
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${
+                      filters.status === option.value
+                        ? "border-blue-500 bg-blue-500"
+                        : "border-gray-300 group-hover:border-blue-500"
+                    }`}
+                  >
+                    {filters.status === option.value && (
+                      <FiCheck className="text-white text-xs" />
+                    )}
                   </div>
                   <span className="text-gray-700">{option.label}</span>
                 </label>
@@ -324,13 +362,35 @@ export default function EmployerBids() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Priority</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Priority
+            </h3>
             <div className="space-y-3">
               {urgencyOptions.map((option) => (
-                <label key={option.value} className="flex items-center cursor-pointer group">
-                  <input type="radio" name="urgency" value={option.value} checked={filters.urgency === option.value} onChange={(e) => handleFilterChange("urgency", e.target.value)} className="hidden" />
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${filters.urgency === option.value ? "border-blue-500 bg-blue-500" : "border-gray-300 group-hover:border-blue-500"}`}>
-                    {filters.urgency === option.value && <FiCheck className="text-white text-xs" />}
+                <label
+                  key={option.value}
+                  className="flex items-center cursor-pointer group"
+                >
+                  <input
+                    type="radio"
+                    name="urgency"
+                    value={option.value}
+                    checked={filters.urgency === option.value}
+                    onChange={(e) =>
+                      handleFilterChange("urgency", e.target.value)
+                    }
+                    className="hidden"
+                  />
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 transition-all ${
+                      filters.urgency === option.value
+                        ? "border-blue-500 bg-blue-500"
+                        : "border-gray-300 group-hover:border-blue-500"
+                    }`}
+                  >
+                    {filters.urgency === option.value && (
+                      <FiCheck className="text-white text-xs" />
+                    )}
                   </div>
                   <span className="text-gray-700">{option.label}</span>
                 </label>
@@ -341,10 +401,16 @@ export default function EmployerBids() {
 
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 bg-white">
           <div className="flex gap-3">
-            <button onClick={handleClearFilters} className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-gray-400">
+            <button
+              onClick={handleClearFilters}
+              className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-gray-400"
+            >
               Clear All
             </button>
-            <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold">
+            <button
+              onClick={() => setIsFilterOpen(false)}
+              className="flex-1 py-3 bg-blue-500 text-white rounded-xl font-semibold"
+            >
               Apply
             </button>
           </div>
@@ -358,11 +424,18 @@ export default function EmployerBids() {
       <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">My Bids & Tenders</h1>
-            <p className="text-gray-600 mt-2">Track and manage all your submitted bids and tender applications</p>
+            <h1 className="text-3xl font-bold text-gray-800">
+              My Bids & Tenders
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Track and manage all your submitted bids and tender applications
+            </p>
           </div>
 
-          <Link href={"/pages/dashboard/employer/post/bids"} className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit">
+          <Link
+            href={"/pages/dashboard/employer/post/bids"}
+            className="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 w-fit"
+          >
             <FiPlus className="text-lg" />
             Post New Bid
           </Link>
@@ -370,32 +443,44 @@ export default function EmployerBids() {
 
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-gray-800">{stats.total}</div>
+            <div className="text-2xl font-bold text-gray-800">
+              {stats.total}
+            </div>
             <div className="text-gray-600 text-sm">Total Bids</div>
           </div>
 
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-blue-600">{stats.pending}</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {stats.pending}
+            </div>
             <div className="text-gray-600 text-sm">Pending</div>
           </div>
 
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-green-600">{stats.accepted}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {stats.accepted}
+            </div>
             <div className="text-gray-600 text-sm">Accepted</div>
           </div>
 
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-yellow-600">{stats.inProgress}</div>
+            <div className="text-2xl font-bold text-yellow-600">
+              {stats.inProgress}
+            </div>
             <div className="text-gray-600 text-sm">In Progress</div>
           </div>
 
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {stats.rejected}
+            </div>
             <div className="text-gray-600 text-sm">Rejected</div>
           </div>
 
           <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-            <div className="text-2xl font-bold text-gray-600">{stats.completed}</div>
+            <div className="text-2xl font-bold text-gray-600">
+              {stats.completed}
+            </div>
             <div className="text-gray-600 text-sm">Completed</div>
           </div>
         </div>
@@ -414,12 +499,18 @@ export default function EmployerBids() {
             </div>
 
             <div className="flex gap-2">
-              <button onClick={() => setIsFilterOpen(true)} className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2">
+              <button
+                onClick={() => setIsFilterOpen(true)}
+                className="px-6 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:border-blue-500 hover:text-blue-500 transition-colors flex items-center gap-2"
+              >
                 <FiFilter className="text-lg" />
                 Filters
               </button>
 
-              <button onClick={() => setEmployerBidsRefresh((r) => (r || 1) + 1)} className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600">
+              <button
+                onClick={() => setEmployerBidsRefresh((r) => (r || 1) + 1)}
+                className="px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600"
+              >
                 Refresh
               </button>
             </div>
@@ -427,9 +518,22 @@ export default function EmployerBids() {
 
           {(filters.status !== "all" || filters.urgency !== "all") && (
             <div className="mt-4 flex flex-wrap gap-2">
-              {filters.status !== "all" && <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Status: {capitalise(filters.status)}</span>}
-              {filters.urgency !== "all" && <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Priority: {capitalise(filters.urgency)}</span>}
-              <button onClick={handleClearFilters} className="text-gray-500 hover:text-gray-700 text-sm font-medium underline">Clear all</button>
+              {filters.status !== "all" && (
+                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                  Status: {capitalise(filters.status)}
+                </span>
+              )}
+              {filters.urgency !== "all" && (
+                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                  Priority: {capitalise(filters.urgency)}
+                </span>
+              )}
+              <button
+                onClick={handleClearFilters}
+                className="text-gray-500 hover:text-gray-700 text-sm font-medium underline"
+              >
+                Clear all
+              </button>
             </div>
           )}
         </div>
@@ -437,28 +541,29 @@ export default function EmployerBids() {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {employerBidsLoading ? (
-          <div className="col-span-2 p-6 bg-white rounded-2xl text-center border">Loading bids...</div>
+          <div className="col-span-2 p-6 bg-white rounded-2xl text-center border">
+            Loading bids...
+          </div>
         ) : filteredBids.length === 0 ? (
           <div className="col-span-2 bg-white rounded-2xl p-12 text-center border border-gray-200">
             <div className="text-gray-400 text-6xl mb-4">📭</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">No bids found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria or filters</p>
-            <Link href={"/pages/dashboard/employer/post/bids"} className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block">Post New Bid</Link>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              No bids found
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Try adjusting your search criteria or filters
+            </p>
+            <Link
+              href={"/pages/dashboard/employer/post/bids"}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition-colors inline-block"
+            >
+              Post New Bid
+            </Link>
           </div>
         ) : (
           filteredBids.map((bid) => <BidCard key={bid._id} bid={bid} />)
         )}
       </div>
-
-      {filteredBids.length > 0 && (
-        <div className="mt-8 text-center">
-          <button className="bg-white border border-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:border-blue-500 hover:text-blue-500 transition-colors">
-            Load More Bids
-          </button>
-        </div>
-      )}
-
-      <FilterDrawer />
     </div>
   );
 }

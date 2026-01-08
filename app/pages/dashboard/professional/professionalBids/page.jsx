@@ -230,11 +230,11 @@ export default function ProfessionalBids() {
               Contact Client
             </Link>
             <Link
-              href={`/pages/dashboard/professional/proposals/${proposal._id}`}
+              href={`/pages/dashboard/professional/professionalBids/single/${proposal.bidId?._id}`}
               className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors"
             >
               <FiEye className="text-sm" />
-              View Proposal
+              View Details 
             </Link>
           </div>
         );

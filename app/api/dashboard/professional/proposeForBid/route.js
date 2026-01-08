@@ -16,12 +16,13 @@ export async function POST(req) {
       deadline,
       budgetType,
       coverLetter,
-      employerId
+      employerId,
     } = await req.json(); // Changed from req.body to req.json()
 
     // Validate required fields
     if (!bidId || !professionalId) {
-      return NextResponse.json( // Changed from res.status to NextResponse.json
+      return NextResponse.json(
+        // Changed from res.status to NextResponse.json
         {
           status: "error",
           message: "bidId and professionalId are required",
@@ -37,7 +38,8 @@ export async function POST(req) {
     });
 
     if (existingProposal) {
-      return NextResponse.json( // Changed from res.status to NextResponse.json
+      return NextResponse.json(
+        // Changed from res.status to NextResponse.json
         {
           status: "error",
           message: "You have already proposed for this bid",
@@ -54,7 +56,7 @@ export async function POST(req) {
       budgetType: budgetType || "",
       deadline: deadline || "",
       coverLetter: coverLetter || "",
-      employerId
+      employerId,
     });
 
     // Update bid proposal count
@@ -64,16 +66,22 @@ export async function POST(req) {
       await bid.save();
     }
 
-    return NextResponse.json({
-      status: "success",
-      message: "Bid proposal created successfully",
-      data: newProposal,
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        status: "success",
+        message: "Bid proposal created successfully",
+        data: newProposal,
+      },
+      { status: 201 }
+    );
   } catch (err) {
-    return NextResponse.json({
-      status: "error",
-      message: "Failed to create bid proposal",
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        status: "error",
+        message: "Failed to create bid proposal",
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -173,59 +181,18 @@ export async function GET(req) {
   }
 }
 
-// PUT - Update proposal (for status updates, etc.)
+// PUT - Update status
 export async function PUT(req) {
   try {
     await connectMongoDb();
-    const { searchParams } = new URL(req.url);
-    const proposeId = searchParams.get("proposeId");
-    
+
     const body = await req.json();
-    const { status, budget, deadline, coverLetter } = body;
+    const { status, proposalId } = body;
 
-    if (!proposeId) {
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "proposeId is required",
-        },
-        { status: 400 }
-      );
-    }
-
-    const updateData = {};
-    if (status) updateData.status = status;
-    if (budget) updateData.budget = budget;
-    if (deadline) updateData.deadline = deadline;
-    if (coverLetter) updateData.coverLetter = coverLetter;
-
-    const proposal = await ProposeBid.findByIdAndUpdate(
-      proposeId,
-      updateData,
-      { new: true, runValidators: true }
-    )
-      .populate({
-        path: "bidId",
-        model: Bid,
-      })
-      .populate({
-        path: "professionalId",
-        model: User,
-      });
-
-    if (!proposal) {
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Proposal not found",
-        },
-        { status: 404 }
-      );
-    }
-
+    const bid = await Bid.findByIdAndUpdate(proposalId, { status });
+    
     return NextResponse.json({
       status: "success",
-      data: proposal,
     });
   } catch (err) {
     return NextResponse.json(
@@ -237,5 +204,3 @@ export async function PUT(req) {
     );
   }
 }
-
-

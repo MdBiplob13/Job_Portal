@@ -101,6 +101,8 @@ const bidSchema = new mongoose.Schema(
         "in progress",
         "submitted",
         "waiting for payment",
+        "payment send",
+        "payment received",
         "completed",
         "cancelled",
         "in review",

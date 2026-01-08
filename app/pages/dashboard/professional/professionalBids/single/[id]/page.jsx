@@ -132,88 +132,95 @@ const BidSinglePageProfessional = () => {
     setShowConfirmDialog(true);
   };
 
- // For Employer Single Bid Page - Different getAvailableActions function
-const getAvailableActions = () => {
-  const actions = [];
-  
-  switch(currentStatus) {
-    case 'accepted':
-      // Employer can cancel before work starts
-      actions.push({ 
-        label: 'Cancel Project', 
-        status: 'cancelled', 
-        color: 'bg-gray-600 hover:bg-gray-700', 
-        icon: XCircle 
-      });
-      break;
-      
-    case 'submitted':
-      // Employer reviews submitted work
-      actions.push({ 
-        label: 'Accept Work', 
-        status: 'waiting for payment', 
-        color: 'bg-green-600 hover:bg-green-700', 
-        icon: CheckCircle 
-      });
-      actions.push({ 
-        label: 'Request Changes', 
-        status: 'in review', 
-        color: 'bg-yellow-600 hover:bg-yellow-700', 
-        icon: Edit 
-      });
-      actions.push({ 
-        label: 'Reject Work', 
-        status: 'cancelled', 
-        color: 'bg-red-600 hover:bg-red-700', 
-        icon: XCircle 
-      });
-      break;
-      
-    case 'waiting for payment':
-      // Employer sends payment
-      actions.push({ 
-        label: 'Send Payment', 
-        status: 'payment send', 
-        color: 'bg-teal-600 hover:bg-teal-700', 
-        icon: DollarSign 
-      });
-      break;
-      
-    case 'payment received':
-      // Employer marks as completed
-      actions.push({ 
-        label: 'Mark as Completed', 
-        status: 'completed', 
-        color: 'bg-indigo-600 hover:bg-indigo-700', 
-        icon: Award 
-      });
-      break;
-      
-    case 'in review':
-      // Employer can accept resubmitted work
-      actions.push({ 
-        label: 'Accept Changes', 
-        status: 'waiting for payment', 
-        color: 'bg-green-600 hover:bg-green-700', 
-        icon: CheckCircle 
-      });
-      break;
-      
-    default:
-      // For any other status, show cancel option
-      if (currentStatus !== 'cancelled' && currentStatus !== 'completed') {
+  // Get available actions for professional based on current status
+  const getAvailableActions = () => {
+    const actions = [];
+    
+    switch(currentStatus) {
+      case 'accepted':
+        // Project starts from accepted status for professional
+        actions.push({ 
+          label: 'Start Work', 
+          status: 'in progress', 
+          color: 'bg-blue-600 hover:bg-blue-700', 
+          icon: PlayCircle 
+        });
         actions.push({ 
           label: 'Cancel Project', 
           status: 'cancelled', 
           color: 'bg-gray-600 hover:bg-gray-700', 
           icon: XCircle 
         });
-      }
-      break;
-  }
-  
-  return actions;
-};
+        break;
+        
+      case 'in progress':
+        actions.push({ 
+          label: 'Submit Work', 
+          status: 'submitted', 
+          color: 'bg-purple-600 hover:bg-purple-700', 
+          icon: FileText 
+        });
+        actions.push({ 
+          label: 'Cancel Project', 
+          status: 'cancelled', 
+          color: 'bg-gray-600 hover:bg-gray-700', 
+          icon: XCircle 
+        });
+        break;
+        
+      case 'submitted':
+        // Button disabled for professional at this stage
+        // No actions - employer handles this stage
+        break;
+        
+      case 'payment send':
+        actions.push({ 
+          label: 'Confirm Payment', 
+          status: 'payment received', 
+          color: 'bg-green-600 hover:bg-green-700', 
+          icon: CheckCircle 
+        });
+        break;
+        
+      case 'payment received':
+        // Button disabled - awaiting employer action
+        break;
+        
+      case 'completed':
+        // Button disabled - project completed
+        break;
+        
+      case 'in review':
+        actions.push({ 
+          label: 'Submit Work', 
+          status: 'submitted', 
+          color: 'bg-purple-600 hover:bg-purple-700', 
+          icon: FileText 
+        });
+        actions.push({ 
+          label: 'Cancel Project', 
+          status: 'cancelled', 
+          color: 'bg-gray-600 hover:bg-gray-700', 
+          icon: XCircle 
+        });
+        break;
+        
+      default:
+        // For any other status, show cancel option
+        if (currentStatus !== 'cancelled') {
+          actions.push({ 
+            label: 'Cancel Project', 
+            status: 'cancelled', 
+            color: 'bg-gray-600 hover:bg-gray-700', 
+            icon: XCircle 
+          });
+        }
+        break;
+    }
+    
+    return actions;
+  };
+
   // Handle report submission
   const handleReportSubmit = async (e) => {
     e.preventDefault();
@@ -268,7 +275,7 @@ const getAvailableActions = () => {
 
   // Check if button should be disabled based on status
   const isButtonDisabled = () => {
-    const disabledStatuses = ['accepted', 'in progress', 'payment send', "completed"];
+    const disabledStatuses = ['submitted', 'payment received', 'completed'];
     return disabledStatuses.includes(currentStatus);
   };
 
