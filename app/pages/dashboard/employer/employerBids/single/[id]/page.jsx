@@ -518,54 +518,81 @@ const getAvailableActions = () => {
               </div>
             </div>
 
-            {/* Employer Info Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <User className="w-6 h-6 text-green-600" />
-                Employer Information
-              </h2>
-              
-              <div className="bg-linear-to-r from-green-50 to-emerald-50 rounded-xl p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Email</div>
-                      <div className="font-medium text-gray-900 flex items-center gap-2">
-                        <Mail className="w-4 h-4 text-gray-400" />
-                        {singleBid.employerEmail}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Company</div>
-                      <div className="font-medium text-gray-900 flex items-center gap-2">
-                        <Building className="w-4 h-4 text-gray-400" />
-                        {singleBid.companyName}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Location</div>
-                      <div className="font-medium text-gray-900 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-gray-400" />
-                        {singleBid.companyLocation}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">Project Duration</div>
-                      <div className="font-medium text-gray-900">{singleBid.ProjectDuration || 'Not specified'}</div>
-                    </div>
-                  </div>
-                </div>
+            {/* Professional Info Card */}
+            {singleBid.bidder && (
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                  <User className="w-6 h-6 text-blue-600" />
+                  Assigned Professional
+                </h2>
                 
-                <div className="mt-6 pt-6 border-t border-green-200">
-                  <button className="w-full flex items-center justify-center gap-3 bg-linear-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 font-medium transition-all duration-200">
-                    <MessageCircle className="w-5 h-5" />
-                    Message Employer
-                  </button>
+                <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+                  <div className="flex items-start gap-6">
+                    <div className="w-20 h-20 bg-white rounded-2xl border-4 border-white shadow-lg overflow-hidden shrink-0">
+                      {singleBid.bidder.photo ? (
+                        <img src={singleBid.bidder.photo} alt={singleBid.bidder.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-linear-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
+                          <User className="w-10 h-10 text-blue-600" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-900">{singleBid.bidder.name}</h3>
+                          <p className="text-gray-600">{singleBid.bidder.email}</p>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-blue-700">
+                            ${singleBid.bidder.price} <span className="text-sm font-normal text-gray-600">{singleBid.bidder.budgetType}</span>
+                          </div>
+                          <div className="text-sm text-gray-500">Agreed Price</div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-white rounded-xl p-4 shadow-sm">
+                          <div className="text-sm text-gray-600">Project Deadline</div>
+                          <div className="font-semibold text-gray-900 mt-1">
+                            {formatDate(singleBid.bidder.projectDeadline)}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm">
+                          <div className="text-sm text-gray-600">Status</div>
+                          <div className={`font-semibold mt-1 ${
+                            currentStatus === 'cancelled' ? 'text-red-600' : 
+                            currentStatus === 'completed' ? 'text-emerald-600' : 'text-green-600'
+                          }`}>
+                            {currentStatusObj.label}
+                          </div>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm">
+                          <div className="text-sm text-gray-600">Work Started</div>
+                          <div className="font-semibold text-gray-900 mt-1">
+                            {formatDate(singleBid.updatedAt)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 pt-6 border-t border-blue-200">
+                    <div className="flex gap-3">
+                      <button className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 font-medium transition-all duration-200">
+                        <MessageCircle className="w-5 h-5" />
+                        Contact
+                      </button>
+                      <button className="flex-1 flex items-center justify-center gap-3 border border-blue-300 text-blue-700 py-3 rounded-xl hover:bg-blue-50 font-medium transition-all duration-200">
+                        <Eye className="w-5 h-5" />
+                        View Profile
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Work Submission Area */}
             {(currentStatus === 'in progress' || currentStatus === 'submitted' || currentStatus === 'in review') && (
@@ -766,7 +793,7 @@ const getAvailableActions = () => {
                         onClick={() => !isDisabled && confirmAction(action)}
                         disabled={isLoadingAction || isDisabled}
                         className={`
-                          w-full flex items-center justify-center gap-3 text-white py-4 rounded-xl font-medium
+                          w-full flex items-center justify-center gap-3 text-white py-4 rounded-xl font-medium cursor-pointer
                           ${action.color}
                           ${(isLoadingAction || isDisabled) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg transform hover:-translate-y-0.5'}
                           transition-all duration-200
@@ -790,7 +817,7 @@ const getAvailableActions = () => {
                 <div className="pt-6 mt-6 border-t border-gray-200 space-y-3">
                   <button 
                     onClick={() => setShowReportModal(true)}
-                    className="w-full flex items-center justify-center gap-3 border border-red-300 text-red-600 py-3 rounded-xl hover:bg-red-50 font-medium"
+                    className="w-full flex items-center justify-center gap-3 border border-red-300 text-red-600 py-3 rounded-xl hover:bg-red-50 font-medium cursor-pointer"
                   >
                     <Flag className="w-5 h-5" />
                     Report Issue
@@ -961,21 +988,7 @@ const getAvailableActions = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Priority Level
-                  </label>
-                  <select
-                    value={reportData.priority}
-                    onChange={(e) => setReportData({...reportData, priority: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                    <option value="critical">Critical</option>
-                  </select>
-                </div>
+                
               </div>
 
               <div>
@@ -1005,14 +1018,14 @@ const getAvailableActions = () => {
                 <button
                   type="button"
                   onClick={() => setShowReportModal(false)}
-                  className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors"
+                  className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors cursor-pointer "
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isLoadingAction}
-                  className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50 cursor-pointer"
                 >
                   {isLoadingAction ? (
                     <Loader2 className="w-5 h-5 animate-spin" />

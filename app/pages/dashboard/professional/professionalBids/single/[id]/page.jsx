@@ -773,7 +773,7 @@ const BidSinglePageProfessional = () => {
                         onClick={() => !isDisabled && confirmAction(action)}
                         disabled={isLoadingAction || isDisabled}
                         className={`
-                          w-full flex items-center justify-center gap-3 text-white py-4 rounded-xl font-medium
+                          w-full flex items-center cursor-pointer justify-center gap-3 text-white py-4 rounded-xl font-medium
                           ${action.color}
                           ${(isLoadingAction || isDisabled) ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg transform hover:-translate-y-0.5'}
                           transition-all duration-200
@@ -887,14 +887,14 @@ const BidSinglePageProfessional = () => {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfirmDialog(false)}
-                className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors"
+                className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleStatusUpdate(actionToConfirm.status)}
                 disabled={isLoadingAction}
-                className={`flex-1 text-white py-3 rounded-xl font-medium ${actionToConfirm?.color} ${
+                className={`flex-1 text-white cursor-pointer py-3 rounded-xl font-medium ${actionToConfirm?.color} ${
                   isLoadingAction ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
                 } transition-all duration-200`}
               >
@@ -968,21 +968,7 @@ const BidSinglePageProfessional = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Priority Level
-                  </label>
-                  <select
-                    value={reportData.priority}
-                    onChange={(e) => setReportData({...reportData, priority: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                    <option value="critical">Critical</option>
-                  </select>
-                </div>
+                
               </div>
 
               <div>
@@ -1012,14 +998,14 @@ const BidSinglePageProfessional = () => {
                 <button
                   type="button"
                   onClick={() => setShowReportModal(false)}
-                  className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors"
+                  className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isLoadingAction}
-                  className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-3 bg-linear-to-r from-red-600 to-rose-600 text-white py-3 rounded-xl hover:from-red-700 hover:to-rose-700 font-medium transition-all duration-200 disabled:opacity-50 cursor-pointer"
                 >
                   {isLoadingAction ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
