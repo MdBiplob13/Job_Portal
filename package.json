@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+     "socket": "node socket-server.js",
+    "dev:all": "concurrently -n \"NEXT,SOCKET\" -c \"blue,green\" \"npm run dev\" \"npm run socket\""
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -14,11 +16,13 @@
     "clsx": "^2.1.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "framer-motion": "^12.23.12",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.542.0",
-    "mongoose": "^8.19.0",
+    "mongoose": "^8.21.0",
     "next": "15.5.2",
     "node-cron": "^4.2.1",
     "radix-ui": "^1.4.3",
@@ -30,12 +34,17 @@
     "react-phone-number-input": "^3.4.12",
     "react-rating": "^2.0.5",
     "react-spinners": "^0.17.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/cors": "^2.8.19",
+    "@types/socket.io": "^3.0.1",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.1",
     "daisyui": "^5.1.7",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",

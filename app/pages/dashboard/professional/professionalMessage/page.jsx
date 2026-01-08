@@ -22,7 +22,7 @@ import {
 } from "react-icons/fi";
 import { io } from "socket.io-client";
 
-export default function EmployerMessage() {
+export default function ProfessionalMessage() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");

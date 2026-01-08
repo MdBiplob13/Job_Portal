@@ -35,12 +35,12 @@ const menuItems = [
     link: "/pages/dashboard/professional/proposeJobs",
     icon: <FiBriefcase />,
   },
-  // {
-  //   id: "messages",
-  //   label: "Messages",
-  //   link: "/pages/dashboard/employer/employerMessage",
-  //   icon: <FiMessageCircle />,
-  // },
+  {
+    id: "messages",
+    label: "Messages",
+    link: "/pages/dashboard/professional/professionalMessage",
+    icon: <FiMessageCircle />,
+  },
   // {
   //   id: "transactions",
   //   label: "Transactions",
