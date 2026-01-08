@@ -99,7 +99,6 @@ export async function GET(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("GET /api/bids ERROR:", error);
     return NextResponse.json(
       { status: "fail", message: error.message },
       { status: 500 }

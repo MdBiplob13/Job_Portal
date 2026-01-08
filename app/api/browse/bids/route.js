@@ -43,7 +43,6 @@ export async function GET(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error accepting bid:", error);
     return NextResponse.json(
       {
         status: "error",
@@ -178,7 +177,6 @@ export async function PUT(req) {
       throw transactionError;
     }
   } catch (error) {
-    console.error("Error accepting bid:", error);
     return NextResponse.json(
       {
         status: "error",
@@ -195,7 +193,6 @@ export async function PATCH(req) {
     await connectMongoDb();
 
     const { proposeId } = await req.json();
-    console.log("🚀 ~ PATCH ~ proposeId:", proposeId);
 
     // validate required fields
     if (!proposeId) {
@@ -216,7 +213,6 @@ export async function PATCH(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error accepting bid:", error);
     return NextResponse.json(
       {
         status: "error",

@@ -70,7 +70,6 @@ export async function POST(req) {
       data: newProposal,
     }, { status: 201 });
   } catch (err) {
-    console.error(err);
     return NextResponse.json({
       status: "error",
       message: "Failed to create bid proposal",
@@ -164,7 +163,6 @@ export async function GET(req) {
       { status: 400 }
     );
   } catch (err) {
-    console.error(err);
     return NextResponse.json(
       {
         status: "error",
@@ -230,7 +228,6 @@ export async function PUT(req) {
       data: proposal,
     });
   } catch (err) {
-    console.error(err);
     return NextResponse.json(
       {
         status: "error",

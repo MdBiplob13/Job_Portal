@@ -30,11 +30,9 @@ const useGetUserSkills = (userId) => {
         if (data.status === "success") {
           // data.data.skills is the array per server response
           setSkills(Array.isArray(data.data?.skills) ? data.data.skills : []);
-        } else {
-          console.error("Failed to load skills:", data);
-        }
+        } 
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         if (mounted) setSkillsLoading(false);
       }

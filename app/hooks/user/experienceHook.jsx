@@ -24,7 +24,7 @@ const useGetUserExperience = (userId) => {
         if (data.status === "success") {
           setExperiences(data.data);
         } else {
-          console.error("Failed to load experiences:", data);
+          // console.error("Failed to load experiences:", data);
         }
       });
       

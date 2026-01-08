@@ -42,6 +42,7 @@ import {
   FileWarning,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const BidSinglePage = () => {
   const params = useParams();
@@ -101,7 +102,6 @@ const BidSinglePage = () => {
         alert(data.message || 'Failed to update status');
       }
     } catch (error) {
-      console.error('Error updating status:', error);
       alert('An error occurred. Please try again.');
     } finally {
       setIsLoadingAction(false);
@@ -187,11 +187,10 @@ const BidSinglePage = () => {
           priority: 'medium'
         });
       } else {
-        alert(data.message || 'Failed to submit report');
+        toast(data.message || 'Failed to submit report');
       }
     } catch (error) {
-      console.error('Error submitting report:', error);
-      alert('An error occurred. Please try again.');
+      toast('An error occurred. Please try again.');
     } finally {
       setIsLoadingAction(false);
     }

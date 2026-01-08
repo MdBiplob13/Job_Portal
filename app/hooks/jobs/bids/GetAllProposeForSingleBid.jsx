@@ -42,7 +42,6 @@ const useGetAllProposeForSingleBid = (bidId) => {
             } catch (error) {
                 // Don't set error if request was aborted
                 if (error.name !== 'AbortError') {
-                    console.error("Error fetching proposals:", error);
                     setError(error.message);
                     setAllProposals([]);
                 }

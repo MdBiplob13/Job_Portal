@@ -29,10 +29,10 @@ const useGetEmployerAllJobs = () => {
         if (data.status === "success") {
           setJobs(Array.isArray(data.data) ? data.data : []);
         } else {
-          console.error("Failed to load jobs:", data);
+          // console.error("Failed to load jobs:", data);
         }
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         if (mounted) setJobsLoading(false);
       }

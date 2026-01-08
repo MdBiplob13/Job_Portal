@@ -24,7 +24,7 @@ const useGetUserCertificates = (userId) => {
         if (data.status === "success") {
           setCertificates(data.data);
         } else {
-          console.error("Failed to load certificates:", data);
+          // console.error("Failed to load certificates:", data);
         }
       });
   }, [userId, certRefresh]);

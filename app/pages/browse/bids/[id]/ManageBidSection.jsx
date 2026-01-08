@@ -97,7 +97,6 @@ const ManageBidSection = ({
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +104,6 @@ const ManageBidSection = ({
 
   // Handle reject proposal
   const handleRejectProposal = async (proposalId) => {
-    console.log("🚀 ~ handleRejectProposal ~ proposalId:", proposalId);
     setIsLoading(true);
     try {
       const response = await fetch("/api/browse/bids", {
@@ -125,7 +123,6 @@ const ManageBidSection = ({
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
     } finally {
       setIsLoading(false);
     }

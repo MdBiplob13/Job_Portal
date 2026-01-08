@@ -33,7 +33,6 @@ const ManageJobSection = ({ job, jobId }) => {
   const isJobDeadlineOver = job?.deadline
     ? new Date() > new Date(job.deadline)
     : false;
-  console.log("🚀 ~ ManageJobSection ~ isJobDeadlineOver:", isJobDeadlineOver);
 
   // Filter and search proposals
   const filteredProposals = useMemo(() => {
@@ -104,7 +103,6 @@ const ManageJobSection = ({ job, jobId }) => {
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -138,7 +136,6 @@ const ManageJobSection = ({ job, jobId }) => {
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -378,10 +375,7 @@ const ManageJobSection = ({ job, jobId }) => {
             const rating = professional?.review?.rating || 0;
             const totalRatings = professional?.review?.totalRatings || 0;
             const proposalStatus = proposal.status || "applied";
-            console.log(
-              "🚀 ~ ManageJobSection ~ proposalStatus:",
-              proposalStatus
-            );
+            
 
             return (
               <div

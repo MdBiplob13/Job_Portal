@@ -44,9 +44,7 @@ const EmployerSkillTab = ({}) => {
       setShowSkillForm(false);
       setSkillsRefresh(!skillsRefresh);
       e.target.reset();
-    } else {
-      console.error("Add skill failed:", data);
-    }
+    } 
   };
 
   // ------------------------------------------------------
@@ -65,9 +63,7 @@ const EmployerSkillTab = ({}) => {
     const data = await res.json();
     if (data.status === "success") {
       setSkillsRefresh(!skillsRefresh);
-    } else {
-      console.error("Delete skill failed:", data);
-    }
+    } 
   };
 
   return (

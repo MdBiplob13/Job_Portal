@@ -127,7 +127,6 @@ const useGetAllJobs = (filters = {}, initialPage = 1, initialPageSize = 5) => {
         setPageSize(Number(meta.pageSize || pageSize));
       } catch (err) {
         if (err.name === "AbortError") return;
-        console.error(err);
         if (mounted) {
           setError(err.message || "Failed to load jobs");
         }

@@ -28,10 +28,10 @@ const useGetAllProposeForSingleJob = (jobId) => {
         if (data.status === "success") {
           setAllProposals(Array.isArray(data.data) ? data.data : []);
         } else {
-          console.error("Failed to load proposals:", data);
+          // console.error("Failed to load proposals:", data);
         }
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         if (mounted) setLoading(false);
       }

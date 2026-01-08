@@ -208,9 +208,7 @@ export default function EmployerPost() {
           // Clear form after successful submission
           handleClear(e);
           router.push("/pages/dashboard/employer/employerJobs");
-        } else {
-          console.error("Job post failed:", data);
-        }
+        } 
       })
       .finally(() => setSubmitting(false));
   };

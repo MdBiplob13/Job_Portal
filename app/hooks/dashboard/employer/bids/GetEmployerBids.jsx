@@ -29,10 +29,10 @@ const useGetEmployerBids = (email) => {
         if (data.status === "success") {
           setEmployerBids(data.data || []);
         } else {
-          console.error("Failed to load employer bids:", data);
+          // console.error("Failed to load employer bids:", data);
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       } finally {
         if (mounted) setEmployerBidsLoading(false);
       }

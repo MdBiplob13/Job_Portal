@@ -20,10 +20,10 @@ const useGetAllBids = () => {
         if (data.status === "success") {
           setAllBids(data.data || []);
         } else {
-          console.error("Failed to load bids:", data);
+          // console.error("Failed to load bids:", data);
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       } finally {
         if (mounted) setAllBidsLoading(false);
       }

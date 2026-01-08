@@ -132,7 +132,6 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (error) {
-    console.error(" JOB POST ERROR:", error);
 
     return NextResponse.json(
       {

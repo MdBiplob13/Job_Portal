@@ -93,7 +93,6 @@ export async function POST(req) {
       { status: 201 }
     );
   } catch (err) {
-    console.error("Proposal submission error:", err);
     return NextResponse.json(
       {
         status: "error",

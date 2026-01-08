@@ -26,10 +26,10 @@ const useGetSingleJobWithId = (_id) => {
         if (data.status === "success") {
           setJob(data.data || null);
         } else {
-          console.error("Failed to load job:", data);
+          // console.error("Failed to load job:", data);
         }
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         if (mounted) setJobLoading(false);
       }

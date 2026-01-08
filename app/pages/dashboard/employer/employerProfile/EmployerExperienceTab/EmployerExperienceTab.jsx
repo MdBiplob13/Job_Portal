@@ -103,7 +103,7 @@ const EmployerExperienceTab = () => {
           );
           setExperiences(newExperiences);
         } else {
-          console.error("Delete experience failed:", data);
+          // console.error("Delete experience failed:", data);
         }
       });
   };
@@ -121,7 +121,7 @@ const EmployerExperienceTab = () => {
           );
           setCertificates(newCertificates);
         } else {
-          console.error("Delete experience failed:", data);
+          // console.error("Delete experience failed:", data);
         }
       });
   };

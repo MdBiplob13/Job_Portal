@@ -20,7 +20,6 @@ export async function GET(req) {
     );
     
   } catch (error) {
-    console.error("GET EMPLOYER JOBS ERROR:", error);
     return NextResponse.json(
       {
         status: "error",

@@ -31,7 +31,6 @@ const useGetAllProposedBidsForProfessional = (professionalId) => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching proposed bids:", error);
         setProposedBidsError(
           error.message || "An error occurred while fetching proposed bids"
         );

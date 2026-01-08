@@ -186,7 +186,6 @@ export async function PUT(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating job proposal:", error);
     
     return NextResponse.json(
       {

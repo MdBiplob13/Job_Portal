@@ -29,10 +29,10 @@ const useGetSingleBid = (bidId) => {
         if (data.status === "success") {
           setSingleBid(data.data || null);
         } else {
-          console.error("Failed to load single bid:", data);
+          // console.error("Failed to load single bid:", data);
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       } finally {
         if (mounted) setSingleBidLoading(false);
       }

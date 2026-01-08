@@ -60,7 +60,6 @@ const SingleProposePage = () => {
   const totalRatings = user?.review?.totalRatings || 0;
 
   const deadline = job?.deadline;
-  console.log("🚀 ~ SingleProposePage ~ deadline:", deadline);
   const timeLeft = (deadline) => {
     const ms = new Date(deadline).getTime() - Date.now();
     if (ms <= 0) return "Closed";

@@ -27,7 +27,6 @@ const useGetSingleBidPropose = (proposeId) => {
       }
       
       const data = await res.json();
-      console.log("🚀 ~ useGetSingleBidPropose ~ data:", data)
       
       if (data.status === "success") {
         setSingleBidPropose(data.data || null);
@@ -36,7 +35,6 @@ const useGetSingleBidPropose = (proposeId) => {
         setSingleBidPropose(null);
       }
     } catch (err) {
-      console.error("Error fetching bid proposal:", err);
       setError(err.message || "Failed to fetch proposal");
       setSingleBidPropose(null);
     } finally {

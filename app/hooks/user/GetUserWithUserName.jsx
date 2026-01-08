@@ -28,10 +28,10 @@ const useGetUserWithUserName = (username) => {
         if (data.status === "success") {
           setSingleUser(data.data || null);
         } else {
-          console.error("Failed to load user:", data);
+          // console.error("Failed to load user:", data);
         }
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         if (mounted) setSingleUserLoading(false);
       }

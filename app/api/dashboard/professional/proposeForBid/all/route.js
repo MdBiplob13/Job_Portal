@@ -26,7 +26,6 @@ export async function GET(req) {
     
     // Fetch proposed bids for the professional
     const proposedBids = await ProposeBid.find({professionalId: new mongoose.Types.ObjectId(professionalId)}).populate('bidId').populate('professionalId').populate('employerId');
-    console.log("🚀 ~ GET ~ proposedBids:", proposedBids)
 
     return NextResponse.json(
       {
@@ -38,7 +37,6 @@ export async function GET(req) {
     );
 
   } catch (err) {
-    console.error("Error fetching proposed bids:", err);
     return NextResponse.json(
       {
         status: "error",
