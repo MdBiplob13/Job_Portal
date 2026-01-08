@@ -40,6 +40,11 @@ import {
   Send,
   X,
   FileWarning,
+  StarIcon,
+  Smile,
+  Frown,
+  Meh,
+  Heart,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -56,19 +61,49 @@ const BidSinglePageProfessional = () => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [actionToConfirm, setActionToConfirm] = useState(null);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
   const [reportData, setReportData] = useState({
     title: '',
     description: '',
     issueType: 'technical',
     priority: 'medium'
   });
+  
+  const [ratingData, setRatingData] = useState({
+    rating: 0,
+    communication: 5,
+    quality: 5,
+    deadline: 5,
+    professionalism: 5,
+    review: '',
+    wouldRecommend: true,
+  });
+  
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
 
   // Update status when singleBid changes
   useEffect(() => {
     if (singleBid?.status) {
       setCurrentStatus(singleBid.status);
+      // Check if user has already submitted rating (you might want to fetch this from API)
+      if (singleBid.status === 'completed') {
+        checkRatingStatus();
+      }
     }
   }, [singleBid]);
+
+  // Check if rating has been submitted
+  const checkRatingStatus = async () => {
+    try {
+      // You can implement this API call to check if user has already rated
+      // const response = await fetch(`/api/bids/${bidId}/rating/check`);
+      // const data = await response.json();
+      // setHasSubmittedRating(data.hasRated);
+    } catch (error) {
+      console.error("Error checking rating status:", error);
+    }
+  };
 
   // Professional status flow - Updated with all statuses
   const statusFlow = [
@@ -132,88 +167,89 @@ const BidSinglePageProfessional = () => {
     setShowConfirmDialog(true);
   };
 
- // For Employer Single Bid Page - Different getAvailableActions function
-const getAvailableActions = () => {
-  const actions = [];
-  
-  switch(currentStatus) {
-    case 'accepted':
-      // Employer can cancel before work starts
-      actions.push({ 
-        label: 'Cancel Project', 
-        status: 'cancelled', 
-        color: 'bg-gray-600 hover:bg-gray-700', 
-        icon: XCircle 
-      });
-      break;
-      
-    case 'submitted':
-      // Employer reviews submitted work
-      actions.push({ 
-        label: 'Accept Work', 
-        status: 'waiting for payment', 
-        color: 'bg-green-600 hover:bg-green-700', 
-        icon: CheckCircle 
-      });
-      actions.push({ 
-        label: 'Request Changes', 
-        status: 'in review', 
-        color: 'bg-yellow-600 hover:bg-yellow-700', 
-        icon: Edit 
-      });
-      actions.push({ 
-        label: 'Reject Work', 
-        status: 'cancelled', 
-        color: 'bg-red-600 hover:bg-red-700', 
-        icon: XCircle 
-      });
-      break;
-      
-    case 'waiting for payment':
-      // Employer sends payment
-      actions.push({ 
-        label: 'Send Payment', 
-        status: 'payment send', 
-        color: 'bg-teal-600 hover:bg-teal-700', 
-        icon: DollarSign 
-      });
-      break;
-      
-    case 'payment received':
-      // Employer marks as completed
-      actions.push({ 
-        label: 'Mark as Completed', 
-        status: 'completed', 
-        color: 'bg-indigo-600 hover:bg-indigo-700', 
-        icon: Award 
-      });
-      break;
-      
-    case 'in review':
-      // Employer can accept resubmitted work
-      actions.push({ 
-        label: 'Accept Changes', 
-        status: 'waiting for payment', 
-        color: 'bg-green-600 hover:bg-green-700', 
-        icon: CheckCircle 
-      });
-      break;
-      
-    default:
-      // For any other status, show cancel option
-      if (currentStatus !== 'cancelled' && currentStatus !== 'completed') {
+  // For Employer Single Bid Page - Different getAvailableActions function
+  const getAvailableActions = () => {
+    const actions = [];
+    
+    switch(currentStatus) {
+      case 'accepted':
+        // Employer can cancel before work starts
         actions.push({ 
           label: 'Cancel Project', 
           status: 'cancelled', 
           color: 'bg-gray-600 hover:bg-gray-700', 
           icon: XCircle 
         });
-      }
-      break;
-  }
-  
-  return actions;
-};
+        break;
+        
+      case 'submitted':
+        // Employer reviews submitted work
+        actions.push({ 
+          label: 'Accept Work', 
+          status: 'waiting for payment', 
+          color: 'bg-green-600 hover:bg-green-700', 
+          icon: CheckCircle 
+        });
+        actions.push({ 
+          label: 'Request Changes', 
+          status: 'in review', 
+          color: 'bg-yellow-600 hover:bg-yellow-700', 
+          icon: Edit 
+        });
+        actions.push({ 
+          label: 'Reject Work', 
+          status: 'cancelled', 
+          color: 'bg-red-600 hover:bg-red-700', 
+          icon: XCircle 
+        });
+        break;
+        
+      case 'waiting for payment':
+        // Employer sends payment
+        actions.push({ 
+          label: 'Send Payment', 
+          status: 'payment send', 
+          color: 'bg-teal-600 hover:bg-teal-700', 
+          icon: DollarSign 
+        });
+        break;
+        
+      case 'payment received':
+        // Employer marks as completed
+        actions.push({ 
+          label: 'Mark as Completed', 
+          status: 'completed', 
+          color: 'bg-indigo-600 hover:bg-indigo-700', 
+          icon: Award 
+        });
+        break;
+        
+      case 'in review':
+        // Employer can accept resubmitted work
+        actions.push({ 
+          label: 'Accept Changes', 
+          status: 'waiting for payment', 
+          color: 'bg-green-600 hover:bg-green-700', 
+          icon: CheckCircle 
+        });
+        break;
+        
+      default:
+        // For any other status, show cancel option
+        if (currentStatus !== 'cancelled' && currentStatus !== 'completed') {
+          actions.push({ 
+            label: 'Cancel Project', 
+            status: 'cancelled', 
+            color: 'bg-gray-600 hover:bg-gray-700', 
+            icon: XCircle 
+          });
+        }
+        break;
+    }
+    
+    return actions;
+  };
+
   // Handle report submission
   const handleReportSubmit = async (e) => {
     e.preventDefault();
@@ -250,6 +286,60 @@ const getAvailableActions = () => {
     }
   };
 
+  // Handle rating submission
+  const handleRatingSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoadingAction(true);
+    
+    try {
+      // Prepare rating data
+      const ratingPayload = {
+        bidId,
+        rating: ratingData.rating,
+        communication: ratingData.communication,
+        quality: ratingData.quality,
+        deadline: ratingData.deadline,
+        professionalism: ratingData.professionalism,
+        review: ratingData.review,
+        wouldRecommend: ratingData.wouldRecommend,
+        ratedBy: isEmployer ? 'employer' : 'professional',
+        ratedTo: isEmployer ? singleBid?.bidder?._id : singleBid?.employerId,
+      };
+
+      console.log("📋 Submitting rating:", ratingPayload);
+
+      const response = await fetch(`/api/bids/${bidId}/rating`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ratingPayload),
+      });
+
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        toast.success('Thank you for your rating!');
+        setShowRatingModal(false);
+        setHasSubmittedRating(true);
+        setRatingData({
+          rating: 0,
+          communication: 5,
+          quality: 5,
+          deadline: 5,
+          professionalism: 5,
+          review: '',
+          wouldRecommend: true,
+        });
+      } else {
+        toast.error(data.message || 'Failed to submit rating');
+      }
+    } catch (error) {
+      console.error("Error submitting rating:", error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setIsLoadingAction(false);
+    }
+  };
+
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -270,6 +360,32 @@ const getAvailableActions = () => {
   const isButtonDisabled = () => {
     const disabledStatuses = ['accepted', 'in progress', 'payment send', "completed"];
     return disabledStatuses.includes(currentStatus);
+  };
+
+  // Rating stars component
+  const renderStars = (value, onChange, hoverValue, setHoverValue, size = "w-8 h-8") => {
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            onClick={() => onChange(star)}
+            onMouseEnter={() => setHoverValue && setHoverValue(star)}
+            onMouseLeave={() => setHoverValue && setHoverValue(0)}
+            className="focus:outline-none"
+          >
+            <StarIcon
+              className={`${size} ${
+                star <= (hoverValue || value)
+                  ? 'text-yellow-500 fill-yellow-500'
+                  : 'text-gray-300'
+              } transition-colors duration-200`}
+            />
+          </button>
+        ))}
+      </div>
+    );
   };
 
   // Loading state
@@ -815,6 +931,18 @@ const getAvailableActions = () => {
                 
                 {/* Additional Actions */}
                 <div className="pt-6 mt-6 border-t border-gray-200 space-y-3">
+                  {/* Rating Button - Only show when completed and not rated yet */}
+                  {currentStatus === 'completed' && !hasSubmittedRating && (
+                    <button 
+                      onClick={() => setShowRatingModal(true)}
+                      className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-yellow-500 to-amber-500 text-white py-3 rounded-xl hover:from-yellow-600 hover:to-amber-600 font-medium transition-all duration-200 cursor-pointer"
+                    >
+                      <Star className="w-5 h-5" />
+                      Give Rating
+                    </button>
+                  )}
+                  
+                  {/* Report Issue Button */}
                   <button 
                     onClick={() => setShowReportModal(true)}
                     className="w-full flex items-center justify-center gap-3 border border-red-300 text-red-600 py-3 rounded-xl hover:bg-red-50 font-medium cursor-pointer"
@@ -1041,6 +1169,108 @@ const getAvailableActions = () => {
           </div>
         </div>
       )}
+
+      {/* Simplified Rating Modal */}
+{showRatingModal && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
+            <Star className="w-5 h-5 text-yellow-600" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">Rate Your Experience</h3>
+            <p className="text-gray-600">How was working with {singleBid.companyName}?</p>
+          </div>
+        </div>
+        <button
+          onClick={() => setShowRatingModal(false)}
+          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      <form onSubmit={handleRatingSubmit} className="space-y-6">
+        {/* Simple Star Rating */}
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => setRatingData({...ratingData, rating: star})}
+                className="p-1 focus:outline-none"
+              >
+                <Star
+                  className={`w-10 h-10 ${
+                    star <= ratingData.rating
+                      ? 'text-yellow-500 fill-yellow-500'
+                      : 'text-gray-300'
+                  } transition-colors duration-200`}
+                />
+              </button>
+            ))}
+          </div>
+          <p className="text-gray-600 font-medium">
+            {ratingData.rating === 0 && "Tap a star to rate"}
+            {ratingData.rating === 1 && "Poor"}
+            {ratingData.rating === 2 && "Fair"}
+            {ratingData.rating === 3 && "Good"}
+            {ratingData.rating === 4 && "Very Good"}
+            {ratingData.rating === 5 && "Excellent"}
+          </p>
+        </div>
+
+        {/* Simple Text Review */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Your Review (Optional)
+          </label>
+          <textarea
+            value={ratingData.review}
+            onChange={(e) => setRatingData({...ratingData, review: e.target.value})}
+            rows="3"
+            className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            placeholder="Share your experience..."
+            maxLength={200}
+          />
+          <p className="text-xs text-gray-500 mt-1">{ratingData.review.length}/200 characters</p>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex gap-3 pt-2">
+          <button
+            type="button"
+            onClick={() => setShowRatingModal(false)}
+            className="flex-1 cursor-pointer border border-gray-300 text-gray-700 py-3 rounded-xl hover:bg-gray-50 font-medium transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isLoadingAction || ratingData.rating === 0}
+            className={`flex-1 flex cursor-pointer items-center justify-center gap-2 py-3 rounded-xl font-medium transition-all duration-200 ${
+              ratingData.rating === 0
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-yellow-500 text-white hover:bg-yellow-600'
+            }`}
+          >
+            {isLoadingAction ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <Star className="w-5 h-5" />
+                Submit Rating
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };
