@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useGetUserWithId = (id) => {
+  console.log("🚀 ~ useGetUserWithId ~ id:", id)
   const [singleUser, setSingleUser] = useState(null);
   const [singleUserLoading, setSingleUserLoading] = useState(false);
   const [singleUserRefresh, setSingleUserRefresh] = useState(1);
@@ -23,15 +24,16 @@ const useGetUserWithId = (id) => {
           body: JSON.stringify({ id, method: "id" }),
         });
         const data = await res.json();
+        console.log("🚀 ~ fetchUser ~ data:", data)
         if (!mounted) return;
 
         if (data.status === "success") {
           setSingleUser(data.data || null);
         } else {
-          // console.error("Failed to load user:", data);
+          console.error("Failed to load user:", data);
         }
       } catch (err) {
-        // console.error(err);
+        console.error(err);
       } finally {
         if (mounted) setSingleUserLoading(false);
       }

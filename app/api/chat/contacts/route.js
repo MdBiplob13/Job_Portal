@@ -2,190 +2,120 @@ import { NextResponse } from 'next/server';
 import connectMongoDb from '@/lib/mongoose';
 import User from '@/app/models/userModel';
 import Message from '@/app/models/messageModel';
-import jwt from 'jsonwebtoken';
-
-// Helper function to verify token
-const verifyToken = (token) => {
-  try {
-    return jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-  } catch (error) {
-    return null;
-  }
-};
-
-// Helper function to get user from token
-const getUserFromRequest = async (req) => {
-  try {
-    // Try to get token from Authorization header
-    const authHeader = req.headers.get('authorization');
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.substring(7);
-      const decoded = verifyToken(token);
-      if (decoded) {
-        await connectMongoDb();
-        const user = await User.findById(decoded.userId || decoded._id).select('-password');
-        return user;
-      }
-    }
-    
-    // Try to get token from cookies
-    const cookieHeader = req.headers.get('cookie');
-    if (cookieHeader) {
-      const cookies = Object.fromEntries(
-        cookieHeader.split('; ').map(c => c.split('='))
-      );
-      if (cookies.token) {
-        const decoded = verifyToken(cookies.token);
-        if (decoded) {
-          await connectMongoDb();
-          const user = await User.findById(decoded.userId || decoded._id).select('-password');
-          return user;
-        }
-      }
-    }
-    
-    return null;
-  } catch (error) {
-    console.error('Error getting user from request:', error);
-    return null;
-  }
-};
 
 export async function GET(req) {
   try {
-    // Get authenticated user
-    const currentUser = await getUserFromRequest(req);
+    // Get user ID from query parameters
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get('userId');
     
-    if (!currentUser) {
+    if (!userId) {
       return NextResponse.json(
-        { status: 'fail', message: 'Authentication required' },
-        { status: 401 }
+        { 
+          status: 'fail', 
+          message: 'User ID is required' 
+        },
+        { status: 400 }
       );
     }
 
+    console.log(`📥 Fetching contacts for user: ${userId}`);
+
     await connectMongoDb();
 
-    // Find all unique users that the current user has chatted with
+    // Verify user exists
+    const currentUser = await User.findById(userId).select('-password');
+    if (!currentUser) {
+      return NextResponse.json(
+        { 
+          status: 'fail', 
+          message: 'User not found' 
+        },
+        { status: 404 }
+      );
+    }
+
+    // Find all messages where user is sender or receiver
     const messages = await Message.find({
       $or: [
-        { senderId: currentUser._id.toString() },
-        { receiverId: currentUser._id.toString() }
+        { senderId: userId },
+        { receiverId: userId }
       ]
     })
       .sort({ timestamp: -1 })
       .lean();
 
-    // Extract unique contact IDs
+    console.log(`📨 Found ${messages.length} messages for user`);
+
+    // Get unique contacts from messages
     const contactIds = new Set();
     const contactsData = [];
     
     messages.forEach(msg => {
-      const contactId = msg.senderId === currentUser._id.toString() 
-        ? msg.receiverId 
-        : msg.senderId;
+      // Determine contact ID (the other person in the conversation)
+      const contactId = msg.senderId === userId ? msg.receiverId : msg.senderId;
       
-      if (contactId && !contactIds.has(contactId)) {
+      // Skip if contact is the same as user or already processed
+      if (contactId && contactId !== userId && !contactIds.has(contactId)) {
         contactIds.add(contactId);
         contactsData.push({
           contactId,
-          lastMessage: msg.message,
-          lastMessageTime: msg.timestamp,
-          senderId: msg.senderId,
-          unread: msg.receiverId === currentUser._id.toString() && !msg.read ? 1 : 0,
-          senderName: msg.senderName,
-          receiverName: msg.receiverName
+          lastMessage: msg.message || msg.text || '',
+          lastMessageTime: msg.timestamp || new Date(),
+          isSender: msg.senderId === userId,
+          isRead: msg.read || false
         });
       }
     });
 
-    // If no contacts from messages, return empty array
+    console.log(`👥 Found ${contactIds.size} unique contacts`);
+
+    // If no contacts found, return empty array
     if (contactIds.size === 0) {
       return NextResponse.json(
         {
           status: 'success',
           data: [],
-          message: 'No contacts found',
+          message: 'No conversations yet',
           count: 0
         },
         { status: 200 }
       );
     }
 
-    // Get detailed user info for each contact
-    const contactDetails = await User.find({
+    // Get user details for each contact
+    const contactUsers = await User.find({
       _id: { $in: Array.from(contactIds) }
     })
-      .select('_id name userName email photo headline currentPosition review role job bio')
+      .select('_id name userName email photo headline currentPosition role job bio lastActive')
       .lean();
 
-    // Merge contact data with user details
-    const contacts = contactDetails.map(user => {
+    // Format contacts with message data
+    const contacts = contactUsers.map(user => {
       const contactData = contactsData.find(c => c.contactId === user._id.toString());
-      const contactName = contactData 
-        ? (user._id.toString() === contactData.senderId ? contactData.senderName : contactData.receiverName)
-        : user.name || user.userName;
       
       return {
         _id: user._id,
-        id: user._id,
-        name: contactName,
+        id: user._id.toString(),
+        name: user.name || user.userName || 'User',
         userName: user.userName,
         email: user.email,
         avatar: user.photo || null,
-        headline: user.headline,
-        currentPosition: user.currentPosition,
-        job: user.job || user.headline || user.currentPosition,
-        bio: user.bio,
-        review: user.review || { rating: 0, totalRatings: 0 },
-        role: user.role,
+        job: user.headline || user.currentPosition || user.job || 'No job specified',
+        bio: user.bio || '',
+        role: user.role || 'user',
         lastMessage: contactData?.lastMessage || '',
         lastMessageTime: contactData?.lastMessageTime || new Date(),
-        unreadMessages: contactData?.unread || 0,
-        // Add project value based on role
-        projectValue: user.role === 'employer' ? '$5,000+' : '$2,000+'
+        unread: contactData?.isSender === false && !contactData?.isRead ? 1 : 0,
+        projectValue: user.role === 'employer' ? '$5,000+' : '$2,000+',
+        lastSeen: user.lastActive ? formatLastSeen(user.lastActive) : 'Recently'
       };
     });
 
     // Sort by last message time (newest first)
     contacts.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
 
-    // For demo: Add some sample contacts if none exist
-    if (contacts.length === 0) {
-      const sampleUsers = await User.find({
-        _id: { $ne: currentUser._id },
-        role: { $in: ['employer', 'provider'] }
-      })
-        .limit(5)
-        .select('_id name userName photo headline currentPosition review role')
-        .lean();
-      
-      const sampleContacts = sampleUsers.map(user => ({
-        _id: user._id,
-        id: user._id,
-        name: user.name || user.userName,
-        userName: user.userName,
-        avatar: user.photo,
-        headline: user.headline,
-        currentPosition: user.currentPosition,
-        job: user.headline || user.currentPosition,
-        review: user.review || { rating: 0 },
-        role: user.role,
-        lastMessage: '',
-        lastMessageTime: new Date(),
-        unreadMessages: 0,
-        projectValue: user.role === 'employer' ? '$5,000+' : '$2,000+'
-      }));
-      
-      return NextResponse.json(
-        {
-          status: 'success',
-          data: sampleContacts,
-          message: 'Suggested contacts',
-          count: sampleContacts.length
-        },
-        { status: 200 }
-      );
-    }
+    console.log(`✅ Sending ${contacts.length} contacts to frontend`);
 
     return NextResponse.json(
       {
@@ -198,14 +128,26 @@ export async function GET(req) {
     );
 
   } catch (error) {
-    console.error('Error fetching contacts:', error);
+    console.error('❌ Error in contacts API:', error);
     return NextResponse.json(
       { 
         status: 'error', 
-        message: error.message,
-        code: error.code
+        message: 'Internal server error',
+        error: error.message
       },
       { status: 500 }
     );
   }
+}
+
+// Helper function to format last seen time
+function formatLastSeen(lastActive) {
+  const lastSeen = new Date(lastActive);
+  const now = new Date();
+  const diffHours = Math.floor((now - lastSeen) / (1000 * 60 * 60));
+  
+  if (diffHours < 1) return 'Just now';
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffHours < 168) return `${Math.floor(diffHours / 24)}d ago`;
+  return 'Long time ago';
 }

@@ -219,10 +219,11 @@ export default function ProfessionalBids() {
           </Link>
         );
       case "accepted":
+              console.log("🚀 ~ getActionButtons ~ proposal:", proposal)
         return (
           <div className="flex gap-2">
             <Link
-              href={`/pages/dashboard/professional/chat/${proposal.bidId?._id}`}
+              href={`/pages/dashboard/professional/professionalMessage/${proposal.employerId?._id}`}
               className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
             >
               <FiMessageCircle className="text-sm" />
