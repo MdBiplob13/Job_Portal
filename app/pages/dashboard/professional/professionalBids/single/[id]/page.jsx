@@ -797,7 +797,7 @@ const BidSinglePageProfessional = () => {
                 <div className="pt-6 mt-6 border-t border-gray-200 space-y-3">
                   <button 
                     onClick={() => setShowReportModal(true)}
-                    className="w-full flex items-center justify-center gap-3 border border-red-300 text-red-600 py-3 rounded-xl hover:bg-red-50 font-medium"
+                    className="w-full flex items-center justify-center gap-3 border border-red-300 text-red-600 py-3 rounded-xl hover:bg-red-50 font-medium cursor-pointer"
                   >
                     <Flag className="w-5 h-5" />
                     Report Issue
