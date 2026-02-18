@@ -66,7 +66,6 @@ const BidSinglePageProfessional = () => {
     title: '',
     description: '',
     issueType: 'technical',
-    priority: 'medium'
   });
   
   const [ratingData, setRatingData] = useState({
@@ -254,19 +253,18 @@ const BidSinglePageProfessional = () => {
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     setIsLoadingAction(true);
-    try {
-      const response = await fetch(`/api/bids/${bidId}/report`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...reportData,
-          bidId,
-          reportedBy: 'professional'
-        })
-      });
-
-      const data = await response.json();
-      
+    
+    fetch('/api/dashboard/employer/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        bidId,
+        reportedBy: 'employer',
+        reportData
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
       if (data.status === 'success') {
         toast.success('Report submitted successfully! Our team will review it shortly.');
         setShowReportModal(false);
@@ -274,16 +272,17 @@ const BidSinglePageProfessional = () => {
           title: '',
           description: '',
           issueType: 'technical',
-          priority: 'medium'
         });
       } else {
         toast.error(data.message || 'Failed to submit report');
       }
-    } catch (error) {
+    })
+    .catch(error => {
       toast.error('An error occurred. Please try again.');
-    } finally {
+    })
+    .finally(() => {
       setIsLoadingAction(false);
-    }
+    });
   };
 
   // Handle rating submission

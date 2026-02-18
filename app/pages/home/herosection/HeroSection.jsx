@@ -4,75 +4,71 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="w-full bg-linear-to-br from-[#53CBFB] via-[#CFCFCF] to-[#0443F2]/20 -mt-[62px]">
-      <div className=" mx-auto px-4 sm:px-6 lg:px-12 flex flex-col md:flex-row items-center min-h-[600px] gap-8 md:gap-12">
-        {/* Left Side Content */}
-        <div className="w-full md:w-3/4 space-y-6 text-center md:text-left mt-20">
-          <span className="inline-block px-4 py-2 text-sm font-semibold text-white bg-[#0443F2] rounded-full">
-            The Caribbean's first AI job seeker tool
-          </span>
+    <section className="relative w-full h-[720px] -mt-[62px] overflow-hidden">
+      {/* Background Image */}
+      <img
+        src="/home_banner.png"
+        alt="Home Banner"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-          <h1 className="text-4xl sm:text-5xl md:text-8xl font-extrabold text-[#040404] leading-tight">
-            Post. Bid. Win.
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-[#0B2C4A]/75"></div>
+
+      {/* Content */}
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center">
+        <div className="max-w-3xl text-white space-y-6">
+          {/* Heading */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+            Post Job.
+            <br />
+            Win Bid & Earn.
           </h1>
 
-          <p className="text-xl sm:text-2xl text-[#040404] max-w-xl mx-auto md:mx-0 font-medium">
-            One platform, endless opportunities
+          {/* Description */}
+          <p className="text-lg sm:text-xl text-white/90">
+            We value your time and Bidpole proves it.
+            <br />
+            Come to Bidpole and your search for best professional.
+            <br />
+            If you are professional come to Bidpole and start earning.
           </p>
 
-          {/* Call to Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-16">
-            {[
-              ["Browse Opportunities", "/pages/searchAJob"],
-              ["Post Bid", "/pages/postAJob"],
-            ].map(([text, href], idx) => (
-              <Link
-                key={idx}
-                href={href}
-                className="relative overflow-hidden px-8 py-4 border-2 border-[#53CBFB] text-[#0443F2] font-bold rounded-xl transition-all duration-500 group w-full sm:w-auto hover:scale-105"
-              >
-                <span className="absolute top-0 left-0 w-0 h-full bg-[#53CBFB] transition-all duration-500 ease-out group-hover:w-full"></span>
-                <span className="relative z-10 transition-colors duration-500 ease-out group-hover:text-white text-lg">
-                  {text}
-                </span>
-              </Link>
-            ))}
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <Link
+              href="/pages/searchAJob"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#0B2C4A] font-semibold rounded-full hover:bg-[#53CBFB] hover:text-white transition cursor-pointer"
+            >
+              🔍 Looking for Professional
+            </Link>
+
+            <Link
+              href="/pages/postAJob"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#0B2C4A] font-semibold rounded-full hover:bg-[#53CBFB] hover:text-white transition cursor-pointer"
+            >
+              💼 Earn as a Professional
+            </Link>
           </div>
 
-          {/* Search Bar */}
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center md:justify-start bg-transparent p-6 rounded-2xl">
+          {/* Search Section */}
+          <div className="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-3 shadow-xl max-w-3xl border border-white/20">
             <input
               type="text"
               placeholder="Search job or professional"
-              className="w-full sm:w-[280px] px-4 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53CBFB] focus:border-transparent transition bg-white text-lg"
+              className="flex-1 px-4 py-3 rounded-xl bg-transparent border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[#53CBFB]"
             />
-            <select className="w-full sm:w-[180px] px-4 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53CBFB] focus:border-transparent transition bg-white text-lg">
-              <option>Location</option>
-              <option>Yaoundé</option>
-              <option>Douala</option>
-              <option>Bamenda</option>
+
+            <select className="w-full sm:w-[180px] px-4 py-3 rounded-xl bg-transparent border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-[#53CBFB]">
+              <option className="text-black">Location</option>
+              <option className="text-black">Yaoundé</option>
+              <option className="text-black">Douala</option>
+              <option className="text-black">Bamenda</option>
             </select>
-            <button className="w-full sm:w-auto px-8 py-4 bg-[#53CBFB] text-white rounded-xl font-bold hover:bg-[#0443F2] transition-all duration-300 text-lg hover:scale-105">
+
+            <button className="px-6 py-3 bg-[#53CBFB] text-white font-semibold rounded-xl hover:bg-[#0B2C4A] transition cursor-pointer">
               Search
             </button>
-          </div>
-        </div>
-
-        {/* Right Side Image - Even more prominent */}
-        <div className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-end items-end">
-          <div className="relative w-full h-full">
-            {/* Background effects */}
-            <div className="absolute -inset-12 bg-linear-to-bl from-[#53CBFB]/25 via-[#0443F2]/15 to-transparent rounded-full blur-3xl"></div>
-
-            {/* Main image - full viewport height */}
-            <img
-              src="/office_2.png"
-              alt="Office"
-              className="relative w-full h-[550px] md:h-[700px] lg:h-[800px] object-cover object-left-bottom drop-shadow-3xl rounded-l-3xl transform hover:scale-105 transition-transform duration-700"
-            />
-
-            {/* Gradient overlay for better blending */}
-            <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#53CBFB]/10 rounded-l-3xl"></div>
           </div>
         </div>
       </div>

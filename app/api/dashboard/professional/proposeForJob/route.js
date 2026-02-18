@@ -27,16 +27,7 @@ export async function POST(req) {
       );
     }
 
-    // Check if job is still open for applications
-    if (job.status !== "open" && job.status !== "pending") {
-      return NextResponse.json(
-        {
-          status: "error",
-          message: `This job is ${job.status}. Applications are closed.`,
-        },
-        { status: 400 }
-      );
-    }
+   
 
     // Check if job has reached application limit
     if (job.applicationLimit && job.applicationCount >= job.applicationLimit) {

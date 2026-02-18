@@ -13,6 +13,7 @@ import {
   FiUser,
   FiLogOut,
   FiStar,
+  FiFlag,
 } from "react-icons/fi";
 import { Coins, Gem, Wallet, DollarSign } from "lucide-react";
 import { TbHammer } from "react-icons/tb";
@@ -33,7 +34,7 @@ const menuItems = [
   },
   {
     id: "bids",
-    label: "My Bids",
+    label: "Posted Bids",
     link: "/pages/dashboard/admin/adminBids",
     icon: <TbHammer />,
   },
@@ -77,8 +78,14 @@ const menuItems = [
   // {
   //   id: "Reviews",
   //   label: "Reviews",
-  //   link: "/pages/dashboard/employer/employerReview",
+  //   link: "/pages/dashboard/admin/adminReviews",
   //   icon: <FiStar />,
+  // },
+  // {
+  //   id: "Reports",
+  //   label: "Reports",
+  //   link: "/pages/dashboard/admin/adminReports",
+  //   icon: <FiFlag />,
   // },
   {
     id: "profile",
