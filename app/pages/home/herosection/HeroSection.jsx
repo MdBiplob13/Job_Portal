@@ -43,12 +43,7 @@ export default function Hero() {
               🔍 Looking for Professional
             </Link>
 
-            <Link
-              href="/pages/postAJob"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#0B2C4A] font-semibold rounded-full hover:bg-[#53CBFB] hover:text-white transition cursor-pointer"
-            >
-              💼 Earn as a Professional
-            </Link>
+            
           </div>
 
           {/* Search Section */}
