@@ -86,20 +86,20 @@ const SignUpPage = () => {
         <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
           <form
             onSubmit={handleSubmit}
-            className="bg-black/30 backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16"
+            className="bg-blue-400 backdrop-blur-sm p-8 rounded-2xl shadow-2xl w-full max-w-lg border border-white/30 mr-4 sm:mr-8 lg:mr-16"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white drop-shadow-lg">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white drop-shadow-md">
               Sign Up with BidPole
             </h2>
 
             {/* Buttons Container */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 mb-8 justify-center">
               <div
                 onClick={() => setButton("look")}
-                className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
+                className={`flex items-center gap-3 rounded-full py-3 px-5 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
                   button === "look"
-                    ? "bg-blue-500 border border-blue-500"
-                    : "bg-white/20 border border-white/50"
+                    ? "bg-blue-600 border border-blue-400 shadow-lg"
+                    : "bg-white/20 border border-white/40 hover:bg-white/30"
                 }`}
               >
                 <div className="shrink-0">
@@ -109,12 +109,10 @@ const SignUpPage = () => {
                     className="sm:w-6 sm:h-6"
                     viewBox="0 0 512 512"
                   >
-                    {/* Circle - dynamic color */}
                     <path
                       d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"
                       fill={button === "look" ? "#ffffff" : "#3b82f6"}
                     />
-                    {/* Check - dynamic color */}
                     <path
                       d="M424.1 183.9l-180 180c-10.5 10.5-27.6 10.5-38.1 0l-90-90c-10.5-10.5-10.5-27.6 0-38.1 10.5-10.5 27.6-10.5 38.1 0l70.9 70.9 160.9-160.9c10.5-10.5 27.6-10.5 38.1 0 10.6 10.6 10.6 27.6.1 38.1z"
                       fill={button === "look" ? "#3b82f6" : "#ffffff"}
@@ -122,25 +120,21 @@ const SignUpPage = () => {
                   </svg>
                 </div>
                 <div className="text-center sm:text-left">
-                  <h1
-                    className={`text-xs sm:text-sm text-white`}
-                  >
+                  <span className="text-xs sm:text-sm text-white block">
                     Looking for
-                  </h1>
-                  <h1
-                    className={`font-bold text-base sm:text-lg text-white`}
-                  >
+                  </span>
+                  <span className="font-bold text-base sm:text-lg text-white block">
                     Professionals
-                  </h1>
+                  </span>
                 </div>
               </div>
 
               <div
                 onClick={() => setButton("earn")}
-                className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
+                className={`flex items-center gap-3 rounded-full py-3 px-5 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
                   button === "earn"
-                    ? "bg-blue-500 border border-blue-500"
-                    : "bg-white/20 border border-white/50"
+                    ? "bg-blue-600 border border-blue-400 shadow-lg"
+                    : "bg-white/20 border border-white/40 hover:bg-white/30"
                 }`}
               >
                 <div className="shrink-0">
@@ -150,12 +144,10 @@ const SignUpPage = () => {
                     className="sm:w-6 sm:h-6"
                     viewBox="0 0 512 512"
                   >
-                    {/* Circle - dynamic color */}
                     <path
                       d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"
                       fill={button === "earn" ? "#ffffff" : "#3b82f6"}
                     />
-                    {/* Check - dynamic color */}
                     <path
                       d="M424.1 183.9l-180 180c-10.5 10.5-27.6 10.5-38.1 0l-90-90c-10.5-10.5-10.5-27.6 0-38.1 10.5-10.5 27.6-10.5 38.1 0l70.9 70.9 160.9-160.9c10.5-10.5 27.6-10.5 38.1 0 10.6 10.6 10.6 27.6.1 38.1z"
                       fill={button === "earn" ? "#3b82f6" : "#ffffff"}
@@ -163,16 +155,12 @@ const SignUpPage = () => {
                   </svg>
                 </div>
                 <div className="text-center sm:text-left">
-                  <h1
-                    className={`text-xs sm:text-sm text-white`}
-                  >
+                  <span className="text-xs sm:text-sm text-white block">
                     Earn as a
-                  </h1>
-                  <h1
-                    className={`font-bold text-base sm:text-lg text-white`}
-                  >
+                  </span>
+                  <span className="font-bold text-base sm:text-lg text-white block">
                     Professional
-                  </h1>
+                  </span>
                 </div>
               </div>
             </div>
@@ -184,7 +172,7 @@ const SignUpPage = () => {
                   <input
                     type="text"
                     name="firstName"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
+                    className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
                     placeholder="First Name"
                     required
                   />
@@ -193,7 +181,7 @@ const SignUpPage = () => {
                   <input
                     type="text"
                     name="lastName"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
+                    className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
                     placeholder="Last Name"
                     required
                   />
@@ -201,59 +189,58 @@ const SignUpPage = () => {
               </div>
 
               {/* Username */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="w-full">
-                  <input
-                    type="text"
-                    name="username"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
-                    placeholder="User Name"
-                    required
-                  />
-                </div>
+              <div>
+                <input
+                  type="text"
+                  name="username"
+                  className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
+                  placeholder="Username"
+                  required
+                />
               </div>
 
               {/* Email */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="w-full">
-                  <input
-                    type="email"
-                    name="email"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
-                    placeholder="Email"
-                    required
-                  />
-                </div>
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
+                  placeholder="Email"
+                  required
+                />
               </div>
 
               {/* Password */}
-              <div className="">
+              <div>
                 <input
                   type="password"
                   name="password"
-                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
+                  className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
                   placeholder="Password"
                   required
                 />
               </div>
             </div>
 
-            <div className="mt-6">
-              <p className="text-red-500 mt-2 text-center font-bold mb-2">{error}</p>
+            {error && (
+              <p className="text-red-300 mt-4 text-center font-medium">{error}</p>
+            )}
+
+            <div className="mt-8">
               <button
                 type="submit"
-                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
               >
                 Create Account
               </button>
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-white">
+              <p className="text-sm text-white/80">
                 Already have an account?{" "}
                 <Link
                   href="/pages/auth/login"
-                  className="text-white font-semibold hover:text-white/70 transition-colors"
+                  className="text-white font-semibold hover:text-white transition-colors underline underline-offset-2"
                 >
                   Sign in
                 </Link>

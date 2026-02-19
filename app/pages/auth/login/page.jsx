@@ -92,30 +92,30 @@ const LoginPage = () => {
         <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
           <form
             onSubmit={handleSubmit}
-            className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md border border-white/20 mr-4 sm:mr-8 lg:mr-16"
+            className="bg-blue-400 rounded-2xl shadow-2xl w-full max-w-md border border-white/30 mr-4 sm:mr-8 lg:mr-16 p-8"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white drop-shadow-md">
               Login to BidPole
             </h2>
 
             <div className="space-y-4">
               {/* Email */}
-              <div className="">
+              <div>
                 <input
                   type="email"
                   name="email"
-                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
                   placeholder="Email"
                   required
                 />
               </div>
 
               {/* Password */}
-              <div className="">
+              <div>
                 <input
                   type="password"
                   name="password"
-                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-white/70 shadow-inner outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-200/50 transition-all duration-200"
                   placeholder="Password"
                   required
                 />
@@ -125,30 +125,32 @@ const LoginPage = () => {
               <div className="text-right">
                 <Link
                   href="/pages/auth/forgot-password"
-                  className="text-white text-sm hover:text-white/70 transition-colors"
+                  className="text-white/80 text-sm hover:text-white transition-colors underline underline-offset-2"
                 >
                   Forgot your password?
                 </Link>
               </div>
             </div>
-            <div className="mt-6">
-              <p className="text-red-500 mt-2 text-center font-bold mb-2">
-                {error}
-              </p>
+
+            {error && (
+              <p className="text-red-300 mt-4 text-center font-medium">{error}</p>
+            )}
+
+            <div className="mt-8">
               <button
                 type="submit"
-                className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
               >
                 Sign In
               </button>
             </div>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-white">
+              <p className="text-sm text-white/80">
                 Don't have an account?{" "}
                 <Link
                   href="/pages/auth/signup"
-                  className="text-white font-semibold hover:text-white/70 transition-colors"
+                  className="text-white font-semibold hover:text-white transition-colors underline underline-offset-2"
                 >
                   Sign up
                 </Link>
