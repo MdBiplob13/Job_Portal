@@ -9,6 +9,7 @@ const SignUpPage = () => {
   const [button, setButton] = useState("look");
   const [error, setError] = useState("");
   const router = useRouter();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
@@ -85,9 +86,9 @@ const SignUpPage = () => {
         <div className="relative z-20 flex items-center justify-end pr-0 2xl:pr-80 min-h-screen p-4">
           <form
             onSubmit={handleSubmit}
-            className="bg-transparent backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16"
+            className="bg-black/30 backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/20 mr-4 sm:mr-8 lg:mr-16"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-start text-white drop-shadow-lg">
               Sign Up with BidPole
             </h2>
 
@@ -98,7 +99,7 @@ const SignUpPage = () => {
                 className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
                   button === "look"
                     ? "bg-blue-500 border border-blue-500"
-                    : "bg-transparent border border-white/50"
+                    : "bg-white/20 border border-white/50"
                 }`}
               >
                 <div className="shrink-0">
@@ -122,16 +123,12 @@ const SignUpPage = () => {
                 </div>
                 <div className="text-center sm:text-left">
                   <h1
-                    className={`text-xs sm:text-sm ${
-                      button === "look" ? "text-white" : "text-blue-500"
-                    }`}
+                    className={`text-xs sm:text-sm text-white`}
                   >
                     Looking for
                   </h1>
                   <h1
-                    className={`font-bold text-base sm:text-lg ${
-                      button === "look" ? "text-white" : "text-blue-500"
-                    }`}
+                    className={`font-bold text-base sm:text-lg text-white`}
                   >
                     Professionals
                   </h1>
@@ -143,7 +140,7 @@ const SignUpPage = () => {
                 className={`flex items-center gap-2 rounded-full py-2 px-4 w-full sm:w-auto justify-center cursor-pointer transition-all duration-200 ${
                   button === "earn"
                     ? "bg-blue-500 border border-blue-500"
-                    : "bg-transparent border border-white/50"
+                    : "bg-white/20 border border-white/50"
                 }`}
               >
                 <div className="shrink-0">
@@ -167,16 +164,12 @@ const SignUpPage = () => {
                 </div>
                 <div className="text-center sm:text-left">
                   <h1
-                    className={`text-xs sm:text-sm ${
-                      button === "earn" ? "text-white" : "text-blue-500"
-                    }`}
+                    className={`text-xs sm:text-sm text-white`}
                   >
                     Earn as a
                   </h1>
                   <h1
-                    className={`font-bold text-base sm:text-lg ${
-                      button === "earn" ? "text-white" : "text-blue-500"
-                    }`}
+                    className={`font-bold text-base sm:text-lg text-white`}
                   >
                     Professional
                   </h1>
@@ -191,7 +184,7 @@ const SignUpPage = () => {
                   <input
                     type="text"
                     name="firstName"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
                     placeholder="First Name"
                     required
                   />
@@ -200,20 +193,20 @@ const SignUpPage = () => {
                   <input
                     type="text"
                     name="lastName"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
                     placeholder="Last Name"
                     required
                   />
                 </div>
               </div>
 
-              {/* Email */}
+              {/* Username */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="w-full">
                   <input
                     type="text"
                     name="username"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
                     placeholder="User Name"
                     required
                   />
@@ -226,7 +219,7 @@ const SignUpPage = () => {
                   <input
                     type="email"
                     name="email"
-                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                    className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
                     placeholder="Email"
                     required
                   />
@@ -238,7 +231,7 @@ const SignUpPage = () => {
                 <input
                   type="password"
                   name="password"
-                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/70"
+                  className="w-full px-4 py-3 border border-blue-500 rounded-lg bg-transparent text-white shadow-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 placeholder-white/90"
                   placeholder="Password"
                   required
                 />
@@ -246,7 +239,7 @@ const SignUpPage = () => {
             </div>
 
             <div className="mt-6">
-            <p className="text-red-500 mt-2 text-center font-bold mb-2">{error}</p>
+              <p className="text-red-500 mt-2 text-center font-bold mb-2">{error}</p>
               <button
                 type="submit"
                 className="w-full bg-linear-to-r from-primary to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl text-base sm:text-lg cursor-pointer"
