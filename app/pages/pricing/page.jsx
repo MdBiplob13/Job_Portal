@@ -3,135 +3,107 @@ import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Link from "next/link";
 import Footer from "@/app/components/Footer/Footer";
-import { Briefcase, Building2, UserCheck } from "lucide-react";
+import { Briefcase, Building2, UserCheck, CheckCircle } from "lucide-react";
+import useUser from "@/app/hooks/user/userHook";
 
 const Pricing = () => {
+  const { user } = useUser();
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
 
       {/* HERO */}
- <header className="relative overflow-hidden">
-      <div className="bg-linear-to-r from-primary to-blue-500 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* LEFT SIDE (unchanged) */}
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
-                Job Portal — Connecting talent with opportunity
-              </h1>
-              <p className="mt-4 text-lg opacity-90 max-w-2xl">
-                Job Portal is a modern hiring platform built to help companies
-                find great people and help candidates discover meaningful
-                careers. We focus on transparency, relevant matches and a
-                human-first application experience.
-              </p>
+      <header className="relative overflow-hidden">
+        <div className="bg-linear-to-r from-primary to-blue-500 text-white">
+          <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              {/* LEFT SIDE */}
+              <div>
+                <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
+                  Simple, Transparent Pricing
+                </h1>
+                <p className="mt-4 text-lg opacity-90 max-w-2xl">
+                  Choose the perfect plan for your hiring needs. No hidden fees, no surprises.
+                  Start with a free trial and upgrade as you grow.
+                </p>
 
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/pages/searchAJob"
-                  className="inline-block px-6 py-3 bg-white text-primary font-medium rounded-lg shadow hover:shadow-md transition"
-                >
-                  Search Jobs
-                </Link>
-                <Link
-                  href="/pages/postAJob"
-                  className="inline-block px-6 py-3 border border-white/40 text-white rounded-lg hover:bg-white/10 transition"
-                >
-                  Post a Job
-                </Link>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    href="#plans"
+                    className="inline-block px-6 py-3 bg-white text-primary font-medium rounded-lg shadow hover:shadow-md transition"
+                  >
+                    View Plans
+                  </Link>
+                  <Link
+                    href="/pages/browse/jobs"
+                    className="inline-block px-6 py-3 border border-white/40 text-white rounded-lg hover:bg-white/10 transition"
+                  >
+                    Search Jobs
+                  </Link>
+                  <Link
+                    href={user?.email ? "/pages/dashboard/employer/employerJobs" : "/pages/auth/login"}
+                    className="inline-block px-6 py-3 border border-white/40 text-white rounded-lg hover:bg-white/10 transition"
+                  >
+                    Post a Job
+                  </Link>
+                </div>
+
+                <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">10k+</div>
+                    <div className="text-sm opacity-80">Jobs Posted</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">6k+</div>
+                    <div className="text-sm opacity-80">Companies</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">85%</div>
+                    <div className="text-sm opacity-80">Successful Hires</div>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm">
-                <div className="text-center">
-                  <div className="text-2xl font-bold">10k+</div>
-                  <div className="text-sm opacity-80">Jobs Posted</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold">6k+</div>
-                  <div className="text-sm opacity-80">Companies</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold">85%</div>
-                  <div className="text-sm opacity-80">Successful Hires</div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT SIDE */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
-                {/* Header Strip */}
-                <div className="bg-linear-to-r from-primary to-indigo-500 text-white p-5 rounded-t-2xl -mx-6 -mt-6 mb-4">
-                  <h3 className="text-xl font-semibold flex items-center gap-2">
-                    <Briefcase size={22} /> Featured Job
+              {/* RIGHT SIDE - Pricing Summary */}
+              <div className="flex justify-center lg:justify-end">
+                <div className="w-full max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/20">
+                  <h3 className="text-xl font-semibold text-white flex items-center gap-2 mb-4">
+                    <CheckCircle size={24} /> Compare Plans
                   </h3>
-                  <p className="text-sm opacity-80">
-                    Handpicked top opportunities for professionals
-                  </p>
-                </div>
-
-                {/* Job Details */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-semibold text-gray-800">
-                        Frontend Developer
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Remote • Full Time
-                      </p>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center pb-2 border-b border-white/20">
+                      <span className="text-white/90">Starter</span>
+                      <span className="text-white font-bold">$29/mo</span>
                     </div>
-                    <div className="bg-blue-100 text-primary text-xs font-medium px-3 py-1 rounded-full">
-                      $80k - $100k
+                    <div className="flex justify-between items-center pb-2 border-b border-white/20">
+                      <span className="text-white/90">Pro Recruiter</span>
+                      <span className="text-white font-bold">$99/mo</span>
+                    </div>
+                    <div className="flex justify-between items-center pb-2 border-b border-white/20">
+                      <span className="text-white/90">Enterprise</span>
+                      <span className="text-white font-bold">Custom</span>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <Building2 size={18} />
-                    <span className="text-sm">TechNova Solutions</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <UserCheck size={18} />
-                    <span className="text-sm">3 days ago</span>
-                  </div>
-
-                  <div className="pt-3">
+                  <div className="mt-6 text-center">
                     <Link
-                      href="/pages/searchAJob"
-                      className="w-full block text-center bg-primary hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition"
+                      href="#plans"
+                      className="inline-block px-6 py-2 bg-white text-primary font-medium rounded-lg hover:bg-white/90 transition"
                     >
-                      View Details
+                      See full comparison →
                     </Link>
                   </div>
                 </div>
-
-                {/* Floating Accent */}
-                <div className="absolute -top-8 -right-8 w-24 h-24 bg-blue-300 rounded-full blur-2xl opacity-30"></div>
               </div>
             </div>
-
           </div>
-        </div>
 
-        {/* keep original wave unchanged */}
-        <svg
-          className="absolute right-0 bottom-0 -mb-1 hidden lg:block"
-          width="400"
-          height="200"
-          viewBox="0 0 400 200"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden
-        >
-          <path d="M0 100 C100 0 300 200 400 100 L400 200 L0 200 Z" fill="#eff6ff" />
-        </svg>
-      </div>
-    </header>
+          
+        </div>
+      </header>
 
       {/* PRICING CARDS */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
+      <section id="plans" className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-semibold">Choose a plan that fits your hiring needs</h2>
           <p className="mt-2 text-slate-600 max-w-2xl mx-auto">
@@ -226,41 +198,9 @@ const Pricing = () => {
           </div>
         </div>
 
-        {/* Marketing Pitch */}
-        <div className="mt-12 bg-blue-50 p-6 rounded-lg text-center">
-          <h4 className="text-lg font-semibold">Bid Portal — Connecting opportunities with suppliers</h4>
-          <p className="mt-3 text-slate-700 max-w-3xl mx-auto">
-            Bid Portal is a modern procurement platform designed to help organisations find the right personnel and help suppliers discover valuable business opportunities. We focus on transparency, relevant matches, and a user-friendly submission experience.
-          </p>
+        
 
-          <p className="mt-5">Search Bid  -- -- post a bid</p>
-
-          <div className="mt-6 flex justify-center gap-4">
-            <Link href="/pages/postAJob" className="px-5 py-3 bg-primary text-white rounded-lg">Post a Job</Link>
-            <Link href="/pages/auth/signup" className="px-5 py-3 border border-blue-200 rounded-lg">Create Account</Link>
-          </div>
-        </div>
-
-        {/* FAQs */}
-        <div className="mt-12 max-w-3xl mx-auto">
-          <h3 className="text-xl font-semibold">Frequently asked questions</h3>
-          <div className="mt-4 space-y-4">
-            <details className="bg-white p-4 rounded-lg shadow">
-              <summary className="cursor-pointer font-medium">Can I change my plan later?</summary>
-              <p className="mt-2 text-sm text-slate-600">Yes — you can upgrade or downgrade at any time from your account settings.</p>
-            </details>
-
-            <details className="bg-white p-4 rounded-lg shadow">
-              <summary className="cursor-pointer font-medium">Do you offer annual discounts?</summary>
-              <p className="mt-2 text-sm text-slate-600">Yes — we offer discounts for annual commitments. Contact sales for custom pricing.</p>
-            </details>
-
-            <details className="bg-white p-4 rounded-lg shadow">
-              <summary className="cursor-pointer font-medium">Is there a free trial?</summary>
-              <p className="mt-2 text-sm text-slate-600">We offer a 7-day free trial for Starter and a 14-day trial for Pro Recruiter.</p>
-            </details>
-          </div>
-        </div>
+        
       </section>
 
       {/* FOOTER CTA */}
@@ -272,18 +212,15 @@ const Pricing = () => {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/pages/postAJob" className="px-5 py-3 bg-primary text-white rounded-lg font-medium">Post a Job</Link>
-            <Link href="/contact" className="px-5 py-3 border border-slate-200 rounded-lg">Contact Sales</Link>
+            <Link href={user?.email ? "/pages/dashboard/employer/employerJobs" : "/pages/auth/login"} className="px-5 py-3 bg-primary text-white rounded-lg font-medium">Post a Job</Link>
+            <Link href="/pages/browse/jobs" className="px-5 py-3 border border-slate-200 rounded-lg">Browse Jobs</Link>
           </div>
         </div>
       </footer>
-       
-      <Footer/>
+
+      <Footer />
     </div>
   );
 };
 
 export default Pricing;
-
-
-[ "Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Cuba", "Dominica", "Dominican Republic", "Grenada", "Guyana", "Haiti", "Jamaica", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Suriname", "Trinidad and Tobago" ]

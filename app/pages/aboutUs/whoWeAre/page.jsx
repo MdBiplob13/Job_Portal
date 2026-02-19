@@ -38,7 +38,7 @@ const WhoWeAre = () => {
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Who We Are</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            We are JobPole - a dedicated team revolutionizing the way job seekers and employers connect. 
+            We are Bid Pole - a dedicated team revolutionizing the way job seekers and employers connect. 
             Our platform bridges the gap between talent and opportunity.
           </p>
         </div>
@@ -52,7 +52,7 @@ const WhoWeAre = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Founded with a vision to transform the job market, JobPole emerged from the need 
+                Founded with a vision to transform the job market, BidPole emerged from the need 
                 for a more efficient, transparent, and user-friendly platform that serves both 
                 job seekers and employers equally.
               </p>

@@ -69,7 +69,7 @@ const VideoTutorial = () => {
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Video Tutorials</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Master JobPole with our comprehensive video guides and learning resources.
+            Master BidPole with our comprehensive video guides and learning resources.
           </p>
         </div>
       </section>

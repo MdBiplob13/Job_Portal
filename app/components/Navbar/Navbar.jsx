@@ -12,7 +12,7 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
 
   const { user, userLoading } = useUser();
-  const {currentRole} = useUserRole(user?.role || "professional");
+  const { currentRole } = useUserRole(user?.role || "professional");
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -42,12 +42,11 @@ const Navbar = () => {
       path: "#",
       dropdown: [
         { name: "Posting Guide", path: "/pages/howItWork/postingGuide" },
-        { name: "Video Tutorial", path: "/pages/howItWork/videoTutorial" },
+        // { name: "Video Tutorial", path: "/pages/howItWork/videoTutorial" },
         { name: "FAQ", path: "/pages/howItWork/faq" },
         { name: "Tips for Bidding", path: "/pages/howItWork/tipsForBidding" },
       ],
     },
-    { name: "Pricing", path: "/pages/pricing", dropdown: null },
     {
       name: "About Us",
       path: "#",
@@ -58,7 +57,8 @@ const Navbar = () => {
         { name: "Partner / Affiliates", path: "/pages/aboutUs/partner" },
       ],
     },
-    { name: "Blogs", path: "/pages/blogs", dropdown: null },
+    { name: "Pricing", path: "/pages/pricing", dropdown: null },
+    // { name: "Blogs", path: "/pages/blogs", dropdown: null },
   ];
 
   const handleDropdownToggle = (name) => {
@@ -86,14 +86,17 @@ const Navbar = () => {
             {navLinks.map((link, idx) => (
               <div key={idx} className="relative">
                 {link.dropdown ? (
-                  <div
-                    className="relative group"
-                    onMouseEnter={() => setActiveDropdown(link.name)}
-                    onMouseLeave={() => setActiveDropdown(null)}
-                  >
-                    <button className="flex items-center px-3 py-2 text-gray-700 cursor-pointer hover:text-primary transition font-medium">
+                  <div className="relative">
+                    <button
+                      onClick={() => handleDropdownToggle(link.name)}
+                      className="flex items-center px-3 py-2 text-gray-700 cursor-pointer hover:text-primary transition font-medium"
+                    >
                       {link.name}
-                      <ChevronDown className="ml-1 h-4 w-4 transition-transform" />
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          activeDropdown === link.name ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
 
                     {activeDropdown === link.name && (
@@ -103,6 +106,7 @@ const Navbar = () => {
                             key={itemIdx}
                             href={item.path}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
+                            onClick={() => setActiveDropdown(null)} // optional: close dropdown after clicking link
                           >
                             {item.name}
                           </Link>

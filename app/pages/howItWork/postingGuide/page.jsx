@@ -3,10 +3,18 @@
 import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
-import { FiFileText, FiCheckCircle, FiAlertCircle, FiLightbulb } from "react-icons/fi";
+import {
+  FiFileText,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiLightbulb,
+} from "react-icons/fi";
 import { FaLightbulb } from "react-icons/fa";
+import Link from "next/link";
+import useUser from "@/app/hooks/user/userHook";
 
 const PostingGuide = () => {
+  const { user } = useUser();
   const steps = [
     {
       step: "01",
@@ -16,8 +24,8 @@ const PostingGuide = () => {
         "Clear job title and description",
         "Required skills and qualifications",
         "Budget or salary range",
-        "Project timeline and deadlines"
-      ]
+        "Project timeline and deadlines",
+      ],
     },
     {
       step: "02",
@@ -27,8 +35,8 @@ const PostingGuide = () => {
         "Use specific, descriptive titles",
         "Include detailed requirements",
         "Set clear expectations",
-        "Add relevant tags and categories"
-      ]
+        "Add relevant tags and categories",
+      ],
     },
     {
       step: "03",
@@ -38,8 +46,8 @@ const PostingGuide = () => {
         "Experience level requirements",
         "Location preferences",
         "Required certifications",
-        "Communication preferences"
-      ]
+        "Communication preferences",
+      ],
     },
     {
       step: "04",
@@ -49,9 +57,9 @@ const PostingGuide = () => {
         "Proofread for errors",
         "Verify contact information",
         "Set appropriate visibility",
-        "Choose publication date"
-      ]
-    }
+        "Choose publication date",
+      ],
+    },
   ];
 
   const bestPractices = [
@@ -63,8 +71,8 @@ const PostingGuide = () => {
         "Include company/project background",
         "Set realistic timelines",
         "Offer competitive compensation",
-        "Respond to applicants promptly"
-      ]
+        "Respond to applicants promptly",
+      ],
     },
     {
       icon: <FiAlertCircle className="text-2xl text-red-500" />,
@@ -74,21 +82,22 @@ const PostingGuide = () => {
         "Forget to include budget/salary",
         "Ignore applicant messages",
         "Set unrealistic deadlines",
-        "Use discriminatory language"
-      ]
-    }
+        "Use discriminatory language",
+      ],
+    },
   ];
 
   return (
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl font-bold mb-6">Posting Guide</h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Learn how to create effective job posts and project listings that attract the right talent.
+            Learn how to create effective job posts and project listings that
+            attract the right talent.
           </p>
         </div>
       </section>
@@ -101,13 +110,18 @@ const PostingGuide = () => {
               <FiFileText className="text-3xl text-primary" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-800">Creating Successful Posts</h2>
-              <p className="text-gray-600 mt-2">Follow this guide to maximize your posting success</p>
+              <h2 className="text-3xl font-bold text-gray-800">
+                Creating Successful Posts
+              </h2>
+              <p className="text-gray-600 mt-2">
+                Follow this guide to maximize your posting success
+              </p>
             </div>
           </div>
           <p className="text-gray-600 leading-relaxed">
-            A well-crafted post attracts better candidates, saves time in the hiring process, 
-            and increases the likelihood of finding the perfect match for your needs.
+            A well-crafted post attracts better candidates, saves time in the
+            hiring process, and increases the likelihood of finding the perfect
+            match for your needs.
           </p>
         </div>
 
@@ -121,7 +135,9 @@ const PostingGuide = () => {
                     <div className="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center font-bold text-lg">
                       {step.step}
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-800">{step.title}</h3>
+                    <h3 className="text-2xl font-bold text-gray-800">
+                      {step.title}
+                    </h3>
                   </div>
                   <p className="text-gray-600">{step.description}</p>
                 </div>
@@ -132,7 +148,10 @@ const PostingGuide = () => {
                   </h4>
                   <ul className="grid md:grid-cols-2 gap-3">
                     {step.tips.map((tip, tipIndex) => (
-                      <li key={tipIndex} className="flex items-center gap-3 text-gray-600">
+                      <li
+                        key={tipIndex}
+                        className="flex items-center gap-3 text-gray-600"
+                      >
                         <div className="w-2 h-2 bg-primary rounded-full shrink-0"></div>
                         {tip}
                       </li>
@@ -150,11 +169,16 @@ const PostingGuide = () => {
             <div key={index} className="bg-white rounded-2xl shadow-lg p-8">
               <div className="flex items-center gap-3 mb-6">
                 {practice.icon}
-                <h3 className="text-2xl font-bold text-gray-800">{practice.title}</h3>
+                <h3 className="text-2xl font-bold text-gray-800">
+                  {practice.title}
+                </h3>
               </div>
               <ul className="space-y-3">
                 {practice.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-center gap-3 text-gray-600">
+                  <li
+                    key={itemIndex}
+                    className="flex items-center gap-3 text-gray-600"
+                  >
                     <div className="w-2 h-2 bg-gray-300 rounded-full shrink-0"></div>
                     {item}
                   </li>
@@ -168,15 +192,19 @@ const PostingGuide = () => {
         <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Post?</h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
-            Start creating your job post or project listing now and connect with qualified professionals.
+            Start creating your job post or project listing now and connect with
+            qualified professionals.
           </p>
           <div className="flex gap-4 justify-center">
-            <button className="bg-white text-primary px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+            <Link
+              href={user?.email ? "/pages/dashboard/employer/employerJobs" : "/pages/auth/login"}
+              className="bg-white text-primary px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
+            >
               Post a Job
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
-              Create Project
-            </button>
+            </Link>
+            <Link href="/pages/browse/professional" className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
+              Hire a Professional
+            </Link>
           </div>
         </div>
       </div>

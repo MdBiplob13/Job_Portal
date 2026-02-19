@@ -52,7 +52,7 @@ export default function Hero() {
 
   // Filter locations based on search term
   const filteredLocations = locations.filter((loc) =>
-    loc.toLowerCase().includes(searchTerm.toLowerCase())
+    loc.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // Close dropdown when clicking outside
@@ -101,16 +101,32 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Link
               href="/pages/browse/professional"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#0B2C4A] font-semibold rounded-full hover:bg-[#53CBFB] hover:text-white transition cursor-pointer"
+              className="relative px-8 py-4 rounded-xl border-2 border-[#53CBFB] bg-white text-[#0443F2] font-bold overflow-hidden group transition-all duration-500 text-lg hover:scale-105"
             >
-              🔍 Looking for Professional
+              {/* Background fill on hover */}
+              <span className="absolute inset-0 bg-[#53CBFB] -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+
+              {/* Icon and text */}
+              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white transition-colors duration-500">
+                🔍 Looking for Professional
+              </span>
             </Link>
 
             <Link
-              href={user?.email ? "/pages/dashboard/professional" : "/pages/auth/login"}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-[#0B2C4A] font-semibold rounded-full hover:bg-[#53CBFB] hover:text-white transition cursor-pointer"
+              href={
+                user?.email
+                  ? "/pages/dashboard/professional"
+                  : "/pages/auth/login"
+              }
+              className="relative px-8 py-4 rounded-xl border-2 border-[#53CBFB] bg-white text-[#0443F2] font-bold overflow-hidden group transition-all duration-500 text-lg hover:scale-105"
             >
-              💼 Earn as a Professional
+              {/* Background fill on hover */}
+              <span className="absolute inset-0 bg-[#53CBFB] -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+
+              {/* Icon and text */}
+              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white transition-colors duration-500">
+                💼 Earn as a Professional
+              </span>
             </Link>
           </div>
 
@@ -129,7 +145,13 @@ export default function Hero() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full px-4 py-3 rounded-xl bg-transparent border border-white/30 text-white flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#53CBFB]"
               >
-                <span className={selectedLocation === "Location" ? "text-white/70" : "text-white"}>
+                <span
+                  className={
+                    selectedLocation === "Location"
+                      ? "text-white/70"
+                      : "text-white"
+                  }
+                >
                   {selectedLocation}
                 </span>
                 <svg
@@ -138,7 +160,12 @@ export default function Hero() {
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
 
@@ -170,7 +197,9 @@ export default function Hero() {
                         </li>
                       ))
                     ) : (
-                      <li className="px-4 py-2 text-gray-500">No locations found</li>
+                      <li className="px-4 py-2 text-gray-500">
+                        No locations found
+                      </li>
                     )}
                   </ul>
                 </div>

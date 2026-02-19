@@ -2,8 +2,10 @@
 import React from "react";
 import Link from "next/link";
 import { FaFacebookF, FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
+import useUser from "@/app/hooks/user/userHook";
 
 const Footer = () => {
+  const {user} = useUser() 
   return (
     <footer className="bg-linear-to-br from-[#53cbfb] via-[#3bb8f0] to-[#2a9fd6] text-white">
       {/* Main Footer */}
@@ -40,15 +42,14 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-[2px] after:bg-white/80">
+          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-0.5 after:bg-white/80">
             Quick Links
           </h3>
           <ul className="space-y-2 text-sm">
             {[
               { name: "Home", link: "/" },
-              { name: "Search a Job", link: "/pages/searchAJob" },
-              { name: "Post a Job", link: "/pages/postAJob" },
-              { name: "Blogs", link: "/pages/blogs" },
+              { name: "Search a Job", link: "/pages/browse/jobs" },
+              { name: "Post a Job", link: user?.email ? "/pages/dashboard/employer/employerBids" : "/pages/auth/login" },
               { name: "Pricing", link: "/pages/pricing" },
             ].map((item, i) => (
               <li key={i}>
@@ -65,15 +66,15 @@ const Footer = () => {
 
         {/* About Us */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-[2px] after:bg-white/80">
+          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-0.5 after:bg-white/80">
             About Us
           </h3>
           <ul className="space-y-2 text-sm">
             {[
-              { name: "Who We Are", link: "/pages/who-we-are" },
-              { name: "Our Mission/Vision", link: "/pages/mission-vision" },
-              { name: "Core Values", link: "/pages/core-values" },
-              { name: "Partner / Affiliates", link: "/pages/partners" },
+              { name: "Who We Are", link: "/pages/aboutUs/whoWeAre" },
+              { name: "Our Mission/Vision", link: "/pages/aboutUs/ourMission" },
+              { name: "Core Values", link: "/pages/aboutUs/coreValues" },
+              { name: "Partner / Affiliates", link: "/pages/aboutUs/partner" },
             ].map((item, i) => (
               <li key={i}>
                 <Link
@@ -89,16 +90,24 @@ const Footer = () => {
 
         {/* Job Seekers */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-[2px] after:bg-white/80">
+          <h3 className="text-lg font-semibold mb-4 relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-6 after:h-0.5 after:bg-white/80">
             Job Seekers
           </h3>
           <ul className="space-y-2 text-sm">
             <li>
               <Link
-                href="/pages/searchAJob"
+                href="/pages/browse/jobs"
                 className="hover:text-white text-white/90"
               >
                 Find Jobs
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/pages/browse/bids"
+                className="hover:text-white text-white/90"
+              >
+                Find Bids
               </Link>
             </li>
             <li>
@@ -106,11 +115,7 @@ const Footer = () => {
                 Browse Categories
               </Link>
             </li>
-            <li>
-              <Link href="#" className="hover:text-white text-white/90">
-                Career Tips
-              </Link>
-            </li>
+           
           </ul>
         </div>
 
@@ -136,10 +141,10 @@ const Footer = () => {
           </span>
         </p>
         <div className="flex gap-4">
-          <Link href="#" className="hover:text-white transition">
+          <Link href="/pages/policy/privacyPolicy" className="hover:text-white transition">
             Privacy Policy
           </Link>
-          <Link href="#" className="hover:text-white transition">
+          <Link href="/pages/policy/terms" className="hover:text-white transition">
             Terms of Service
           </Link>
         </div>

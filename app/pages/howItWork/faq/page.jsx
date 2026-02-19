@@ -13,94 +13,128 @@ const FAQ = () => {
   const categories = {
     general: {
       title: "General Questions",
-      icon: "💼"
+      icon: "💼",
     },
     jobSeekers: {
       title: "For Job Seekers",
-      icon: "👤"
+      icon: "👤",
     },
     employers: {
       title: "For Employers",
-      icon: "🏢"
+      icon: "🏢",
     },
     bidding: {
       title: "Bidding & Tenders",
-      icon: "💰"
-    }
+      icon: "💰",
+    },
+    pricing: {
+      title: "Pricing & Plans",
+      icon: "💳",
+    },
   };
 
   const faqs = {
     general: [
       {
-        question: "What is JobPole?",
-        answer: "JobPole is a comprehensive platform that connects job seekers with employers through advanced matching algorithms, bidding systems, and career development tools."
+        question: "What is BidPole?",
+        answer:
+          "BidPole is a comprehensive platform that connects job seekers with employers through advanced matching algorithms, bidding systems, and career development tools.",
       },
       {
         question: "How do I create an account?",
-        answer: "Click on the 'Sign Up' button in the top navigation, fill in your details, verify your email, and you're ready to start your journey with JobPole."
+        answer:
+          "Click on the 'Sign Up' button in the top navigation, fill in your details, verify your email, and you're ready to start your journey with BidPole.",
       },
       {
-        question: "Is JobPole free to use?",
-        answer: "Yes, basic features are free for job seekers. Employers can post jobs with our free plan or upgrade for premium features and enhanced visibility."
-      }
+        question: "Is BidPole free to use?",
+        answer:
+          "Yes, basic features are free for job seekers. Employers can post jobs with our free plan or upgrade for premium features and enhanced visibility.",
+      },
     ],
     jobSeekers: [
       {
         question: "How do I search for jobs?",
-        answer: "Use our advanced search filters to find jobs by location, salary, experience level, and keywords. You can also set up job alerts for new opportunities."
+        answer:
+          "Use our advanced search filters to find jobs by location, salary, experience level, and keywords. You can also set up job alerts for new opportunities.",
       },
       {
         question: "How do I apply for jobs?",
-        answer: "Create a complete profile, then click 'Apply' on any job posting. Some jobs may require additional questions or portfolio submissions."
+        answer:
+          "Create a complete profile, then click 'Apply' on any job posting. Some jobs may require additional questions or portfolio submissions.",
       },
       {
         question: "Can I track my applications?",
-        answer: "Yes, your dashboard shows all applications with status updates, interview invitations, and employer responses in one place."
-      }
+        answer:
+          "Yes, your dashboard shows all applications with status updates, interview invitations, and employer responses in one place.",
+      },
     ],
     employers: [
       {
         question: "How do I post a job?",
-        answer: "Register as an employer, complete your company profile, then click 'Post a Job' to create your listing with detailed requirements and preferences."
+        answer:
+          "Register as an employer, complete your company profile, then click 'Post a Job' to create your listing with detailed requirements and preferences.",
       },
       {
         question: "What's the bidding system?",
-        answer: "Our bidding system allows service employers to submit proposals for your projects, helping you find the best talent at competitive rates."
+        answer:
+          "Our bidding system allows service employers to submit proposals for your projects, helping you find the best talent at competitive rates.",
       },
       {
         question: "How do I review applicants?",
-        answer: "Access your employer dashboard to view all applications, filter candidates, schedule interviews, and manage the entire hiring process."
-      }
+        answer:
+          "Access your employer dashboard to view all applications, filter candidates, schedule interviews, and manage the entire hiring process.",
+      },
     ],
     bidding: [
       {
         question: "How does the bidding process work?",
-        answer: "Employers post projects, service employer submit bids with proposals and pricing, employers review bids and select the best match for their needs."
+        answer:
+          "Employers post projects, service employer submit bids with proposals and pricing, employers review bids and select the best match for their needs.",
       },
       {
         question: "What makes a good bid?",
-        answer: "A good bid includes clear pricing, detailed project understanding, relevant experience examples, realistic timelines, and professional presentation."
+        answer:
+          "A good bid includes clear pricing, detailed project understanding, relevant experience examples, realistic timelines, and professional presentation.",
       },
       {
         question: "Are there bidding fees?",
-        answer: "No, submitting bids is free for verified service employer. We only charge success fees when projects are successfully awarded and completed."
-      }
-    ]
+        answer:
+          "No, submitting bids is free for verified service employer. We only charge success fees when projects are successfully awarded and completed.",
+      },
+    ],
+    pricing: [
+      {
+        question: "Can I change my plan later?",
+        answer:
+          "Yes — you can upgrade or downgrade at any time from your account settings.",
+      },
+      {
+        question: "Do you offer annual discounts?",
+        answer:
+          "Yes — we offer discounts for annual commitments. Contact sales for custom pricing.",
+      },
+      {
+        question: "Is there a free trial?",
+        answer:
+          "We offer a 7-day free trial for Starter and a 14-day trial for Pro Recruiter.",
+      },
+    ],
   };
 
   const toggleItem = (index) => {
-    setOpenItems(prev => 
-      prev.includes(index) 
-        ? prev.filter(item => item !== index)
-        : [...prev, index]
+    setOpenItems((prev) =>
+      prev.includes(index)
+        ? prev.filter((item) => item !== index)
+        : [...prev, index],
     );
   };
 
   const filteredFaqs = Object.entries(faqs).reduce((acc, [category, items]) => {
     if (category === activeCategory) {
-      const filtered = items.filter(item => 
-        item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.answer.toLowerCase().includes(searchQuery.toLowerCase())
+      const filtered = items.filter(
+        (item) =>
+          item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.answer.toLowerCase().includes(searchQuery.toLowerCase()),
       );
       acc[category] = filtered;
     }
@@ -110,13 +144,16 @@ const FAQ = () => {
   return (
     <div className="min-h-screen bg-linear-to-b from-gray-50 to-white">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="bg-linear-to-r from-primary to-blue-400 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-6">Frequently Asked Questions</h1>
+          <h1 className="text-5xl font-bold mb-6">
+            Frequently Asked Questions
+          </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Find answers to common questions about JobPole and how to make the most of our platform.
+            Find answers to common questions about BidPole and how to make the
+            most of our platform.
           </p>
         </div>
       </section>
@@ -142,7 +179,7 @@ const FAQ = () => {
             <button
               key={key}
               onClick={() => setActiveCategory(key)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all cursor-pointer ${
                 activeCategory === key
                   ? "bg-primary text-white"
                   : "bg-white text-gray-700 hover:bg-gray-50 shadow-sm"
@@ -159,16 +196,21 @@ const FAQ = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             {categories[activeCategory].title}
           </h2>
-          
+
           {filteredFaqs[activeCategory]?.length > 0 ? (
             <div className="space-y-4">
               {filteredFaqs[activeCategory].map((faq, index) => (
-                <div key={index} className="border border-gray-200 rounded-xl overflow-hidden">
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-xl overflow-hidden"
+                >
                   <button
                     onClick={() => toggleItem(index)}
-                    className="w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition-colors"
+                    className="w-full flex  cursor-pointer justify-between items-center p-6 text-left hover:bg-gray-50 transition-colors"
                   >
-                    <span className="font-semibold text-gray-800 pr-4">{faq.question}</span>
+                    <span className="font-semibold text-gray-800 pr-4">
+                      {faq.question}
+                    </span>
                     {openItems.includes(index) ? (
                       <FiChevronUp className="text-primary shrink-0" />
                     ) : (
@@ -177,7 +219,9 @@ const FAQ = () => {
                   </button>
                   {openItems.includes(index) && (
                     <div className="p-6 pt-0 border-t border-gray-100">
-                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                      <p className="text-gray-600 leading-relaxed">
+                        {faq.answer}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -186,26 +230,14 @@ const FAQ = () => {
           ) : (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">No questions found</h3>
-              <p className="text-gray-600">Try adjusting your search terms or browse different categories.</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                No questions found
+              </h3>
+              <p className="text-gray-600">
+                Try adjusting your search terms or browse different categories.
+              </p>
             </div>
           )}
-        </div>
-
-        {/* Contact Support */}
-        <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white text-center mt-12">
-          <h2 className="text-3xl font-bold mb-4">Still Have Questions?</h2>
-          <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
-            Our support team is here to help you with any additional questions or concerns.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <button className="bg-white text-primary px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
-              Contact Support
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
-              Live Chat
-            </button>
-          </div>
         </div>
       </div>
 

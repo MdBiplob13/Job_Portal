@@ -7,35 +7,51 @@ import { motion } from "framer-motion";
 export default function StepSection() {
   const steps = [
     {
-      icon: <FaRegFileAlt className="w-12 h-12" />,
+      icon: <FaRegFileAlt className="w-16 h-16" />,
       title: "Post",
-      desc: "Create and publish your job requirements to attract qualified professionals and service employers.",
+      desc:
+        "Create and publish your job requirements to attract qualified professionals and service employers.",
     },
     {
-      icon: <FaGavel className="w-12 h-12" />,
+      icon: <FaGavel className="w-16 h-16" />,
       title: "Bid",
-      desc: "Receive competitive offers and proposals from multiple employers vying for your project.",
+      desc:
+        "Attract competitive offers and proposals from multiple qualified providers seeking to deliver your project.",
     },
     {
-      icon: <MdOutlineEmojiEvents className="w-12 h-12" />,
+      icon: <MdOutlineEmojiEvents className="w-16 h-16" />,
       title: "Win",
-      desc: "Select the best employer and successfully complete your project with guaranteed satisfaction.",
+      desc: "Choose the right candidate to deliver your project successfully.",
     },
   ];
 
   return (
-    <section className="py-24 px-6 md:px-12 lg:px-20 bg-linear-to-b from-[#CFCFCF] to-[#53CBFB]/30">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Top Heading */}
-        <h2 className="text-5xl md:text-8xl font-extrabold text-[#040404] mb-8">
-          How It <span className="text-[#53CBFB]">Works</span>
-        </h2>
-        <p className="text-2xl text-[#040404] max-w-3xl mx-auto mb-16 font-medium">
-          A streamlined process to post jobs, receive bids, and win with the perfect employer—all in one platform.
-        </p>
+    <section className="py-24 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-gray-100 to-gray-200">
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+          >
+            How It <span className="text-[#53CBFB]">Works</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-600 max-w-2xl mx-auto"
+          >
+            Three simple steps to connect with the right talent or land your next project.
+          </motion.p>
+        </div>
 
-        {/* Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
+        {/* Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step, idx) => (
             <motion.div
               key={idx}
@@ -43,28 +59,30 @@ export default function StepSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.2 }}
               viewport={{ once: true }}
-              className="group flex flex-col items-center text-center p-10 bg-white rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 relative border-2 border-transparent hover:border-[#53CBFB]"
+              className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col items-center text-center cursor-pointer h-80 overflow-hidden"
             >
-              
-              {/* Step Number */}
-              <div className="absolute -top-4 -left-4 w-12 h-12 bg-[#0443F2] text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
+              {/* Step Number Badge */}
+              <div className="absolute top-4 left-4 w-8 h-8 bg-[#0443F2] text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md z-10">
                 {idx + 1}
               </div>
 
-              {/* Icon container */}
-              <div className="w-24 h-24 flex items-center justify-center rounded-full bg-linear-to-br from-[#53CBFB] to-[#0443F2] text-white mb-8 group-hover:scale-110 transform transition-transform duration-500 shadow-xl">
-                {step.icon}
+              {/* Content container */}
+              <div className="flex flex-col items-center justify-center h-full w-full transition-all duration-500 group-hover:-translate-y-5">
+                {/* Icon */}
+                <div className="text-[#0443F2] mb-3 transition-all duration-500 group-hover:scale-75 group-hover:opacity-80">
+                  {step.icon}
+                </div>
+
+                {/* Title */}
+                <h3 className="text-3xl font-bold text-gray-900 transition-all duration-500 group-hover:scale-75 group-hover:opacity-80">
+                  {step.title}
+                </h3>
               </div>
 
-              {/* Title */}
-              <h3 className="text-3xl font-bold text-[#040404] mb-6 group-hover:text-[#53CBFB] transition-colors duration-300">
-                {step.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-xl text-[#040404] leading-relaxed font-medium">
-                {step.desc}
-              </p>
+              {/* Description (slides up on hover) */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-white via-white to-transparent">
+                <p className="text-gray-600 leading-relaxed">{step.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>

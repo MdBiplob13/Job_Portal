@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { FaGavel, FaCamera, FaBolt, FaShieldAlt, FaPhoneAlt, FaPaintBrush } from "react-icons/fa";
 
 export default function CategoriesSection() {
@@ -86,12 +87,18 @@ export default function CategoriesSection() {
           transition={{ delay: 0.5 }}
           className="flex justify-center mt-20"
         >
-          <button className="relative px-12 py-4 rounded-xl font-bold text-[#53CBFB] border-2 border-[#53CBFB] overflow-hidden group text-xl hover:scale-105 transition-transform duration-300">
-            <span className="relative z-10 group-hover:text-white transition-colors duration-500">
-              Browse All Categories
-            </span>
-            <span className="absolute inset-0 bg-[#53CBFB] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></span>
-          </button>
+          <Link
+              href="#"
+              className="relative px-8 py-4 rounded-xl border-2 border-[#53CBFB] bg-white text-[#0443F2] font-bold overflow-hidden group transition-all duration-500 text-lg hover:scale-105"
+            >
+              {/* Background fill on hover */}
+              <span className="absolute inset-0 bg-[#53CBFB] -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+
+              {/* Icon and text */}
+              <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white transition-colors duration-500">
+                 Browse All Categories
+              </span>
+            </Link>
         </motion.div>
       </div>
     </section>

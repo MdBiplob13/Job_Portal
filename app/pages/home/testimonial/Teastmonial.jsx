@@ -32,9 +32,9 @@ export default function TestimonialSection() {
   }, []);
 
   return (
-    <section className="relative py-24 bg-linear-to-br from-[#53CBFB] to-[#0443F2] flex items-center justify-center">
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-5xl md:text-8xl font-extrabold text-white mb-16">
+    <section className="relative py-16 bg-linear-to-br from-[#53CBFB] to-[#0443F2] flex items-center justify-center">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-10">
           What Our Clients Say
         </h2>
 
@@ -43,38 +43,39 @@ export default function TestimonialSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="bg-white/95 backdrop-blur-md shadow-2xl rounded-3xl p-12 md:p-16 relative border-2 border-white/20"
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="bg-white/95 backdrop-blur-md shadow-xl rounded-2xl p-8 md:p-10 relative border border-white/20"
             >
-              <p className="text-2xl md:text-3xl text-[#040404] font-medium leading-relaxed">
-                <span className="text-6xl text-[#53CBFB] font-serif">"</span>{" "}
+              <p className="text-lg md:text-xl text-[#040404] font-medium leading-relaxed">
+                <span className="text-4xl text-[#53CBFB] font-serif">"</span>{" "}
                 {testimonials[current].text}{" "}
-                <span className="text-6xl text-[#53CBFB] font-serif">"</span>
+                <span className="text-4xl text-[#53CBFB] font-serif">"</span>
               </p>
-              <div className="mt-12">
-                <p className="text-2xl font-bold text-[#0443F2]">
+              <div className="mt-6">
+                <p className="text-xl font-bold text-[#0443F2]">
                   {testimonials[current].author}
                 </p>
-                <p className="text-xl text-[#040404] mt-2">{testimonials[current].company}</p>
+                <p className="text-base text-[#040404] mt-1">{testimonials[current].company}</p>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Dots Navigation */}
-          <div className="flex justify-center gap-4 mt-12">
+          <div className="flex justify-center gap-3 mt-8">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrent(idx)}
-                className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                className={`h-3 rounded-full transition-all duration-300 ${
                   idx === current
-                    ? "bg-white w-8"
-                    : "bg-white/50 hover:bg-white"
+                    ? "bg-white w-6"
+                    : "bg-white/50 hover:bg-white w-3"
                 }`}
-              ></button>
+                aria-label={`Go to testimonial ${idx + 1}`}
+              />
             ))}
           </div>
         </div>
