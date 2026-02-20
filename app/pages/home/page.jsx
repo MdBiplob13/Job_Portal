@@ -8,11 +8,13 @@ import TestimonialSection from "./testimonial/Teastmonial";
 import TrendingJobs from "./trendingjobs/TrendingJobs";
 import Footer from "@/app/components/Footer/Footer";
 import CategoriesSection from "./categorysection/CategoriesSection";
+import DevelopmentPopup from "@/app/components/DevelopmentNotice";
 
 const Home = () => {
   return (
     <div className="w-full overflow-x-hidden">
       <Navbar />
+      <DevelopmentPopup/>
       <HeroSection />
       {/* <TrendingJobs /> */}
       <StepSection />

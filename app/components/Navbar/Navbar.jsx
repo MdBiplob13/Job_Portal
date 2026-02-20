@@ -80,7 +80,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div
-            className="hidden md:flex items-center space-x-1"
+            className="hidden md:flex items-center space-x-1 ml-30"
             ref={dropdownRef}
           >
             {navLinks.map((link, idx) => (
@@ -128,39 +128,47 @@ const Navbar = () => {
 
           {/* Desktop Auth Section */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Loading */}
-            {userLoading && <div className="text-gray-500 text-sm"></div>}
+            {/* under development message */}
+            <div className="text-gray-500 text-sm font-bold">
+              Under Development
+            </div>
 
-            {/* No user: Login + Signup */}
-            {!userLoading && !user && (
-              <>
-                <Link
-                  href="/pages/auth/login"
-                  className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-blue-50 transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/pages/auth/signup"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
+            {/* Auth Buttons */}
+            <div className="gap-3">
+              {/* Loading */}
+              {userLoading && <div className="text-gray-500 text-sm"></div>}
 
-            {/* User logged in: Show ONLY avatar */}
-            {!userLoading && user && (
-              <Link href={`/pages/dashboard/${currentRole}`}>
-                <Image
-                  src={user?.photo || "/defaultProfilePic.jpg"}
-                  alt="user"
-                  width={50}
-                  height={50}
-                  className="rounded-full cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
-                />
-              </Link>
-            )}
+              {/* No user: Login + Signup */}
+              {!userLoading && !user && (
+                <>
+                  <Link
+                    href="/pages/auth/login"
+                    className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-blue-50 transition mr-3"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/pages/auth/signup"
+                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+
+              {/* User logged in: Show ONLY avatar */}
+              {!userLoading && user && (
+                <Link href={`/pages/dashboard/${currentRole}`}>
+                  <Image
+                    src={user?.photo || "/defaultProfilePic.jpg"}
+                    alt="user"
+                    width={50}
+                    height={50}
+                    className="rounded-full cursor-pointer border-2 border-gray-200 hover:border-blue-500 transition"
+                  />
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
