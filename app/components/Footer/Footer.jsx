@@ -135,7 +135,7 @@ const Footer = () => {
         <p>
           © {new Date().getFullYear()} Made By{" "}
           <span className="font-semibold text-white">
-            <Link href={`https://www.facebook.com/shuvodesign20`}>
+            <Link target="_blank" href={`https://www.shuvodesign.co.uk`}>
               Shuvo Design
             </Link>
           </span>
