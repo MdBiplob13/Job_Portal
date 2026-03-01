@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-     "socket": "node socket-server.js",
+    "socket": "node socket-server.js",
     "dev:all": "concurrently -n \"NEXT,SOCKET\" -c \"blue,green\" \"npm run dev\" \"npm run socket\""
   },
   "dependencies": {
@@ -24,7 +24,6 @@
     "lucide-react": "^0.542.0",
     "mongoose": "^8.21.0",
     "next": "15.5.2",
-    "node-cron": "^4.2.1",
     "radix-ui": "^1.4.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",

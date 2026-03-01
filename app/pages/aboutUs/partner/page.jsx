@@ -3,7 +3,7 @@
 import React from "react";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Footer from "@/app/components/Footer/Footer";
-import { FiExternalLink, FiCheck } from "react-icons/fi";
+import { FiCheck } from "react-icons/fi"; // Removed FiExternalLink
 
 const Partners = () => {
   const partners = [
@@ -82,52 +82,59 @@ const Partners = () => {
                       {partner.category}
                     </span>
                   </div>
-                  <FiExternalLink className="text-gray-400 hover:text-primary transition-colors cursor-pointer" />
+                  {/* Removed FiExternalLink icon */}
                 </div>
                 <p className="text-gray-600 mb-4 leading-relaxed">{partner.description}</p>
                 <div className="flex justify-between items-center text-sm text-gray-500">
                   <span>Partner since {partner.since}</span>
-                  <button className="text-primary hover:text-blue-600 font-medium">
-                    Learn More
-                  </button>
+                  {/* Removed "Learn More" button */}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Partnership Benefits */}
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Partnership Benefits</h2>
-            <div className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                    <FiCheck className="text-primary" />
-                  </div>
-                  <span className="text-gray-700">{benefit}</span>
-                </div>
-              ))}
-            </div>
+        {/* Partnership & Contact Section */}
+<div className="grid lg:grid-cols-2 gap-12 mb-16">
+  {/* Benefits Column */}
+  <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+    <h2 className="text-3xl font-bold text-gray-800 mb-2">Partnership Benefits</h2>
+    <p className="text-gray-500 mb-6">What you gain when you join our network</p>
+    <div className="space-y-4">
+      {benefits.map((benefit, index) => (
+        <div key={index} className="flex items-start gap-4">
+          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <FiCheck className="text-primary" />
           </div>
-
-          <div className="bg-linear-to-r from-primary to-blue-400 rounded-2xl p-8 text-white">
-            <h2 className="text-3xl font-bold mb-6">Become a Partner</h2>
-            <p className="text-white/90 leading-relaxed mb-6">
-              Join our network of industry leaders and expand your reach while 
-              delivering exceptional value to our shared professionals.
-            </p>
-            <div className="space-y-4">
-              <button className="w-full bg-white text-primary py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
-                Apply for Partnership
-              </button>
-              <button className="w-full border-2 border-white text-white py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
-                Download Partnership Kit
-              </button>
-            </div>
-          </div>
+          <span className="text-gray-700">{benefit}</span>
         </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Become a Partner Column (Redesigned) */}
+  <div className="bg-gradient-to-br from-primary to-blue-500 rounded-2xl p-8 text-white flex flex-col relative overflow-hidden">
+    {/* Decorative background element */}
+    <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+    <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full -ml-10 -mb-10"></div>
+
+    <div className="relative z-10">
+      <h2 className="text-3xl font-bold mb-4">Become a Partner</h2>
+      <p className="text-white/90 leading-relaxed mb-6">
+        Join our network of industry leaders and expand your reach while 
+        delivering exceptional value to our shared professionals.
+      </p>
+
+      {/* Contact information as plain text (no buttons/links) */}
+      <div className="border-t border-white/20 pt-6 mt-4">
+        <p className="text-white/80 text-sm mb-2">Get in touch</p>
+        <p className="text-white font-medium">partnerships@bidpole.com</p>
+        <p className="text-white/70 text-sm mt-1">+1 (800) 123‑4567</p>
+        <p className="text-white/70 text-sm mt-4">We welcome innovative collaborators across all industries.</p>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
 
       <Footer />

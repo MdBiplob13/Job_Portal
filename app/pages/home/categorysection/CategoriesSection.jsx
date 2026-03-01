@@ -6,12 +6,12 @@ import { FaGavel, FaCamera, FaBolt, FaShieldAlt, FaPhoneAlt, FaPaintBrush } from
 
 export default function CategoriesSection() {
   const categories = [
-    { name: "Legal Service", image: "/legal-min.jpg", icon: <FaGavel /> },
-    { name: "Photography", image: "/photography-min.jpg", icon: <FaCamera /> },
-    { name: "Electrical", image: "/electrical-min.jpg", icon: <FaBolt /> },
-    { name: "Security Service", image: "/security-min.jpg", icon: <FaShieldAlt /> },
-    { name: "Telecommunication", image: "/telecommunication-min.jpg", icon: <FaPhoneAlt /> },
-    { name: "Beauty & Styling", image: "/makeup-min.jpg", icon: <FaPaintBrush /> },
+    { name: "Legal Service", image: "/legal-min.webp", icon: <FaGavel /> },
+    { name: "Photography", image: "/photography-min.webp", icon: <FaCamera /> },
+    { name: "Electrical", image: "/electrical-min.webp", icon: <FaBolt /> },
+    { name: "Security Service", image: "/security-min.webp", icon: <FaShieldAlt /> },
+    { name: "Telecommunication", image: "/telecommunication-min.webp", icon: <FaPhoneAlt /> },
+    { name: "Beauty & Styling", image: "/makeup-min.webp", icon: <FaPaintBrush /> },
   ];
 
   return (

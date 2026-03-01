@@ -10,16 +10,23 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null); // <-- Add ref for mobile menu
 
   const { user, userLoading } = useUser();
   const { currentRole } = useUserRole(user?.role || "professional");
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside, but ignore clicks inside mobile menu
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setActiveDropdown(null);
+      // If click is inside desktop dropdown, do nothing
+      if (dropdownRef.current && dropdownRef.current.contains(event.target)) {
+        return;
       }
+      // If click is inside mobile menu, do nothing
+      if (mobileMenuRef.current && mobileMenuRef.current.contains(event.target)) {
+        return;
+      }
+      setActiveDropdown(null);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -42,7 +49,6 @@ const Navbar = () => {
       path: "#",
       dropdown: [
         { name: "Posting Guide", path: "/pages/howItWork/postingGuide" },
-        // { name: "Video Tutorial", path: "/pages/howItWork/videoTutorial" },
         { name: "FAQ", path: "/pages/howItWork/faq" },
         { name: "Tips for Bidding", path: "/pages/howItWork/tipsForBidding" },
       ],
@@ -58,7 +64,6 @@ const Navbar = () => {
       ],
     },
     { name: "Pricing", path: "/pages/pricing", dropdown: null },
-    // { name: "Blogs", path: "/pages/blogs", dropdown: null },
   ];
 
   const handleDropdownToggle = (name) => {
@@ -75,7 +80,7 @@ const Navbar = () => {
       <nav className="w-full bg-white shadow-md fixed top-0 left-0 z-50 h-16">
         <div className="mx-20 px-4 sm:px-6 lg:px-8 flex justify-between items-center h-full">
           <Link href="/" className="text-2xl font-bold text-primary">
-            Job Pole
+            Bid Pole
           </Link>
 
           {/* Desktop Navigation */}
@@ -106,7 +111,7 @@ const Navbar = () => {
                             key={itemIdx}
                             href={item.path}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition"
-                            onClick={() => setActiveDropdown(null)} // optional: close dropdown after clicking link
+                            onClick={() => setActiveDropdown(null)}
                           >
                             {item.name}
                           </Link>
@@ -128,17 +133,11 @@ const Navbar = () => {
 
           {/* Desktop Auth Section */}
           <div className="hidden md:flex items-center gap-3">
-            {/* under development message */}
             <div className="text-gray-500 text-sm font-bold">
               Under Development
             </div>
-
-            {/* Auth Buttons */}
             <div className="gap-3">
-              {/* Loading */}
               {userLoading && <div className="text-gray-500 text-sm"></div>}
-
-              {/* No user: Login + Signup */}
               {!userLoading && !user && (
                 <>
                   <Link
@@ -155,8 +154,6 @@ const Navbar = () => {
                   </Link>
                 </>
               )}
-
-              {/* User logged in: Show ONLY avatar */}
               {!userLoading && user && (
                 <Link href={`/pages/dashboard/${currentRole}`}>
                   <Image
@@ -182,7 +179,10 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
+          <div
+            ref={mobileMenuRef} // <-- Attach ref here
+            className="md:hidden bg-white shadow-lg border-t border-gray-200"
+          >
             <div className="flex flex-col py-4 space-y-2">
               {navLinks.map((link, idx) => (
                 <div key={idx}>
@@ -229,12 +229,9 @@ const Navbar = () => {
 
               {/* Mobile auth buttons */}
               <div className="px-4 pt-4 border-t border-gray-200 space-y-3">
-                {/* Loading */}
                 {userLoading && (
                   <div className="text-gray-500 text-sm">Loading...</div>
                 )}
-
-                {/* No user */}
                 {!userLoading && !user && (
                   <>
                     <Link
@@ -244,7 +241,6 @@ const Navbar = () => {
                     >
                       Login
                     </Link>
-
                     <Link
                       href="/pages/auth/signup"
                       className="block w-full text-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
@@ -254,8 +250,6 @@ const Navbar = () => {
                     </Link>
                   </>
                 )}
-
-                {/* User logged in → Avatar only */}
                 {!userLoading && user && (
                   <Image
                     src={user?.profileImage || "/user1.jpeg"}

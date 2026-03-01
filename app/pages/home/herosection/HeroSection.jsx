@@ -67,7 +67,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full h-[720px] -mt-[62px] overflow-hidden">
+    <section className="relative w-full h-[720px] -mt-[62px]">
       {/* Background Image */}
       <img
         src="/home_banner.png"
@@ -131,7 +131,7 @@ export default function Hero() {
           </div>
 
           {/* Search Section */}
-          <div className="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-3 shadow-xl max-w-3xl border border-white/20">
+          <div className="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-3 shadow-xl max-w-3xl border border-white/20 ">
             <input
               type="text"
               placeholder="Search job or professional"
@@ -143,7 +143,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full px-4 py-3 rounded-xl bg-transparent border border-white/30 text-white flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#53CBFB]"
+                className="w-full px-4 py-3 rounded-xl bg-transparent border border-white/30 text-white flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#53CBFB] "
               >
                 <span
                   className={
@@ -170,7 +170,7 @@ export default function Hero() {
               </button>
 
               {isOpen && (
-                <div className="absolute z-20 w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-60 overflow-y-auto">
+                <div className="absolute  w-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 max-h-60 overflow-y-auto z-50">
                   <div className="p-2">
                     <input
                       type="text"
